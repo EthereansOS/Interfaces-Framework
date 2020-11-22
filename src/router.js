@@ -1,27 +1,27 @@
 import React from 'react'
 import {
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom"
 
-const TestPage = () => <div>Test page <Link to='/about'>Go to test 2</Link></div>
-const TestPage2 = () => <div>Test page 2<Link to='/'>Go to test </Link></div>
+import {usePlaceholder} from './hooks/useModules'
+
 const NoMatch = () => <div>No Match</div>
 
 const AppRouter = () => {
+  const routes = usePlaceholder('router')
+
   return <Switch>
-    <Route exact path="/">
-      <TestPage/>
-    </Route>
-    <Route path="/about">
-      <TestPage2/>
-    </Route>
+    {routes
+      .map(({path, exact, Component}) => {
+          return <Route key={path} path={path} exact={exact}><Component/></Route>
+        }
+      )
+    }
     <Route>
       <NoMatch/>
     </Route>
   </Switch>
-
 }
 
 export default AppRouter

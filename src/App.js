@@ -1,17 +1,20 @@
 import './App.css'
 
 import AppRouter from './router'
-import {HashRouter} from "react-router-dom"
-import React from "react"
+import { HashRouter } from 'react-router-dom'
+import React from 'react'
+import { ModuleContextProvider } from './hooks/useModules'
+
+import moduleOne from './modules/module-one'
 
 function App() {
   return (
     <div className="App">
-      <HashRouter>
-
-        <AppRouter/>
-
-      </HashRouter>
+      <ModuleContextProvider plugins={[moduleOne]}>
+        <HashRouter>
+          <AppRouter />
+        </HashRouter>
+      </ModuleContextProvider>
     </div>
   )
 }
