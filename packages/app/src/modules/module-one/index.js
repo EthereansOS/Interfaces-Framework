@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Cat, Dog } from '@dfohub/design-system'
+import Connect from './connect'
 
 const TestPage = () => (
   <div>
     Test page <Link to="/about">Go to test 2</Link>
     <Cat />
+    <Connect />
   </div>
 )
 const TestPage2 = () => (
