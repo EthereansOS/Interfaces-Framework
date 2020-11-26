@@ -1,5 +1,6 @@
 import './index.css'
 import { onEthereumUpdate, getInfo } from './web3Scripts'
+import ghostImage from './ghostload.gif'
 
 function Connect() {
   const hadleLoginSuccess = (result) => {
@@ -19,7 +20,7 @@ function Connect() {
   return (
     <article className="NoWeb3">
       <h1>
-        <img src="assets/img/ghostload.gif" alt="ghostload" />
+        <img src={ghostImage} alt="ghostload" />
       </h1>
       <section className="DisclamerWeb3">
         <h2>DFOhub</h2>
