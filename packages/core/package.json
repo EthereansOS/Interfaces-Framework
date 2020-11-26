@@ -1,5 +1,5 @@
 {
-  "name": "@dfohub/design-system",
+  "name": "@dfohub/core",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.cjs.js",
@@ -9,10 +9,8 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -p 6006",
     "build": "rollup -c",
-    "build:dev": "rollup -c --watch",
-    "build-storybook": "build-storybook"
+    "build:dev": "rollup -c --watch"
   },
   "keywords": [],
   "author": "",

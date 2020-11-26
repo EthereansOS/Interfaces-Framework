@@ -4,6 +4,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "build": "lerna run build",
+    "build:dev": "lerna run build:dev",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix"
   },
@@ -22,7 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && lint-staged",
+      "pre-commit": "lint-staged && npm run lint",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "post-merge": "npm i"
     }

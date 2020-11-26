@@ -1,4 +1,4 @@
-import React, {useContext, useReducer, useEffect} from 'react'
+import React, { useContext, useReducer, useEffect } from 'react'
 
 const ModulesContext = React.createContext('modules')
 
@@ -7,12 +7,12 @@ function reducer(state, action) {
     case 'reset':
       return {
         plugins: [],
-        placeholders: {}
+        placeholders: {},
       }
     case 'resetPlaceholders':
       return {
         ...state,
-        placeholders: {}
+        placeholders: {},
       }
     case 'addPlugin':
       return {
@@ -22,55 +22,64 @@ function reducer(state, action) {
           {
             name: action.payload.plugin.name,
             index: action.payload.index,
-            ...action.payload.plugin
-          }
-        ].sort((a, b) => a.index > b.index ? 1 : -1)
+            ...action.payload.plugin,
+          },
+        ].sort((a, b) => (a.index > b.index ? 1 : -1)),
       }
     case 'addPlaceholder':
       return {
         ...state,
         placeholders: {
           ...state.placeholders,
-          [action.payload.name]: [...(state.placeholders[action.payload.name] || []), {
-            index: action.payload.index,
-            ...action.payload.element
-          }].sort((a, b) => a.index > b.index ? 1 : -1)
-        }
+          [action.payload.name]: [
+            ...(state.placeholders[action.payload.name] || []),
+            {
+              index: action.payload.index,
+              ...action.payload.element,
+            },
+          ].sort((a, b) => (a.index > b.index ? 1 : -1)),
+        },
       }
     default:
       throw new Error()
   }
 }
 
-export const ModuleContextProvider = ({children, plugins}) => {
-  const [state, dispatch] = useReducer(reducer, {plugins: [], placeholders: {}})
+export const ModuleContextProvider = ({ children, plugins }) => {
+  const [state, dispatch] = useReducer(reducer, {
+    plugins: [],
+    placeholders: {},
+  })
 
   const addElement = (placeholder, element, index) => {
-    dispatch({type: 'addPlaceholder', payload: {name: placeholder, index, element}})
+    dispatch({
+      type: 'addPlaceholder',
+      payload: { name: placeholder, index, element },
+    })
   }
 
   useEffect(() => {
-    dispatch({type: 'reset'})
+    dispatch({ type: 'reset' })
     plugins.forEach((plugin, index) => {
-      dispatch({type: 'addPlugin', payload: {index, plugin}})
+      dispatch({ type: 'addPlugin', payload: { index, plugin } })
     })
   }, [plugins])
 
   useEffect(() => {
-    state.plugins && state.plugins.forEach((plugin, index) => {
-      plugin.init({addElement})
-    })
+    state.plugins &&
+      state.plugins.forEach((plugin, index) => {
+        plugin.init({ addElement })
+      })
   }, [state.plugins])
 
   const getPlaceholders = (placeholderName) => {
     return state.placeholders[placeholderName] || []
   }
 
-  const values = {addElement, getPlaceholders}
+  const values = { addElement, getPlaceholders }
 
   return (
-    <ModulesContext.Provider
-      value={values}>{children}</ModulesContext.Provider>
+    <ModulesContext.Provider value={values}>{children}</ModulesContext.Provider>
   )
 }
 

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dfohub/design-system": "github:dfo-hub/@dfohub/design-system#v1.0.0",
+    "@dfohub/core": "1.0.0",
+    "@dfohub/design-system": "1.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
