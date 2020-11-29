@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from '@dfohub/design-system'
-import Connect from './connect'
 
 const TestPage = () => (
   <Card>
-    Test page <Link to="/about">Go to test 2</Link>
-    <Connect />
+    Test page 1 <Link to="/about">About</Link>
   </Card>
 )
 
@@ -23,6 +21,7 @@ const initPlugin = ({ addElement }) => {
       path: '/',
       Component: TestPage,
       exact: true,
+      requireConnection: false,
     },
     10
   )
@@ -33,6 +32,7 @@ const initPlugin = ({ addElement }) => {
       path: '/about',
       Component: TestPage2,
       exact: true,
+      requireConnection: true,
     },
     20
   )
