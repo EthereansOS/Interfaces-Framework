@@ -28,7 +28,7 @@ export default {
       modules: {
         generateScopedName: function (name, filename) {
           const file = path.basename(filename, '.css')
-          return 'dfo-ds' + '_' + file.split('.').shift() + '_' + name
+          return 'dfo-components' + '_' + file.split('.').shift() + '_' + name
         },
       },
     }),

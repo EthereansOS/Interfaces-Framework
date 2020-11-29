@@ -3,6 +3,7 @@ import Web3 from 'web3'
 import makeBlockie from 'ethereum-blockies-base64'
 
 export const CONNECTING = 'connecting'
+export const UPDATING = 'updating'
 export const NOT_CONNECTED = 'not_connected'
 export const CONNECTED = 'connected'
 
@@ -135,8 +136,12 @@ function initWeb3(context, setState) {
     return await fillWithWeb3Logs(logs, args)
   }
 
-  function onEthereumUpdate(millis) {
+  function onEthereumUpdate(millis, newConnection) {
     return new Promise(function (ok) {
+      setState((s) => ({
+        ...s,
+        connectionStatus: newConnection ? CONNECTING : UPDATING,
+      }))
       setTimeout(
         async function () {
           let update = false
@@ -174,7 +179,6 @@ function initWeb3(context, setState) {
             // delete window.tokensList
             // delete window.loadedTokens
 
-            console.log('PASSO DI QUA')
             const dfo = loadDFO(getNetworkElement('dfoAddress'))
             // window.loadOffChainWallets();
             const ENSController = newContract(
@@ -225,7 +229,8 @@ function initWeb3(context, setState) {
             }
           }
 
-          setState({
+          setState((s) => ({
+            ...s,
             web3,
             networkId,
             web3ForLogs,
@@ -239,12 +244,8 @@ function initWeb3(context, setState) {
             dfoHub,
             walletAddress,
             walletAvatar,
-          })
-          // update && $.publish('ethereum/update');
-          // $.publish('ethereum/ping');
-          update && console.log('Update', 'push update')
-          console.log('push ping')
-
+            connectionStatus: CONNECTED,
+          }))
           return ok(web3)
         },
         !isNaN(millis) ? millis : 550
@@ -421,9 +422,7 @@ function initWeb3(context, setState) {
   }
 
   async function connect(millis = 0) {
-    setState((s) => ({ ...s, connectionStatus: CONNECTING }))
-    const result = await onEthereumUpdate(millis)
-    setState((s) => ({ ...s, connectionStatus: CONNECTED }))
+    const result = await onEthereumUpdate(millis, true)
     return result
   }
 

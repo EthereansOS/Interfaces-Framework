@@ -1,6 +1,8 @@
 import './reset.css'
-import Card from './Card'
+import './typography.scss'
 import Button from './Button'
+import Card from './Card'
+import Container from './Container'
 import Heading from './Heading'
 
-export { Card, Button, Heading }
+export { Button, Card, Container, Heading }

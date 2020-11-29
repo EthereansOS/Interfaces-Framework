@@ -1,10 +1,12 @@
 import { HashRouter } from 'react-router-dom'
 import React from 'react'
 import '@dfohub/design-system/dist/index.cjs.css'
+import '@dfohub/components/dist/index.cjs.css'
 import { ModuleContextProvider, Web3ContextProvider } from '@dfohub/core'
 import context from './data/context.json'
 import moduleOne from './modules/module-one'
 import AppRouter from './router'
+import './app.css'
 
 function App() {
   return (

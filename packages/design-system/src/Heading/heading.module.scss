@@ -1,6 +1,7 @@
 @import '../colors';
 
 .root {
+  color: $color-text;
   &.primary {
     color: $color-primary;
   }
