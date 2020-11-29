@@ -8,7 +8,7 @@
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix"
   },
-  "devDependencies": {
+  "dependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/config-lerna-scopes": "^11.0.0",
