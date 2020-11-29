@@ -1,0 +1,11 @@
+@import '../colors';
+
+.root {
+  &.primary {
+    color: $color-primary;
+  }
+
+  &.secondary {
+    color: $color-secondary;
+  }
+}

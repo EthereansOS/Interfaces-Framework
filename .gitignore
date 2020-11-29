@@ -27,3 +27,5 @@ yarn-error.log*
 .idea
 
 lerna-debug.log
+
+packages/*/stats.html

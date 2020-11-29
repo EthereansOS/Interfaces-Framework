@@ -1,4 +1,6 @@
-import Cat from './Cat'
-import Dog from './Dog'
+import './reset.css'
+import Card from './Card'
+import Button from './Button'
+import Heading from './Heading'
 
-export { Cat, Dog }
+export { Card, Button, Heading }

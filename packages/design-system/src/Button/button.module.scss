@@ -1,0 +1,22 @@
+@import '../colors';
+
+.root {
+  font-size: 15px;
+  padding: 10px 15px;
+  background-color: $color-default;
+  color: $color-text;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 25px;
+  display: inline-block;
+  border: 0;
+  cursor: pointer;
+
+  &.primary {
+    background-color: $color-primary;
+  }
+
+  &.secondary {
+    background-color: $color-secondary;
+  }
+}

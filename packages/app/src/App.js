@@ -1,21 +1,20 @@
-import './App.css'
-
-import AppRouter from './router'
 import { HashRouter } from 'react-router-dom'
 import React from 'react'
-import { ModuleContextProvider } from '@dfohub/core'
-
+import '@dfohub/design-system/dist/index.cjs.css'
+import { ModuleContextProvider, Web3ContextProvider } from '@dfohub/core'
+import context from './data/context.json'
 import moduleOne from './modules/module-one'
+import AppRouter from './router'
 
 function App() {
   return (
-    <div className="App">
+    <Web3ContextProvider context={context}>
       <ModuleContextProvider plugins={[moduleOne]}>
         <HashRouter>
           <AppRouter />
         </HashRouter>
       </ModuleContextProvider>
-    </div>
+    </Web3ContextProvider>
   )
 }
 

@@ -1,12 +1,20 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "npmClient": "npm",
   "version": "1.0.0",
   "command": {
     "bootstrap": {
-      "hoist": "**"
+      "hoist": [
+        "@babel*",
+        "react*",
+        "prettier*",
+        "@commitlint/cli",
+        "@commitlint/config-conventional",
+        "@commitlint/config-lerna-scopes",
+        "eslint**",
+        "husky",
+        "lint-staged"
+      ]
     }
   }
 }

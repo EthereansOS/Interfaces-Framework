@@ -1,7 +1,3 @@
-import {
-  ModuleContextProvider,
-  useModules,
-  usePlaceholder,
-} from './hooks/useModules'
+export * from './hooks/useModules'
 
-export { ModuleContextProvider, useModules, usePlaceholder }
+export * from './hooks/useWeb3'

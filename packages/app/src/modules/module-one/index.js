@@ -1,20 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Cat, Dog } from '@dfohub/design-system'
+import { Card } from '@dfohub/design-system'
 import Connect from './connect'
 
 const TestPage = () => (
-  <div>
+  <Card>
     Test page <Link to="/about">Go to test 2</Link>
-    <Cat />
     <Connect />
-  </div>
+  </Card>
 )
+
 const TestPage2 = () => (
-  <div>
+  <Card>
     Test page 2 <Link to="/">Go to test 1</Link>
-    <Dog />
-  </div>
+  </Card>
 )
 
 const initPlugin = ({ addElement }) => {
