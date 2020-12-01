@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { renderHook, act } from '@testing-library/react-hooks'
-import { useModules, ModuleContextProvider } from './useModules'
+import { usePlugins, PluginsContextProvider } from './usePlugins'
 
 const TestPage = () => <div>page1</div>
 const TestPage2 = () => <div>page2</div>
 
-const moduleOne = {
-  name: 'module-1',
+const pluginOne = {
+  name: 'plugin-1',
   init: ({ addElement }) => {
     addElement(
       'router',
@@ -31,15 +31,15 @@ const moduleOne = {
   },
 }
 
-describe('hooks/useModules', () => {
+describe('hooks/usePlugins', () => {
   it('Init the hook', () => {
     const wrapper = ({ children }) => (
-      <ModuleContextProvider plugins={[moduleOne]}>
+      <PluginsContextProvider plugins={[pluginOne]}>
         {children}
-      </ModuleContextProvider>
+      </PluginsContextProvider>
     )
 
-    const { result } = renderHook(() => useModules(), { wrapper })
+    const { result } = renderHook(() => usePlugins(), { wrapper })
 
     let routes = []
     act(() => {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useWeb3, webs3States, usePrevious } from '@dfohub/core'
 import { ConnectWidget } from '@dfohub/components'
-import { Container, Button, Heading } from '@dfohub/design-system'
+import { Container } from '@dfohub/design-system'
 
 function Connect({ children }) {
   const { connect, connectionStatus } = useWeb3()
@@ -10,18 +10,15 @@ function Connect({ children }) {
 
   useEffect(
     (props) => {
-      console.log('previousConnectionStatus')
-      console.log(previousConnectionStatus)
-      console.log(connectionStatus)
+      if (
+        connectionStatus === webs3States.CONNECTED &&
+        previousConnectionStatus === webs3States.CONNECTING
+      ) {
+        console.log('Connnected')
+      }
     },
-    [connectionStatus]
+    [connectionStatus, previousConnectionStatus]
   )
-
-  const hadleLoginSuccess = (result) => {
-    console.log('result')
-    console.log(result)
-    // console.log('info', getInfo())
-  }
 
   const handleConnectFromHomePage = () => {
     connect(0)

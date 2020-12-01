@@ -1,0 +1,26 @@
+.root {
+  height: 40px;
+  background-color: #8653f6;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.link {
+  height: 40px;
+  box-sizing: border-box;
+  display: inline-block;
+  padding-top: 12px;
+  width: 100%;
+  color: white;
+  flex-grow: 1;
+  text-align: center;
+  background-color: #5d5c62;
+}
+
+.selected {
+  background-color: #8653f6;
+}

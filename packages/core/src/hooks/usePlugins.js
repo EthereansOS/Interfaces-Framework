@@ -1,6 +1,6 @@
 import React, { useContext, useReducer, useEffect } from 'react'
 
-const ModulesContext = React.createContext('modules')
+const PluginsContext = React.createContext('dfo-plugins')
 
 function reducer(state, action) {
   switch (action.type) {
@@ -45,7 +45,7 @@ function reducer(state, action) {
   }
 }
 
-export const ModuleContextProvider = ({ children, plugins }) => {
+export const PluginsContextProvider = ({ children, plugins }) => {
   const [state, dispatch] = useReducer(reducer, {
     plugins: [],
     placeholders: {},
@@ -79,16 +79,16 @@ export const ModuleContextProvider = ({ children, plugins }) => {
   const values = { addElement, getPlaceholders }
 
   return (
-    <ModulesContext.Provider value={values}>{children}</ModulesContext.Provider>
+    <PluginsContext.Provider value={values}>{children}</PluginsContext.Provider>
   )
 }
 
-export const useModules = () => {
-  const moduleContext = useContext(ModulesContext)
-  return moduleContext
+export const usePlugins = () => {
+  const pluginsContext = useContext(PluginsContext)
+  return pluginsContext
 }
 
 export const usePlaceholder = (placeholderName) => {
-  const moduleContext = useContext(ModulesContext)
-  return moduleContext.getPlaceholders(placeholderName)
+  const pluginsContext = useContext(PluginsContext)
+  return pluginsContext.getPlaceholders(placeholderName)
 }
