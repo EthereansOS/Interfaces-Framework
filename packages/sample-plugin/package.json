@@ -1,0 +1,57 @@
+{
+  "name": "@dfohub/sample-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build": "rollup -c",
+    "build:dev": "rollup -c --watch",
+    "build-storybook": "build-storybook"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.8",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-image": "^2.0.5",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@storybook/addon-actions": "^6.1.8",
+    "@storybook/addon-essentials": "^6.1.5",
+    "@storybook/addon-links": "^6.1.5",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/react": "^6.1.5",
+    "babel-loader": "8.1.0",
+    "node-sass": "^4.0.0",
+    "postcss-modules": "^3.2.2",
+    "postcss-themed": "^2.2.4",
+    "prettier": "^2.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "rollup": "^2.33.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-visualizer": "^4.2.0",
+    "sass-loader": "^9.0.3"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "prop-types": "^15.7.2"
+  }
+}

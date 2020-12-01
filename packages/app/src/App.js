@@ -2,20 +2,20 @@ import { HashRouter } from 'react-router-dom'
 import React from 'react'
 import '@dfohub/design-system/dist/index.cjs.css'
 import '@dfohub/components/dist/index.cjs.css'
-import { ModuleContextProvider, Web3ContextProvider } from '@dfohub/core'
+import { PluginsContextProvider, Web3ContextProvider } from '@dfohub/core'
+import samplePlugin from '@dfohub/sample-plugin'
 import context from './data/context.json'
-import moduleOne from './modules/module-one'
 import AppRouter from './router'
 import './app.css'
 
 function App() {
   return (
     <Web3ContextProvider context={context}>
-      <ModuleContextProvider plugins={[moduleOne]}>
+      <PluginsContextProvider plugins={[samplePlugin]}>
         <HashRouter>
           <AppRouter />
         </HashRouter>
-      </ModuleContextProvider>
+      </PluginsContextProvider>
     </Web3ContextProvider>
   )
 }
