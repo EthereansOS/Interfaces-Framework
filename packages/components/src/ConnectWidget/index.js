@@ -1,4 +1,5 @@
 import React from 'react'
+import T from 'prop-types'
 
 import classNames from 'classnames'
 import { Button, Heading } from '@dfohub/design-system'
@@ -14,7 +15,7 @@ const ConnectWidget = ({
   className,
 }) => (
   <div className={classNames(style['root'], className)}>
-    <img src={logo} alt="logo" />
+    {logo ? <img src={logo} alt="logo" /> : null}
     <Heading variant="h1" color="primary">
       {title}
     </Heading>
@@ -33,5 +34,13 @@ const ConnectWidget = ({
     )}
   </div>
 )
+
+ConnectWidget.propTypes = {
+  logo: T.string,
+  connectionStatus: T.string.isRequired,
+  onClickConnect: T.func.isRequired,
+  title: T.string,
+  className: T.string,
+}
 
 export default ConnectWidget
