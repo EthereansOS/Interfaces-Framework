@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# DFOhub app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This package contains the main application, based on [Create React App](https://create-react-app.dev).
 
-## Available Scripts
+## Prerequisites
+A good knowledge of [React](https://reactjs.org/) and [React hooks](https://reactjs.org/docs/hooks-intro.html) is required.
 
-In the project directory, you can run:
+## The app structure
 
-### `yarn start`
+The `App` component has two `ContextProvider`, both imported from the `core` package:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `Web3ContextProvider` allows connecting to Ethereum and listening on any change
+- `PluginsContextProvider` allows using the plugin system
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The `MainTemplate` component is the template of every page of the app. It shows a header, a menu and the supllied component.
 
-### `yarn test`
+The `Menu` component loads the menu from the plugin system, with a `usePlaceholder` hook.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The __routing__ is performed inside the `router.js` file.
+It uses the same `usePlaceholder` hook to retrieve the routes.
+If the supplied route requires a connection to Ethereum and the connection is not yet established, it will show the `Connect` component, otherwise the route component will be rendered.
 
-### `yarn build`
+It's recommended to keep using the plugin system for the menu and the routing and not write these items directly in the `app` package.  
+The `PluginsContextProvider` in the `App` component loads the plugins from the `sample-plugin` package, which can be considered as a reference implementation.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The `src/data/context.json` file keeps the configuration to initialize web3.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Build
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app uses the default Create React App scripts.
 
-### `yarn eject`
+To build the app, you can use the `lerna` scripts in the root project (`build` and `build-dev`), as stated in the root project documentation.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+If you prefer to build only this package, just run:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```shell script
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Run
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To run the app, execute:
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```shell script
+npm run start
+```

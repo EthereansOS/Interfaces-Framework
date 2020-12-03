@@ -34,7 +34,6 @@ function reducer(state, action) {
           [action.payload.name]: [
             ...(state.placeholders[action.payload.name] || []),
             {
-              index: action.payload.index,
               ...action.payload.element,
             },
           ].sort((a, b) => (a.index > b.index ? 1 : -1)),
@@ -51,10 +50,10 @@ export const PluginsContextProvider = ({ children, plugins }) => {
     placeholders: {},
   })
 
-  const addElement = (placeholder, element, index) => {
+  const addElement = (placeholder, element) => {
     dispatch({
       type: 'addPlaceholder',
-      payload: { name: placeholder, index, element },
+      payload: { name: placeholder, element },
     })
   }
 

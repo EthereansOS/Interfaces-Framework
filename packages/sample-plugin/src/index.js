@@ -37,35 +37,28 @@ const initPlugin = ({ addElement }) => {
     link: '/about',
     index: 20,
   })
-  addElement(
-    'router',
-    {
-      path: '/',
-      Component: TestPage,
-      exact: true,
-      requireConnection: false,
-      templateProps: {
-        selected: 'home',
-        showMenu: true,
-      },
+  addElement('router', {
+    index: 10,
+    path: '/',
+    Component: TestPage,
+    exact: true,
+    requireConnection: false,
+    templateProps: {
+      selected: 'home',
+      showMenu: true,
     },
-    10
-  )
-
-  addElement(
-    'router',
-    {
-      path: '/about',
-      Component: TestPage2,
-      exact: true,
-      requireConnection: true,
-      templateProps: {
-        selected: 'about',
-        showMenu: true,
-      },
+  })
+  addElement('router', {
+    index: 20,
+    path: '/about',
+    Component: TestPage2,
+    exact: true,
+    requireConnection: true,
+    templateProps: {
+      selected: 'about',
+      showMenu: true,
     },
-    20
-  )
+  })
 }
 
 const pluginDefinition = {

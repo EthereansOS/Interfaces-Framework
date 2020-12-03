@@ -21,6 +21,7 @@ Heading.propTypes = {
   className: T.string,
   children: T.oneOfType([T.arrayOf(T.node), T.node]).isRequired,
   variant: T.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7']),
+  color: T.string,
 }
 
 Heading.defaultProps = {
