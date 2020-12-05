@@ -1,4 +1,5 @@
 import React, { useContext, useReducer, useEffect } from 'react'
+import T from 'prop-types'
 
 const PluginsContext = React.createContext('dfo-plugins')
 
@@ -90,4 +91,9 @@ export const usePlugins = () => {
 export const usePlaceholder = (placeholderName) => {
   const pluginsContext = useContext(PluginsContext)
   return pluginsContext.getPlaceholders(placeholderName)
+}
+
+PluginsContextProvider.propTypes = {
+  children: T.oneOfType([T.arrayOf(T.node), T.node]).isRequired,
+  plugins: T.array,
 }

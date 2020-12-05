@@ -1,6 +1,6 @@
 import React from 'react'
-
 import { renderHook, act } from '@testing-library/react-hooks'
+
 import { usePlugins, PluginsContextProvider } from './usePlugins'
 
 const TestPage = () => <div>page1</div>
@@ -9,25 +9,19 @@ const TestPage2 = () => <div>page2</div>
 const pluginOne = {
   name: 'plugin-1',
   init: ({ addElement }) => {
-    addElement(
-      'router',
-      {
-        path: '/',
-        Component: TestPage,
-        exact: true,
-      },
-      10
-    )
+    addElement('router', {
+      path: '/',
+      Component: TestPage,
+      exact: true,
+      index: 10,
+    })
 
-    addElement(
-      'router',
-      {
-        path: '/about',
-        Component: TestPage2,
-        exact: true,
-      },
-      20
-    )
+    addElement('router', {
+      path: '/about',
+      Component: TestPage2,
+      exact: true,
+      index: 20,
+    })
   },
 }
 

@@ -6,6 +6,7 @@
     "@dfohub/components": "1.0.0",
     "@dfohub/core": "1.0.0",
     "@dfohub/design-system": "1.0.0",
+    "@dfohub/list-page-plugin": "1.0.0",
     "@dfohub/sample-plugin": "1.0.0",
     "classnames": "^2.2.6",
     "react": "^17.0.1",
@@ -19,7 +20,8 @@
     "start": "HOST=127.0.0.1  react-scripts start",
     "start:win": "env HOST=127.0.0.1  react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll false --passWithNoTests",
+    "test:dev": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src"

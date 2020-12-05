@@ -2,20 +2,27 @@ import React, { useContext, useState, useEffect } from 'react'
 
 import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
 
+import { useInit } from './useInit'
+
 const Web3Context = React.createContext('web3')
 
-export const Web3ContextProvider = ({ children, context }) => {
+export const Web3ContextProvider = ({ children }) => {
   const [state, setState] = useState({ connectionStatus: NOT_CONNECTED })
   const [methods, setMethods] = useState({})
+  const { context } = useInit()
 
   useEffect(() => {
-    const { onEthereumUpdate, connect } = initWeb3(context, setState)
-    setMethods((s) => ({ ...s, onEthereumUpdate, connect }))
+    const { onEthereumUpdate, connect, updateInfo } = initWeb3(
+      context,
+      setState
+    )
+    setMethods((s) => ({ ...s, onEthereumUpdate, connect, updateInfo }))
   }, [context])
 
   const values = {
     onEthereumUpdate: methods.onEthereumUpdate,
     connect: methods.connect,
+    updateInfo: methods.updateInfo,
     ...state,
   }
 
