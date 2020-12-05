@@ -5,7 +5,7 @@ import { Card } from '@dfohub/design-system'
 const TestPage = ({ setTemplateState }) => {
   useEffect(() => {
     setTemplateState((s) => ({ ...s, headerTitle: 'HOME' }))
-  }, [])
+  }, [setTemplateState])
   return (
     <Card>
       Test page 1 <Link to="/about">About</Link>
@@ -16,7 +16,7 @@ const TestPage = ({ setTemplateState }) => {
 const TestPage2 = ({ setTemplateState }) => {
   useEffect(() => {
     setTemplateState((s) => ({ ...s, headerTitle: 'ABOUT' }))
-  }, [])
+  }, [setTemplateState])
   return (
     <Card>
       Test page 2 <Link to="/">Go to test 1</Link>

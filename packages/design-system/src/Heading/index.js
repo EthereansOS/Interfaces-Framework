@@ -1,6 +1,7 @@
 import React from 'react'
 import T from 'prop-types'
 import classNames from 'classnames'
+
 import style from './heading.module.scss'
 
 const Heading = (props) => {

@@ -19,7 +19,6 @@ function initWeb3(context, setState) {
   let uniswapV2Factory = null
   let uniswapV2Router = null
   let wethAddress = null
-  let list = null
   let dfoHub = null
   let walletAddress = null
   let walletAvatar = null
@@ -205,7 +204,7 @@ function initWeb3(context, setState) {
             wethAddress = web3.utils.toChecksumAddress(
               await blockchainCall(uniswapV2Router.methods.WETH)
             )
-            list = {
+            const list = {
               DFO: {
                 key: 'DFO',
                 dFO: await dfo,
@@ -213,6 +212,7 @@ function initWeb3(context, setState) {
               },
             }
             dfoHub = list.DFO
+            setState((s) => ({ ...s, list }))
             update = true
           }
           try {
@@ -240,7 +240,6 @@ function initWeb3(context, setState) {
             uniswapV2Factory,
             uniswapV2Router,
             wethAddress,
-            list,
             dfoHub,
             walletAddress,
             walletAvatar,
@@ -271,7 +270,7 @@ function initWeb3(context, setState) {
     return context[element + network]
   }
 
-  const isEthereumAddress = function isEthereumAddress(ad) {
+  function isEthereumAddress(ad) {
     if (ad === undefined || ad === null) {
       return false
     }
@@ -300,20 +299,25 @@ function initWeb3(context, setState) {
     return true
   }
 
-  const hasEthereumAddress = function (address) {
-    return isEthereumAddress(address) && address !== voidEthereumAddress
+  async function getAddress() {
+    await window.ethereum.enable()
+    return (walletAddress = (await web3.eth.getAccounts())[0])
   }
 
   function getSendingOptions(transaction, value) {
     return new Promise(async function (ok, ko) {
       if (transaction) {
-        const from = await window.getAddress()
+        const from = await getAddress()
         const nonce = await web3.eth.getTransactionCount(from)
-        return window.bypassEstimation
+        // TODO I can't find the code that sets window.bypassEstimation in the production code, so I guess is always undefined
+        // return window.bypassEstimation
+        return undefined
           ? ok({
               nonce,
               from,
-              gas: window.gasLimit || '7900000',
+              // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
+              // gas: window.gasLimit || '7900000',
+              gas: '7900000',
               value,
             })
           : transaction.estimateGas(
@@ -332,7 +336,9 @@ function initWeb3(context, setState) {
                 return ok({
                   nonce,
                   from,
-                  gas: gas || window.gasLimit || '7900000',
+                  // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
+                  // gas: gas || window.gasLimit || '7900000',
+                  gas: gas || '7900000',
                   value,
                 })
               }
@@ -340,7 +346,9 @@ function initWeb3(context, setState) {
       }
       return ok({
         from: walletAddress || null,
-        gas: window.gasLimit || '99999999',
+        // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
+        // gas: window.gasLimit || '99999999',
+        gas: '99999999',
       })
     })
   }
@@ -392,7 +400,6 @@ function initWeb3(context, setState) {
             }
             // TODO implement subscribe to transaction/stop
             // $.subscribe('transaction/stop', stop)
-            console.log(stop)
             const timeout = async function () {
               const receipt = await web3.eth.getTransactionReceipt(
                 transactionHash
@@ -403,7 +410,7 @@ function initWeb3(context, setState) {
                 (await web3.eth.getBlockNumber()) <
                   receipt.blockNumber + (context.transactionConfirmations || 0)
               ) {
-                return window.setTimeout(
+                return setTimeout(
                   timeout,
                   context.transactionConfirmationsTimeoutMillis
                 )
@@ -412,13 +419,235 @@ function initWeb3(context, setState) {
               // $.unsubscribe('transaction/stop', stop)
               return transaction.then(ok)
             }
-            window.setTimeout(timeout)
+            setTimeout(timeout)
           })
           .catch(handleTransactionError)
       } catch (e) {
         return handleTransactionError(e)
       }
     })
+  }
+
+  function formatLink(link) {
+    link = link ? (link instanceof Array ? link[0] : link) : ''
+    if (link.indexOf('assets') === 0 || link.indexOf('/assets') === 0) {
+      return link
+    }
+    for (var temp of context.ipfsUrlTemplates) {
+      link = link.split(temp).join(context.ipfsUrlChanger)
+    }
+    while (link && link.startsWith('/')) {
+      link = link.substring(1)
+    }
+    return (!link ? '' : link.indexOf('http') === -1 ? 'https://' + link : link)
+      .split('https:')
+      .join('')
+      .split('http:')
+      .join('')
+  }
+
+  async function updateInfo(element) {
+    if (!element || element.updating) {
+      return
+    }
+    setState((s) => ({
+      ...s,
+      list: {
+        ...s.list,
+        [element.key]: { ...element, updating: true },
+      },
+    }))
+
+    let votingTokenAddress
+    let stateHolderAddress
+    let functionalitiesManagerAddress
+
+    const newElement = { ...element }
+    newElement.walletAddress = newElement.dFO.options.address
+
+    try {
+      var delegates = await web3.eth.call({
+        to: newElement.dFO.options.address,
+        data: newElement.dFO.methods.getDelegates().encodeABI(),
+      })
+      try {
+        delegates = web3.eth.abi.decodeParameter('address[]', delegates)
+      } catch (e) {
+        delegates = web3.eth.abi.decodeParameters(
+          ['address', 'address', 'address', 'address', 'address', 'address'],
+          delegates
+        )
+      }
+      votingTokenAddress = delegates[0]
+      stateHolderAddress = delegates[2]
+      functionalitiesManagerAddress = delegates[4]
+      newElement.walletAddress = delegates[5]
+      newElement.doubleProxyAddress = delegates[6]
+    } catch (e) {
+      console.log(e)
+    }
+
+    if (!votingTokenAddress) {
+      votingTokenAddress = await blockchainCall(newElement.dFO.methods.getToken)
+      stateHolderAddress = await blockchainCall(
+        newElement.dFO.methods.getStateHolderAddress
+      )
+      functionalitiesManagerAddress = await blockchainCall(
+        newElement.dFO.methods.getMVDFunctionalitiesManagerAddress
+      )
+      try {
+        newElement.walletAddress = await blockchainCall(
+          newElement.dFO.methods.getMVDWalletAddress
+        )
+      } catch (e) {}
+    }
+
+    if (!newElement.doubleProxyAddress) {
+      try {
+        newElement.doubleProxyAddress = await blockchainCall(
+          newElement.dFO.methods.getDoubleProxyAddress
+        )
+      } catch (e) {}
+    }
+
+    newElement.token = newContract(context.votingTokenAbi, votingTokenAddress)
+    newElement.name = await blockchainCall(newElement.token.methods.name)
+    newElement.symbol = await blockchainCall(newElement.token.methods.symbol)
+    newElement.totalSupply = await blockchainCall(
+      newElement.token.methods.totalSupply
+    )
+    try {
+      newElement.metadata = await window.AJAXRequest(
+        formatLink(
+          (newElement.metadataLink = web3.eth.abi.decodeParameter(
+            'string',
+            await blockchainCall(
+              newElement.dFO.methods.read,
+              'getMetadataLink',
+              '0x'
+            )
+          ))
+        )
+      )
+      Object.entries(newElement.metadata).forEach(
+        (it) => (element[it[0]] = it[1] || element[it[0]])
+      )
+    } catch (e) {}
+    newElement.decimals = await blockchainCall(
+      newElement.token.methods.decimals
+    )
+    newElement.stateHolder = newContract(
+      context.stateHolderAbi,
+      stateHolderAddress
+    )
+    newElement.functionalitiesManager = newContract(
+      context.functionalitiesManagerAbi,
+      functionalitiesManagerAddress
+    )
+    newElement.functionalitiesAmount = parseInt(
+      await blockchainCall(
+        newElement.functionalitiesManager.methods.getFunctionalitiesAmount
+      )
+    )
+    newElement.lastUpdate = newElement.startBlock
+    newElement.minimumBlockNumberForEmergencySurvey = '0'
+    newElement.emergencySurveyStaking = '0'
+
+    try {
+      newElement.minimumBlockNumberForEmergencySurvey =
+        web3.eth.abi.decodeParameter(
+          'uint256',
+          await blockchainCall(
+            newElement.dFO.methods.read,
+            'getMinimumBlockNumberForEmergencySurvey',
+            '0x'
+          )
+        ) || '0'
+      newElement.emergencySurveyStaking =
+        web3.eth.abi.decodeParameter(
+          'uint256',
+          await blockchainCall(
+            newElement.dFO.methods.read,
+            'getEmergencySurveyStaking',
+            '0x'
+          )
+        ) || '0'
+    } catch (e) {}
+    try {
+      newElement.quorum = web3.eth.abi.decodeParameter(
+        'uint256',
+        await blockchainCall(newElement.dFO.methods.read, 'getQuorum', '0x')
+      )
+    } catch (e) {
+      newElement.quorum = '0'
+    }
+    try {
+      newElement.surveySingleReward = web3.eth.abi.decodeParameter(
+        'uint256',
+        await blockchainCall(
+          newElement.dFO.methods.read,
+          'getSurveySingleReward',
+          '0x'
+        )
+      )
+    } catch (e) {
+      newElement.surveySingleReward = '0'
+    }
+    try {
+      newElement.minimumStaking = web3.eth.abi.decodeParameter(
+        'uint256',
+        await blockchainCall(
+          newElement.dFO.methods.read,
+          'getMinimumStaking',
+          '0x'
+        )
+      )
+    } catch (e) {
+      newElement.minimumStaking = '0'
+    }
+    newElement.icon = makeBlockie(newElement.dFO.options.address)
+    try {
+      newElement.link = web3.eth.abi.decodeParameter(
+        'string',
+        await blockchainCall(newElement.dFO.methods.read, 'getLink', '0x')
+      )
+    } catch (e) {}
+    try {
+      newElement.index = web3.eth.abi.decodeParameter(
+        'uint256',
+        await blockchainCall(newElement.dFO.methods.read, 'getIndex', '0x')
+      )
+    } catch (e) {}
+    try {
+      newElement !== dfoHub &&
+        (newElement.ens = await blockchainCall(
+          dfoHubENSResolver.methods.subdomain,
+          newElement.dFO.options.originalAddress
+        ))
+    } catch (e) {}
+    newElement.votesHardCap = '0'
+    try {
+      newElement.votesHardCap = web3.eth.abi.decodeParameter(
+        'uint256',
+        await blockchainCall(
+          newElement.dFO.methods.read,
+          'getVotesHardCap',
+          '0x'
+        )
+      )
+    } catch (e) {}
+    newElement.ens = newElement.ens || ''
+    newElement.ensComplete = newElement.ens + '.dfohub.eth'
+    newElement.ensComplete.indexOf('.') === 0 &&
+      (newElement.ensComplete = newElement.ensComplete.substring(1))
+
+    setState((s) => ({
+      ...s,
+      list: {
+        ...s.list,
+        [newElement.key]: { ...newElement, updating: false, updated: true },
+      },
+    }))
   }
 
   async function connect(millis = 0) {
@@ -429,6 +658,7 @@ function initWeb3(context, setState) {
   return {
     onEthereumUpdate,
     connect,
+    updateInfo,
   }
 }
 
