@@ -1,7 +1,6 @@
 {
   "name": "root",
   "private": true,
-  "homepage": "https://b-u-i-d-l.github.io/js-framework",
   "scripts": {
     "postinstall": "lerna bootstrap",
     "build": "lerna run build",

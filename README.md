@@ -62,14 +62,14 @@ npm i
 
 ## Deploy
 
-Deployment is done automatically with github actions when something is pushed on `main` (configured here: https://github.com/b-u-i-d-l/js-framework/blob/master/.github/workflows/build-and-deploy.yml#L6).
-The build is done autmoatically by the CI and the content of the `build` folder is pushed to the `gh-pages` branch: https://github.com/b-u-i-d-l/js-framework/blob/master/.github/workflows/build-and-deploy.yml#L26
+Deployment is done automatically with github actions when something is pushed on `main` (configured [here](https://github.com/b-u-i-d-l/js-framework/blob/main/.github/workflows/build-and-deploy.yml#L6)).
+The build is done autmoatically by the CI and the content of the `build` folder is pushed to the `gh-pages` branch ([here](https://github.com/b-u-i-d-l/js-framework/blob/main/.github/workflows/build-and-deploy.yml#L26))
 
-**NOTE**: if the github page is a under relative path (e.g. a project page), `homepage` must be set on `package.json`, otherwise the static content will be loaded using the wrong path. see: https://create-react-app.dev/docs/deployment/#building-for-relative-paths
+**NOTE**: if the github page is a under relative path (e.g. a project page), `homepage` must be set on `package.json` of `app`, otherwise the static content will be loaded using the wrong path. see: https://create-react-app.dev/docs/deployment/#building-for-relative-paths
 
 ## Development
 
-`development` is the development branch. Everything merged in `main` will be deployed atuomatically (this can be changed and a specific branch that trigger the deployment can be ued instead, see above). So every PR will be done against `development` and, after been reviewed, merged in `main` and deployed automatically
+`development` is the development branch. Everything merged in `main` will be deployed automatically (this can be changed and a specific branch that trigger the deployment can be ued instead, see above). So every PR will be done against `development` and, after been reviewed, merged in `main` and deployed automatically
 
 ### Commits
 

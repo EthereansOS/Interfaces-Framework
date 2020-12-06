@@ -18,7 +18,9 @@ function App() {
       initMethod={async ({ setReady, setValue }) => {
         // This line as only a demo purpose, to show the loading action
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        const response = await fetch('/data/context.json')
+        const response = await fetch(
+          `${process.env.PUBLIC_URL}/data/context.json`
+        )
         const context = await response.json()
         setValue('context', context)
         setReady()

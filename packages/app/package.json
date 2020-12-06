@@ -2,6 +2,7 @@
   "name": "@dfohub/app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://b-u-i-d-l.github.io/js-framework",
   "dependencies": {
     "@dfohub/components": "1.0.0",
     "@dfohub/core": "1.0.0",

@@ -1,0 +1,28 @@
+name: Test
+
+on:
+    workflow_dispatch:
+    push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+
+      - name: Install  🔧
+        run: npm install
+
+      - name: Test  🔧
+        run: npm test
+
+        env:
+          CI: true
