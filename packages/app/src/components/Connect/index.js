@@ -29,7 +29,7 @@ function Connect({ children }) {
   ) : (
     <Container>
       <ConnectWidget
-        logo="/assets/img/ghostload.gif"
+        logo={`${process.env.PUBLIC_URL}/assets/img/ghostload.gif`}
         title="DFOhub"
         onClickConnect={handleConnectFromHomePage}
         connectionStatus={connectionStatus}
