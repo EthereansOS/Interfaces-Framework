@@ -4,6 +4,33 @@ This project is a scaffold of a React app that leverages the Ethereum blockchain
 
 ## How to install this project?
 
+### Prerequisites
+
+This Project uses NodeJS Version 12.x.x
+
+First of all, be sure you uninstalled all your self-managed NodeJS versions on your machine and install NodeJS Version Manager
+
+- [Windows Version](https://github.com/coreybutler/nvm-windows)
+- [UNIX Version (OSX/Linux)](https://github.com/nvm-sh/nvm)
+
+Once `nvm` is installed, you can use it in your favorite terminal application to download and use NodeJS v12.20.0
+
+`nvm install 12.20.0 64` 
+
+for 64-bit based machines 
+
+or
+
+ `nvm install 12.20.0 32` 
+ 
+ for 32-bit based machines
+
+After the installation type
+
+`nvm use 12.20.0`
+
+### Instructions
+
 1. Clone it from the repository
 2. `cd` into the project folder
 3. `npm install`
