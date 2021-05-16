@@ -13,6 +13,7 @@ function initWeb3(context, setState) {
   let web3
   let networkId
   let web3ForLogs
+  // This is a map with all the contracts
   let allContracts = {}
   let proxyChangedTopic
   let dfoHubENSResolver = null
@@ -23,7 +24,9 @@ function initWeb3(context, setState) {
   let walletAddress = null
   let walletAvatar = null
 
-  const newContract = function newContract(abi, address) {
+  // Creates a new contract object from the `abi` and the address
+  // ABI is the interface.
+  const newContract = (abi, address) => {
     let key = web3.utils.sha3(JSON.stringify(abi))
     const contracts = (allContracts[key] = allContracts[key] || {})
     address = address || voidEthereumAddress
@@ -228,7 +231,6 @@ function initWeb3(context, setState) {
               console.log(e)
             }
           }
-
           setState((s) => ({
             ...s,
             web3,
