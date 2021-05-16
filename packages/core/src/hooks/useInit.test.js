@@ -6,7 +6,7 @@ import { renderHook, act } from '@testing-library/react-hooks'
 import { useInit, InitContextProvider } from './useInit'
 
 describe('hooks/useInit', () => {
-  it('The compent is initialized properly', async () => {
+  it('The component is initialized properly', async () => {
     const wrapper = ({ children }) => (
       <InitContextProvider
         initMethod={async ({ setValue, setReady }) => {
@@ -28,7 +28,7 @@ describe('hooks/useInit', () => {
     expect(state).toEqual({ isInit: true, error: null, foo: 'bar' })
   })
 
-  it('The compent is still not initialized', async () => {
+  it('The component is still not initialized', async () => {
     render(
       <InitContextProvider
         initMethod={async () => {}}
