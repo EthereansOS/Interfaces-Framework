@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect'
 
 import cw3p from 'create-web3-provider'
 
-import * as context from '../../test/context.json'
+import * as context from '../../test-data/context.json'
 
 import initWeb3, { CONNECTING, CONNECTED } from './web3'
 
@@ -31,15 +31,33 @@ describe('web3', () => {
   })
 
   describe('connect', () => {
-    it('connect using web3', async () => {
+    it('specify the correct status when connecting', async () => {
       const { connect } = initWeb3(context, setState)
       await connect()
       expect(setState).toHaveBeenCalledTimes(3)
       const firstSetState = setState.mock.calls[0][0]()
       expect(firstSetState.connectionStatus).toEqual(CONNECTING)
-      // The second call set the DFO contract, ignoring for the time being.
       const thirdSetState = setState.mock.calls[2][0]()
       expect(thirdSetState.connectionStatus).toEqual(CONNECTED)
+      expect(thirdSetState.web3).toBeTruthy()
+    })
+
+    it('set the DFO contract data when connecting', async () => {
+      const { connect } = initWeb3(context, setState)
+      await connect()
+      expect(setState).toHaveBeenCalledTimes(3)
+      const secondSetState = setState.mock.calls[1][0]()
+      expect(secondSetState.list.DFO.key).toEqual('DFO')
+      expect(secondSetState.list.DFO.dFO).toBeTruthy()
+      expect(secondSetState.list.DFO.startBlock).toBeTruthy()
+    })
+
+    it('set the web3 object when connecting', async () => {
+      const { connect } = initWeb3(context, setState)
+      await connect()
+      expect(setState).toHaveBeenCalledTimes(3)
+      const thirdSetState = setState.mock.calls[2][0]()
+      expect(thirdSetState.web3).toBeTruthy()
     })
   })
 })
