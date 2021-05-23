@@ -1,4 +1,33 @@
 .root {
-  height: 50px;
+  height: 60px;
   background-color: #030303;
+}
+
+.content {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.leftContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.rightContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.input {
+  margin: 0 40px;
+  flex: 1;
 }

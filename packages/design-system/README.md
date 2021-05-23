@@ -3,7 +3,6 @@
 This package holds the design system for the DFOhub application.
 It should grow with all the basic components needed by the application.
 
-
 ## Components
 
 The available sample components are:
@@ -11,7 +10,7 @@ The available sample components are:
 - [Button](./src/Button/README.md)
 - [Container](./src/Container/README.md)
 - [Card](./src/Card/README.md)
-- [Heading](./src/Heading/README.md)
+- [Typography](./src/Typography/README.md)
 
 ## Styling
 
@@ -27,7 +26,7 @@ Every stylesheet should have a `.root` selector for the component, for example:
 .root {
   font-size: 15px;
   font-weight: bold;
- 
+
   &.primary {
     background-color: $color-primary;
   }
@@ -45,8 +44,7 @@ import classNames from 'classnames'
 import style from './button.module.scss'
 
 const Button = ({ text, onClick, variant, className }) => (
-  <button
-    className={classNames(style['root'], style[variant], className)}>
+  <button className={classNames(style['root'], style[variant], className)}>
     Hello!
   </button>
 )
@@ -94,4 +92,3 @@ npm run build:dev
 ```
 
 to build and keep watching for changes.
-

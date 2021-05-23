@@ -5,7 +5,7 @@ import T from 'prop-types'
 import style from './container.module.scss'
 
 const Container = ({ children, className }) => (
-  <div className={classNames(style['root'], className)}>{children}</div>
+  <div className={classNames(style.root, className)}>{children}</div>
 )
 
 Container.propTypes = {

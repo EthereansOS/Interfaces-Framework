@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import nameHash from 'eth-ens-namehash'
 import Web3 from 'web3'
 import makeBlockie from 'ethereum-blockies-base64'
@@ -360,11 +362,8 @@ function initWeb3(context, setState) {
       args.push(arguments[i])
     }
     value = isNaN(value) ? undefined : value
-    const method = (call.implementation
-      ? call.get
-      : call.new
-      ? call.new
-      : call
+    const method = (
+      call.implementation ? call.get : call.new ? call.new : call
     ).apply(call, args)
     return method._method.stateMutability === 'view' ||
       method._method.stateMutability === 'pure'
