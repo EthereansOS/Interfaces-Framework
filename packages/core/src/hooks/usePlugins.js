@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useEffect } from 'react'
+import React, { useContext, useReducer, useEffect, useCallback } from 'react'
 import T from 'prop-types'
 
 const PluginsContext = React.createContext('dfo-plugins')
@@ -9,11 +9,13 @@ function reducer(state, action) {
       return {
         plugins: [],
         placeholders: {},
+        singlePlaceholder: {},
       }
     case 'resetPlaceholders':
       return {
         ...state,
         placeholders: {},
+        singlePlaceholder: {},
       }
     case 'addPlugin':
       return {
@@ -40,6 +42,14 @@ function reducer(state, action) {
           ].sort((a, b) => (a.index > b.index ? 1 : -1)),
         },
       }
+    case 'setSinglePlaceholder':
+      return {
+        ...state,
+        singlePlaceholder: {
+          ...state.singlePlaceholder,
+          [action.payload.name]: action.payload.element,
+        },
+      }
     default:
       throw new Error()
   }
@@ -51,13 +61,6 @@ export const PluginsContextProvider = ({ children, plugins }) => {
     placeholders: {},
   })
 
-  const addElement = (placeholder, element) => {
-    dispatch({
-      type: 'addPlaceholder',
-      payload: { name: placeholder, element },
-    })
-  }
-
   useEffect(() => {
     dispatch({ type: 'reset' })
     plugins.forEach((plugin, index) => {
@@ -65,18 +68,41 @@ export const PluginsContextProvider = ({ children, plugins }) => {
     })
   }, [plugins])
 
+  const addElement = useCallback((placeholder, element) => {
+    dispatch({
+      type: 'addPlaceholder',
+      payload: { name: placeholder, element },
+    })
+  }, [])
+
   useEffect(() => {
     state.plugins &&
       state.plugins.forEach((plugin, index) => {
         plugin.init({ addElement })
       })
-  }, [state.plugins])
+  }, [state.plugins, addElement])
+
+  const setSingleElement = useCallback((placeholder, element) => {
+    dispatch({
+      type: 'setSinglePlaceholder',
+      payload: { name: placeholder, element },
+    })
+  }, [])
 
   const getPlaceholders = (placeholderName) => {
     return state.placeholders[placeholderName] || []
   }
 
-  const values = { addElement, getPlaceholders }
+  const getSinglePlaceholder = (placeholderName) => {
+    return state.singlePlaceholder[placeholderName]
+  }
+
+  const values = {
+    addElement,
+    getPlaceholders,
+    setSingleElement,
+    getSinglePlaceholder,
+  }
 
   return (
     <PluginsContext.Provider value={values}>{children}</PluginsContext.Provider>
@@ -91,6 +117,11 @@ export const usePlugins = () => {
 export const usePlaceholder = (placeholderName) => {
   const pluginsContext = useContext(PluginsContext)
   return pluginsContext.getPlaceholders(placeholderName)
+}
+
+export const useSinglePlaceholder = (placeholderName) => {
+  const pluginsContext = useContext(PluginsContext)
+  return pluginsContext.getSinglePlaceholder(placeholderName)
 }
 
 PluginsContextProvider.propTypes = {

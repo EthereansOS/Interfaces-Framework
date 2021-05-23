@@ -2,13 +2,14 @@ import { HashRouter } from 'react-router-dom'
 import React from 'react'
 import '@dfohub/design-system/dist/index.cjs.css'
 import '@dfohub/components/dist/index.cjs.css'
+import '@dfohub/organization-plugin/dist/index.cjs.css'
 import {
   PluginsContextProvider,
   Web3ContextProvider,
   InitContextProvider,
 } from '@dfohub/core'
-import samplePlugin from '@dfohub/sample-plugin'
-import listPagePlugin from '@dfohub/list-page-plugin'
+import organizationPlugin from '@dfohub/organization-plugin'
+import appPlugin from './plugins'
 import AppRouter from './router'
 import './app.css'
 
@@ -28,7 +29,7 @@ function App() {
       Loading={() => <div>Loading...</div>}
       Error={({ error }) => <div>Error on application init: {error}</div>}>
       <Web3ContextProvider>
-        <PluginsContextProvider plugins={[samplePlugin, listPagePlugin]}>
+        <PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
           <HashRouter>
             <AppRouter />
           </HashRouter>
