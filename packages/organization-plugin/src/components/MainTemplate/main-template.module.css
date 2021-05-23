@@ -1,0 +1,9 @@
+.root {
+  min-height: 100vh;
+  background-color: #292929;
+  width: 100%;
+}
+
+.container {
+  padding-top: 20px;
+}

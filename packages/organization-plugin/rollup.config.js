@@ -1,3 +1,4 @@
+import path from 'path'
 import babel from 'rollup-plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import external from 'rollup-plugin-peer-deps-external'
@@ -21,7 +22,18 @@ export default {
   ],
   plugins: [
     external(),
-    postcss(),
+    postcss({
+      extract: true,
+      use: ['sass'],
+      modules: {
+        generateScopedName: function (name, filename) {
+          const file = path.basename(filename, '.css')
+          return (
+            'dfo-organiztion' + '_' + file.split('.').shift() + '_' + name
+          )
+        },
+      },
+    }),
     babel({
       exclude: 'node_modules/**',
     }),
