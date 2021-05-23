@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import T from 'prop-types'
 
 import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
 
@@ -27,6 +28,10 @@ export const Web3ContextProvider = ({ children }) => {
   }
 
   return <Web3Context.Provider value={values}>{children}</Web3Context.Provider>
+}
+
+Web3ContextProvider.propTypes = {
+  children: T.oneOfType([T.arrayOf(T.node), T.node]).isRequired,
 }
 
 export const webs3States = { NOT_CONNECTED, CONNECTED, CONNECTING }

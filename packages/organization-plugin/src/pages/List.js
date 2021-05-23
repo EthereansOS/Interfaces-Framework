@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import T from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card } from '@dfohub/design-system'
 import { useWeb3 } from '@dfohub/core'
@@ -22,7 +23,12 @@ const List = ({ setTemplateState }) => {
   }, [list, updateInfo])
 
   useEffect(() => {
-    setTemplateState((s) => ({ ...s, headerTitle: 'LIST' }))
+    setTemplateState((s) => ({
+      ...s,
+      headerTitle: 'LIST',
+      mainMenu: null,
+      mainSubMenu: null,
+    }))
   }, [setTemplateState])
 
   return (
@@ -54,6 +60,10 @@ const List = ({ setTemplateState }) => {
       </ul>
     </Card>
   )
+}
+
+List.propTypes = {
+  setTemplateState: T.func.isRequired,
 }
 
 export default List

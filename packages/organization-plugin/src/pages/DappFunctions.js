@@ -4,16 +4,17 @@ import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
 
-const Overview = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationOverview')
+const DappFunctions = ({ setTemplateState }) => {
+  const organizationOverview = usePlaceholder('organizationDapp')
+
   const { organizationHeader, organization } = useOrganizationContext()
 
   useEffect(() => {
     setTemplateState((s) => ({
       ...s,
-      headerTitle: 'Organization overview',
+      headerTitle: 'Organization Dapp Functions',
       mainMenu: 'organizationMenu',
-      mainSubMenu: null,
+      mainSubMenu: 'organizationSubMenuDapp',
       beforeMenu: organizationHeader,
     }))
   }, [setTemplateState, organization, organizationHeader])
@@ -23,8 +24,8 @@ const Overview = ({ setTemplateState }) => {
   ))
 }
 
-Overview.propTypes = {
+DappFunctions.propTypes = {
   setTemplateState: T.func.isRequired,
 }
 
-export default Overview
+export default DappFunctions

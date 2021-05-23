@@ -1,29 +1,29 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { usePlaceholder } from '@dfohub/core'
+import T from 'prop-types'
 
-import MainTemplate from '../components/MainTemplate'
-import Menu from '../components/Menu'
+import { useOrganizationContext } from '../OrganizationContext'
 
-const Governance = ({ setTemplateState, ...props }) => {
+const Governance = ({ setTemplateState }) => {
   const organizationOverview = usePlaceholder('organizationGovernance')
+  const { organizationHeader, organization } = useOrganizationContext()
   useEffect(() => {
-    setTemplateState((s) => ({ ...s, headerTitle: 'Organization governance' }))
-  }, [setTemplateState])
+    setTemplateState((s) => ({
+      ...s,
+      headerTitle: 'Organization governance',
+      mainMenu: 'organizationMenu',
+      mainSubMenu: null,
+      beforeMenu: organizationHeader,
+    }))
+  }, [setTemplateState, organization, organizationHeader])
 
-  const renderedMenu = useMemo(
-    () => <Menu selected={props?.selected} />,
-    [props?.selected]
-  )
+  return organizationOverview.map(({ Component, key }) => (
+    <Component key={key} organization={organization} />
+  ))
+}
 
-  const organization = {}
-
-  return (
-    <MainTemplate {...props} Menu={renderedMenu}>
-      {organizationOverview.map(({ Component, key }) => (
-        <Component key={key} organization={organization} />
-      ))}
-    </MainTemplate>
-  )
+Governance.propTypes = {
+  setTemplateState: T.func.isRequired,
 }
 
 export default Governance

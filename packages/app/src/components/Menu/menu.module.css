@@ -1,0 +1,36 @@
+.root {
+  background-color: var(--color-background-dark);
+}
+
+.menu {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.menu ul {
+  text-align: center;
+  padding-inline-start: 0;
+  list-style-type: none;
+}
+
+.link {
+  list-style-type: none;
+  box-sizing: border-box;
+  display: inline-block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 175px;
+  text-align: center;
+  background-color: var(--color-background-dark);
+}
+
+.link a{
+  text-decoration: none;
+  color: white;
+}
+
+.selected {
+  background-color: #8653f6;
+}

@@ -1,6 +1,7 @@
 .root {
   height: 60px;
   background-color: #030303;
+  font-family: var(--font-family-secondary);
 }
 
 .content {

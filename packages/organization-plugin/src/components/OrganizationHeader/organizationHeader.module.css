@@ -1,0 +1,43 @@
+.root {
+  height: 70px;
+  width: 100%;
+  background-color: var(--color-primary);
+}
+
+.content {
+  max-width: var(--container-width);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding-left: calc(var(--unit) * 6);
+  padding-right: calc(var(--unit) * 6);
+}
+
+.logo {
+  height: 40px;
+  margin-right: calc(var(--unit) * 5);
+}
+
+.title {
+  font-weight: bold;
+}
+
+.leftContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.rightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.closeButton {
+  font-size: 30px;
+  color: white;
+  text-decoration: none;
+  flex: 1;
+}
