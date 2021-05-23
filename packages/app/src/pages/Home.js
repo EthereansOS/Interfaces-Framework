@@ -4,7 +4,12 @@ import { Card } from '@dfohub/design-system'
 
 const HomePage = ({ setTemplateState }) => {
   useEffect(() => {
-    setTemplateState((s) => ({ ...s, headerTitle: 'HOME' }))
+    setTemplateState((s) => ({
+      ...s,
+      headerTitle: 'HOME',
+      mainMenu: null,
+      mainSubmenu: null,
+    }))
   }, [setTemplateState])
   return (
     <Card>

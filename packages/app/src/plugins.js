@@ -9,7 +9,9 @@ const initPlugin = ({ addElement }) => {
     requireConnection: false,
     templateProps: {
       selected: 'home',
-      showMenu: true,
+      showMenu: false,
+      showSubMenu: false,
+      showBeforeMenu: false,
     },
   })
 }

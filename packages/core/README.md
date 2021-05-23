@@ -10,7 +10,7 @@ The plugin system is a set of React custom hooks and context providers to manage
 
 The whole source code is in the `src/hooks/userPlugin.js` file.
 
-The plugin system manages two kinds of data: __plugins__ and __placeholders__.
+The plugin system manages two kinds of data: **plugins** and **placeholders**.
 
 Placeholders hold an ordered list of items grouped by name. For example, you can have a set of "menu" items, a set of "router" items, etc.
 
@@ -60,24 +60,24 @@ It provides:
 
 - a `Web3ContextProvider` which initialize web3 with the provided context.
 - a `useWeb3` React custom hook which returns the following information:
-    - a `connect` function to start connecting to Ethereum
-    - an `onEthereumUpdate` function to listen to changes
-    - all the details of the current connection:
-        - web3
-        - networkId
-        - web3ForLogs
-        - allContracts
-        - proxyChangedTopic
-        - dfoHubENSResolver
-        - uniswapV2Factory
-        - uniswapV2Router
-        - wethAddress
-        - list
-        - dfoHub
-        - walletAddress
-        - walletAvatar
-        - connectionStatus
-    - a `webs3States` array holding the available states (`NOT_CONNECTED`, `CONNECTED`, `CONNECTING`)
+  - a `connect` function to start connecting to Ethereum
+  - an `onEthereumUpdate` function to listen to changes
+  - all the details of the current connection:
+    - web3
+    - networkId
+    - web3ForLogs
+    - allContracts
+    - proxyChangedTopic
+    - dfoHubENSResolver
+    - uniswapV2Factory
+    - uniswapV2Router
+    - wethAddress
+    - list
+    - dfoHub
+    - walletAddress
+    - walletAvatar
+    - connectionStatus
+  - a `webs3States` array holding the available states (`NOT_CONNECTED`, `CONNECTED`, `CONNECTING`)
 
 The context provider can be initialized in the following way (look at `src/App.js` of `app` package):
 
@@ -94,6 +94,55 @@ const { connect, connectionStatus } = useWeb3()
 ```
 
 Look at the source of the `Connect` component inside the `app` package for a usage example.
+
+### Global Context Provider
+
+The global context provider allows to inject providers from the plugins available globally.
+
+Eg.
+
+```js
+<PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
+  <GlobalContextProvider>
+    <HashRouter>
+      <AppRouter />
+    </HashRouter>
+  </GlobalContextProvider>
+</PluginsContextProvider>
+```
+
+allows to have a context structure like:
+
+```js
+<PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
+  <InjectedProvider1>
+    <InjectedProvider2>
+    <HashRouter>
+      <AppRouter />
+    </HashRouter>
+    </InjectedProvider2>
+  </InjectedProvider1>
+</PluginsContextProvider>
+```
+
+The providers can be added from the `init` function usng the `addElement` method with the `globalContexts` keyword
+
+Eg.
+```js
+
+addElement('globalContexts', {
+  name: 'InjectedProvider1',
+  Component: InjectedProvider1,
+  index: 10,
+})
+
+addElement('globalContexts', {
+name: 'InjectedProvider2',
+Component: InjectedProvider2,
+index: 20,
+})
+```
+
 
 ### Other hooks
 
@@ -120,4 +169,3 @@ npm run build:dev
 ```
 
 to build and keep watching for changes.
-

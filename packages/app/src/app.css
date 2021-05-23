@@ -1,4 +1,10 @@
 body {
   background-color: #030303;
-  font-family: 'Courier New', 'Lucida Console', 'Courier', 'Times', 'Arial';
+  font-family: var(--font-family);
+}
+
+:root {
+  --font-family: -apple-system,system-ui,BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif';
+  --font-family-secondary: 'Courier New', 'Lucida Console', 'Courier', 'Times',
+    'Arial';
 }

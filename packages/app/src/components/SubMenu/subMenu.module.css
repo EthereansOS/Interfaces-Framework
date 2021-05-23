@@ -1,0 +1,36 @@
+.root {
+  background-color: var(--color-background-extra-dark);
+}
+
+.menu {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.menu ul {
+  text-align: center;
+  padding-inline-start: 0;
+  list-style-type: none;
+}
+
+.link {
+  list-style-type: none;
+  box-sizing: border-box;
+  display: inline-block;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  width: 175px;
+  text-align: center;
+  background-color: var(--color-background-extra-dark);
+}
+
+.link a{
+  text-decoration: none;
+  color: white;
+}
+
+.selected {
+  background-color: #8653f6;
+}
