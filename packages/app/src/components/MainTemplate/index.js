@@ -8,14 +8,14 @@ function MainTemplate({ Component, ...props }) {
   const [state, setState] = useState({})
 
   return (
-    <div className={style.root}>
+    <main className={style.root}>
       <Header {...props} {...state} />
 
       {props.showMenu && <Menu {...props} />}
       <Container className={style.container}>
         <Component setTemplateState={setState} />
       </Container>
-    </div>
+    </main>
   )
 }
 

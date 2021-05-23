@@ -1,13 +1,10 @@
 @import '../colors';
-
+@import '../constant';
 .root {
-  font-size: 15px;
-  padding: 10px 15px;
   background-color: $color-default;
   color: $color-text;
   font-weight: bold;
   text-decoration: none;
-  margin-top: 25px;
   display: inline-block;
   border: 0;
   cursor: pointer;
@@ -18,5 +15,20 @@
 
   &.secondary {
     background-color: $color-secondary;
+  }
+
+  &.small {
+    padding: $unit $unit * 4;
+    font-size: 12px;
+  }
+
+  &.medium {
+    padding: $unit * 2 $unit * 4;
+    font-size: 15px;
+  }
+
+  &.large {
+    padding: $unit * 4 $unit * 5;
+    font-size: 18px;
   }
 }

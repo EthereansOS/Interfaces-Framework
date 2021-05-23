@@ -1,21 +1,25 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from 'react'
 
-import Heading from '.'
+import Typography from '.'
 
 export default {
-  title: 'Example/Heading',
-  component: Heading,
+  title: 'Example/Typography',
+  component: Typography,
 }
 
 const Template = (args) => (
   <div>
-    <Heading {...args} variant="h1" />
-    <Heading {...args} variant="h2" />
-    <Heading {...args} variant="h3" />
-    <Heading {...args} variant="h4" />
-    <Heading {...args} variant="h5" />
-    <Heading {...args} variant="h6" />
+    <Typography {...args} variant="h1" />
+    <Typography {...args} variant="h2" />
+    <Typography {...args} variant="h3" />
+    <Typography {...args} variant="h4" />
+    <Typography {...args} variant="h5" />
+    <Typography {...args} variant="h6" />
+    <Typography {...args} variant="body1" />
+    <Typography {...args} variant="body2" />
+    <Typography {...args} variant="subtitle1" />
+    <Typography {...args} variant="subtitle2" />
   </div>
 )
 

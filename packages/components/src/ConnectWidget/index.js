@@ -1,7 +1,7 @@
 import React from 'react'
 import T from 'prop-types'
 import classNames from 'classnames'
-import { Button, Heading } from '@dfohub/design-system'
+import { Button, Typography } from '@dfohub/design-system'
 import { webs3States } from '@dfohub/core'
 
 import style from './connect-widget.module.scss'
@@ -15,9 +15,9 @@ const ConnectWidget = ({
 }) => (
   <div className={classNames(style['root'], className)}>
     {logo ? <img src={logo} alt="logo" /> : null}
-    <Heading variant="h1" color="primary">
+    <Typography variant="h1" color="primary">
       {title}
-    </Heading>
+    </Typography>
     <br />
     {connectionStatus === webs3States.CONNECTED && <div>Connected</div>}
     {connectionStatus === webs3States.CONNECTING && <div>Connecting</div>}
