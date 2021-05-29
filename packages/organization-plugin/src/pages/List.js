@@ -1,9 +1,41 @@
 import React, { useEffect } from 'react'
 import T from 'prop-types'
-import { Link } from 'react-router-dom'
-import { Card } from '@dfohub/design-system'
+import { useWeb3 } from '@dfohub/core'
+import { Table, Typography, Link } from '@dfohub/design-system'
 
+import TableLink from '../components/shared/TableLink'
 import useOrganizations from '../hooks/useOrganizations'
+
+const columns = [
+  {
+    field: 'icon',
+    headerName: 'Name',
+    renderCell: (props) => (
+      <Link
+        style={{ display: 'flex', alignItems: 'center' }}
+        to={`organizations/${props.row.address}`}>
+        <img
+          style={{ width: 35, marginRight: 25 }}
+          src={props.value}
+          alt="logo"
+        />
+        <Typography variant="subtitle1" weight="bold">
+          {props.row.name}
+        </Typography>
+      </Link>
+    ),
+    flex: 2,
+  },
+  { field: 'functionalitiesAmount', headerName: 'Functions' },
+  { field: 'startBlock', headerName: 'Start Block' },
+  {
+    field: 'ens',
+    headerName: 'ENS',
+    renderCell: TableLink,
+  },
+  { field: 'symbol', headerName: 'Token', renderCell: TableLink },
+  { field: 'address', headerName: 'Address', renderCell: TableLink },
+]
 
 const List = ({ setTemplateState }) => {
   const { organizations, unsetOrganization } = useOrganizations()
@@ -22,31 +54,15 @@ const List = ({ setTemplateState }) => {
   }, [setTemplateState])
 
   return (
-    <Card>
-      <ul>
-        {Object.keys(organizations).map((key) => {
-          const item = organizations[key]
-          return (
-            <li key={item.key}>
-              Icon: <img src={item.icon} alt="logo" />
-              <br />
-              Name: {item.name}
-              <br />
-              Functions: {item.functionalitiesAmount}
-              <br />
-              Start block: {item.startBlock}
-              <br />
-              ENS: {(item.ens && item.ens.toLowerCase() + '.') || ''}dfohub.eth
-              <br />
-              Token: {item.symbol}
-              <br />
-              Address: {item.walletAddress?.substring(0, 9) + '...'}
-              <Link to={`/organizations/${item.walletAddress}`}>View</Link>
-            </li>
-          )
-        })}
-      </ul>
-    </Card>
+    <Table
+      columns={columns}
+      rows={Object.keys(organizations).map((key) => ({
+        ...organizations[key],
+        ens: organizations[key].ensComplete,
+        address: organizations[key].dFO.options.address,
+        id: organizations[key].startBlock,
+      }))}
+    />
   )
 }
 

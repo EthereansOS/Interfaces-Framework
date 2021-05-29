@@ -53,7 +53,7 @@ Typography.propTypes = {
     'subtitle2',
   ]),
   color: T.string,
-  weight: T.oneOf(T.string, T.number),
+  weight: T.oneOfType([T.string, T.number]),
 }
 
 Typography.defaultProps = {
