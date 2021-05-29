@@ -2,29 +2,15 @@ import React, { useEffect } from 'react'
 import T from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card } from '@dfohub/design-system'
-import { useWeb3 } from '@dfohub/core'
+
+import useOrganizations from '../hooks/useOrganizations'
 
 const List = ({ setTemplateState }) => {
-  const { list, updateInfo, loadList } = useWeb3()
+  const { organizations, unsetOrganization } = useOrganizations()
 
   useEffect(() => {
-    const run = async () => {
-      if (list && Object.keys(list).length) {
-        for (const key of Object.keys(list)) {
-          const el = list[key]
-          if (el.updating || el.updated) {
-            continue
-          }
-          await updateInfo(el)
-        }
-      }
-    }
-    run()
-  }, [list, updateInfo])
-
-  useEffect(() => {
-    loadList()
-  }, [])
+    unsetOrganization()
+  }, [unsetOrganization])
 
   useEffect(() => {
     setTemplateState((s) => ({
@@ -38,8 +24,8 @@ const List = ({ setTemplateState }) => {
   return (
     <Card>
       <ul>
-        {Object.keys(list).map((key) => {
-          const item = list[key]
+        {Object.keys(organizations).map((key) => {
+          const item = organizations[key]
           return (
             <li key={item.key}>
               Icon: <img src={item.icon} alt="logo" />
@@ -54,10 +40,8 @@ const List = ({ setTemplateState }) => {
               <br />
               Token: {item.symbol}
               <br />
-              Address: {item.dFO.options.address.substring(0, 9) + '...'}
-              <Link to={`/organizations/${item.dFO.options.address}`}>
-                View
-              </Link>
+              Address: {item.walletAddress?.substring(0, 9) + '...'}
+              <Link to={`/organizations/${item.walletAddress}`}>View</Link>
             </li>
           )
         })}
