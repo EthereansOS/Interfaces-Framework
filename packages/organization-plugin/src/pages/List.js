@@ -5,7 +5,7 @@ import { Card } from '@dfohub/design-system'
 import { useWeb3 } from '@dfohub/core'
 
 const List = ({ setTemplateState }) => {
-  const { list, updateInfo } = useWeb3()
+  const { list, updateInfo, loadList } = useWeb3()
 
   useEffect(() => {
     const run = async () => {
@@ -21,6 +21,10 @@ const List = ({ setTemplateState }) => {
     }
     run()
   }, [list, updateInfo])
+
+  useEffect(() => {
+    loadList()
+  }, [])
 
   useEffect(() => {
     setTemplateState((s) => ({

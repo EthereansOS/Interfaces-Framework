@@ -12,9 +12,12 @@ const variantToTags = {
 }
 
 const Typography = (props) => {
-  const { children, variant, className, color } = props
+  const { children, variant, className, color, weight } = props
   const attr = {
     className: classNames(style.root, className),
+    style: {
+      ...(weight && { fontWeight: weight }),
+    },
   }
 
   if (['body1', 'body2', 'subtitle1', 'subtitle2'].includes(variant)) {
@@ -50,6 +53,7 @@ Typography.propTypes = {
     'subtitle2',
   ]),
   color: T.string,
+  weight: T.oneOf(T.string, T.number),
 }
 
 Typography.defaultProps = {

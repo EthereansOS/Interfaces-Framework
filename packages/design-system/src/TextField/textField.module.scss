@@ -1,21 +1,18 @@
-@import '../colors';
-@import '../constant';
-
 .root {
   display: flex;
   background-color: #292929;
   align-items: center;
-  padding: $unit * 2 $unit;
+  padding: calc(var(--unit) * 2) var(--unit);
 }
 
 .input {
   background-color: transparent;
   outline: 0;
   border: 0;
-  color: $color-text;
+  color: var(--color-text);
 
   &::placeholder  {
-    color: $color-default;
+    color: var(--color-default);
   }
 }
 

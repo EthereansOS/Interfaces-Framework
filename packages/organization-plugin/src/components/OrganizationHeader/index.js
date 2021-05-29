@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useOrganizationContext } from '../../OrganizationContext'
 import { OrganizationPropType } from '../../propTypes'
 
-import style from './organizationHeader.module.css'
+import style from './organizationHeader.module.scss'
 
 const OrganizationHeader = ({ organization }) => {
   const { isEditMode, setEditMode, setViewMode } = useOrganizationContext()

@@ -1,0 +1,9 @@
+.categoryWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: inherit;
+  font-weight: normal;
+}

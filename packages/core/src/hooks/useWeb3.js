@@ -13,17 +13,24 @@ export const Web3ContextProvider = ({ children }) => {
   const { context } = useInit()
 
   useEffect(() => {
-    const { onEthereumUpdate, connect, updateInfo } = initWeb3(
-      context,
-      setState
-    )
-    setMethods((s) => ({ ...s, onEthereumUpdate, connect, updateInfo }))
+    const { onEthereumUpdate, connect, updateInfo, formatLink, loadList } =
+      initWeb3(context, setState)
+    setMethods((s) => ({
+      ...s,
+      onEthereumUpdate,
+      connect,
+      updateInfo,
+      formatLink,
+      loadList,
+    }))
   }, [context])
 
   const values = {
     onEthereumUpdate: methods.onEthereumUpdate,
     connect: methods.connect,
     updateInfo: methods.updateInfo,
+    formatLink: methods.formatLink,
+    loadList: methods.loadList,
     ...state,
   }
 

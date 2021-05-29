@@ -1,7 +1,5 @@
-@import '../constant.scss';
-
 .root {
-  max-width: $container-width;
+  max-width: var(--container-width);
   box-sizing: border-box;
   margin: 0 auto;
 
