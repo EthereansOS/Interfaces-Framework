@@ -763,7 +763,13 @@ function initWeb3(context, setState) {
         ...s,
         list: {
           ...s.list,
-          [key]: { ...result, updating: false, updated: true },
+          [key]: {
+            key,
+            dFO: result,
+            updating: false,
+            updated: false,
+            startBlock: log.blockNumber,
+          },
         },
       }))
     }
@@ -872,6 +878,7 @@ function initWeb3(context, setState) {
     connect,
     updateInfo,
     loadList,
+    formatLink,
   }
 }
 

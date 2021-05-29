@@ -1,16 +1,18 @@
-@import '../colors';
-
 .root {
-  color: $color-text;
+  color: var(--color-text);
   &.primary {
-    color: $color-primary;
+    color: var(--color-primary);
   }
 
   &.secondary {
-    color: $color-secondary;
+    color: var(--color-secondary);
   }
 
   &.body1 {
-    font-size: 18px;
+    font-size: 14px;
+  }
+
+  &.body2 {
+    font-size: 12px;
   }
 }

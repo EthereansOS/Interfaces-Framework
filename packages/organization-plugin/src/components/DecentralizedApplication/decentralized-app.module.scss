@@ -1,0 +1,33 @@
+.cardTitle {
+  margin-bottom: calc(var(--unit) * 10);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: calc(var(--unit) * 5);
+  flex: 1;
+}
+
+h5 {
+  margin-bottom: calc(var(--unit) * 3);
+}
+.chip {
+  margin: var(--unit);
+}
+
+.description {
+  flex-basis: 35%;
+  margin-right: calc(var(--unit) * 5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.description strong {
+  font-weight: bold;
+}
+
+.description p {
+  margin-bottom: calc(var(--unit) * 2);
+}

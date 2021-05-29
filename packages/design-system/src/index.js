@@ -1,9 +1,12 @@
 import './reset.css'
-import './typography.scss'
+import './typography.css'
+import './theme.css'
 import Button from './Button'
 import Card from './Card'
 import Container from './Container'
 import Typography from './Typography'
 import TextField from './TextField'
+import Chip from './Chip'
+import Link from './Link'
 
-export { Button, Card, Container, Typography, TextField }
+export { Button, Card, Container, Typography, TextField, Chip, Link }

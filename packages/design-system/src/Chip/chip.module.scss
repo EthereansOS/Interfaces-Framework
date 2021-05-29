@@ -1,18 +1,15 @@
 .root {
-  background-color: var(--color-default);
   color: var(--color-text);
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  border: 0;
-  cursor: pointer;
 
   &.primary {
-    background-color: var(--color-primary);
+    background-color: var(--color-background-light);
   }
 
   &.secondary {
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
   }
 
   &.small {

@@ -1,0 +1,42 @@
+.cardTitle {
+  margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 150px;
+  margin-right: 50px;
+  align-self: center;
+}
+
+.bioWrapper {
+  flex: 1.5;
+  padding-top: 20px;
+}
+.bioWrapper p {
+  max-width: 80%;
+}
+.bioWrapper h5 {
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.links {
+  flex: 1;
+  padding-top: 20px;
+  flex-wrap: wrap;
+}
+.links > div:not(:first-child) h5 {
+  margin-top: calc(var(--unit) * 3);
+}
+.chip {
+  margin: var(--unit);
+}
+.categoryWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
