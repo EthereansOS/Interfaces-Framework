@@ -32,3 +32,4 @@ Apart from h variants, it'll render p HTML elements.
 | color      | One of ['primary', 'secondary'] or string                                                     |          |         | the color                                      |
 | fontFamily | One of ['primary', 'secondary'] or string                                                     |          |         | the font family                                |
 | weight     | string                                                                                        |          |         | the weight                                     |
+| as         | string                                                                                        |          |         | the html element to use                        |

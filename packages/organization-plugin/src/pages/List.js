@@ -3,6 +3,7 @@ import T from 'prop-types'
 import { Table, Typography, Link } from '@dfohub/design-system'
 
 import useOrganizations from '../hooks/useOrganizations'
+import ListControls from '../components/ListControls'
 
 const columns = [
   {
@@ -64,15 +65,18 @@ const List = ({ setTemplateState }) => {
   }, [setTemplateState])
 
   return (
-    <Table
-      columns={columns}
-      rows={Object.keys(organizations).map((key) => ({
-        ...organizations[key],
-        ens: organizations[key].ensComplete,
-        address: organizations[key].dFO.options.address,
-        id: organizations[key].startBlock,
-      }))}
-    />
+    <>
+      <ListControls />
+      <Table
+        columns={columns}
+        rows={Object.keys(organizations).map((key) => ({
+          ...organizations[key],
+          ens: organizations[key].ensComplete,
+          address: organizations[key].dFO.options.address,
+          id: organizations[key].startBlock,
+        }))}
+      />
+    </>
   )
 }
 
