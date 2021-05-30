@@ -14,7 +14,7 @@ const OrganizationHeader = ({ organization }) => {
     <header className={style.root}>
       <Container className={style.content}>
         <div className={style.leftContainer}>
-          <img src={organization.logo} className={style.logo} alt="logo" />
+          <img src={organization.icon} className={style.logo} alt="logo" />
           <Typography variant="h4" className={style.title}>
             {organization?.name}
           </Typography>

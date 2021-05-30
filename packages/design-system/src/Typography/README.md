@@ -25,8 +25,10 @@ Apart from h variants, it'll render p HTML elements.
 
 ## Props
 
-| Name      | Type                                                                                          | Required | Default | Description                                             |
-| --------- | --------------------------------------------------------------------------------------------- | -------- | ------- | ------------------------------------------------------- |
-| className | string                                                                                        |          |         | names of custom css classes separated by space          |
-| variant   | One of ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'body1', 'body2', 'subtitle1', 'subtitle2'] |          | h1      | type of typography                                      |
-| color     | string                                                                                        |          |         | can be "primary", "secondary" or a specific color code. |
+| Name       | Type                                                                                          | Required | Default | Description                                    |
+| ---------- | --------------------------------------------------------------------------------------------- | -------- | ------- | ---------------------------------------------- |
+| className  | string                                                                                        |          |         | names of custom css classes separated by space |
+| variant    | One of ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'body1', 'body2', 'subtitle1', 'subtitle2'] |          | h1      | type of typography                             |
+| color      | One of ['primary', 'secondary'] or string                                                     |          |         | the color                                      |
+| fontFamily | One of ['primary', 'secondary'] or string                                                     |          |         | the font family                                |
+| weight     | string                                                                                        |          |         | the weight                                     |

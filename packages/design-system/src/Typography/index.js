@@ -12,7 +12,7 @@ const variantToTags = {
 }
 
 const Typography = (props) => {
-  const { children, variant, className, color, weight } = props
+  const { children, variant, className, color, weight, fontFamily } = props
   const attr = {
     className: classNames(style.root, className),
     style: {
@@ -25,9 +25,13 @@ const Typography = (props) => {
   }
 
   if (['primary', 'secondary'].includes(color)) {
-    attr.className = classNames(attr.className, style[color])
+    attr.className = classNames(attr.className, style[`color-${color}`])
   } else {
     color && (attr.style = { color })
+  }
+
+  if (['primary', 'secondary'].includes(fontFamily)) {
+    attr.className = classNames(attr.className, style[`font-${fontFamily}`])
   }
 
   return React.createElement(variantToTags[variant] || variant, {
@@ -38,7 +42,7 @@ const Typography = (props) => {
 
 Typography.propTypes = {
   className: T.string,
-  children: T.oneOfType([T.arrayOf(T.node), T.node]).isRequired,
+  children: T.oneOfType([T.arrayOf(T.node), T.node]),
   variant: T.oneOf([
     'h1',
     'h2',
@@ -53,6 +57,7 @@ Typography.propTypes = {
     'subtitle2',
   ]),
   color: T.string,
+  fontFamily: T.string,
   weight: T.oneOfType([T.string, T.number]),
 }
 

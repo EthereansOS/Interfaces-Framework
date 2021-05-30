@@ -1,7 +1,9 @@
 import Overview from './pages/Overview'
 import DappState from './pages/DappState'
 import DappFunctions from './pages/DappFunctions'
-import DeFi from './pages/DeFi'
+import DeFiWallet from './pages/DeFiWallet'
+import DeFiFarming from './pages/DeFiFarming'
+import DeFiToken from './pages/DeFiToken'
 import Governance from './pages/Governance'
 import OrganizationInfo from './components/OrganizationInfo'
 import DecentralizedApplication from './components/DecentralizedApplication'
@@ -89,18 +91,64 @@ const initPlugin = ({ addElement }) => {
   addElement('organizationMenu', {
     name: 'defi',
     label: 'DeFi',
-    link: '/organizations/{{address}}/defi',
+    link: '/organizations/{{address}}/defi/wallet',
+    index: 20,
+  })
+  addElement('organizationSubMenuDeFi', {
+    name: 'wallet',
+    label: 'Wallet',
+    link: '/organizations/{{address}}/defi/wallet',
+    index: 10,
+  })
+  addElement('organizationSubMenuDeFi', {
+    name: 'token',
+    label: 'Token',
+    link: '/organizations/{{address}}/defi/token',
+    index: 20,
+  })
+  addElement('organizationSubMenuDeFi', {
+    name: 'farming',
+    label: 'Farming',
+    link: '/organizations/{{address}}/defi/farming',
     index: 30,
   })
 
   addElement('router', {
     index: 20,
-    path: '/organizations/:address/defi',
-    Component: DeFi,
+    path: '/organizations/:address/defi/wallet',
+    Component: DeFiWallet,
     exact: true,
     requireConnection: true,
     templateProps: {
-      selected: 'defi',
+      selected: 'defi/wallet',
+      showMenu: true,
+      showSubMenu: true,
+      showBeforeMenu: true,
+    },
+  })
+
+  addElement('router', {
+    index: 25,
+    path: '/organizations/:address/defi/token',
+    Component: DeFiToken,
+    exact: true,
+    requireConnection: true,
+    templateProps: {
+      selected: 'defi/token',
+      showMenu: true,
+      showSubMenu: true,
+      showBeforeMenu: true,
+    },
+  })
+
+  addElement('router', {
+    index: 30,
+    path: '/organizations/:address/defi/farming',
+    Component: DeFiFarming,
+    exact: true,
+    requireConnection: true,
+    templateProps: {
+      selected: 'defi/farming',
       showMenu: true,
       showSubMenu: true,
       showBeforeMenu: true,
@@ -111,7 +159,7 @@ const initPlugin = ({ addElement }) => {
     name: 'governance',
     label: 'Governance',
     link: '/organizations/{{address}}/governance',
-    index: 30,
+    index: 35,
   })
 
   addElement('router', {

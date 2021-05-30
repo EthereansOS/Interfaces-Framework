@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import T from 'prop-types'
-import { useWeb3 } from '@dfohub/core'
 import { Table, Typography, Link } from '@dfohub/design-system'
 
-import TableLink from '../components/shared/TableLink'
 import useOrganizations from '../hooks/useOrganizations'
 
 const columns = [
@@ -13,7 +11,7 @@ const columns = [
     renderCell: (props) => (
       <Link
         style={{ display: 'flex', alignItems: 'center' }}
-        to={`organizations/${props.row.address}`}>
+        to={`organizations/${props.row.walletAddress}`}>
         <img
           style={{ width: 35, marginRight: 25 }}
           src={props.value}
@@ -31,10 +29,22 @@ const columns = [
   {
     field: 'ens',
     headerName: 'ENS',
-    renderCell: TableLink,
+    renderCell: ({ value }) => (
+      <Link external href={`//${value}`}>
+        {value}
+      </Link>
+    ),
   },
-  { field: 'symbol', headerName: 'Token', renderCell: TableLink },
-  { field: 'address', headerName: 'Address', renderCell: TableLink },
+  { field: 'symbol', headerName: 'Token' },
+  {
+    field: 'address',
+    headerName: 'Address',
+    renderCell: ({ value }) => (
+      <Link external href={`https://ropsten.etherscan.io/address/${value}`}>
+        {value}
+      </Link>
+    ),
+  },
 ]
 
 const List = ({ setTemplateState }) => {

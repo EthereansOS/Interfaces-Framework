@@ -26,11 +26,11 @@
   background-color: var(--color-background-extra-dark);
 }
 
-.link a{
+li {
   text-decoration: none;
-  color: white;
+  color: #fff;
 }
 
 .selected {
-  background-color: #8653f6;
+  background-color: var(--color-primary);
 }

@@ -9,8 +9,10 @@ const item = {
 
 export const SampleOrganizationInfo = () => (
   <OrganizationInfo
-    bio="Example bio of the example organization"
-    content={{ More: [{ label: 'hi', href: 'https://www.google.it' }] }}
+    organization={{
+      metadataLink:
+        'http://gateway.ipfs.io/ipfs/Qmcu59PwH9yEpGUKCMDxR3bm35kQPQfggfvKRJxPRwFGJG',
+    }}
   />
 )
 

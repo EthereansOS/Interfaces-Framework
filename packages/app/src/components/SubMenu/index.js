@@ -27,13 +27,15 @@ function Menu(props) {
       <div className={style.menu}>
         <ul>
           {menuItems.map(({ label, link, name }) => (
-            <li
-              key={`${link}-${label}`}
-              className={classNames(style.link, {
-                [style.selected]: props.selected === name,
-              })}>
-              <Link to={resolveParams(link, params)}>{label}</Link>
-            </li>
+            <Link to={resolveParams(link, params)}>
+              <li
+                key={`${link}-${label}`}
+                className={classNames(style.link, {
+                  [style.selected]: props.selected === name,
+                })}>
+                {label}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

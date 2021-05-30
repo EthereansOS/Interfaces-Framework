@@ -8,6 +8,9 @@
   row-gap: calc(var(--unit) * 5);
   flex: 1;
 }
+.content strong {
+  font-weight: bold;
+}
 
 h5 {
   margin-bottom: calc(var(--unit) * 3);
@@ -30,4 +33,17 @@ h5 {
 
 .description p {
   margin-bottom: calc(var(--unit) * 2);
+}
+
+.assets {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+}
+
+.assetsText {
+  line-height: 2;
+}
+
+.assets p:not(:last-of-type) {
+  margin-bottom: calc(var(--unit) * 4);
 }
