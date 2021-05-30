@@ -2,18 +2,19 @@
 // - fromBlocks
 // - toBlock
 // - ?
-import getNetworkElement from './getNetwworkElement'
+import getNetworkElement from './getNetworkElement'
 
 const getLogs = async function (
   { web3, web3ForLogs, context, networkId },
   a,
   endOnFirstResult
 ) {
+  console.log(web3, web3ForLogs)
   const args = JSON.parse(JSON.stringify(a))
   const logs = []
   args.fromBlock =
     args.fromBlock ||
-    getNetworkElement(context, networkId, 'deploySearchStart') + ''
+    getNetworkElement({ context, networkId }, 'deploySearchStart') + ''
   args.toBlock = args.toBlock || (await web3.eth.getBlockNumber()) + ''
   const to = parseInt(args.toBlock)
   const fillWithWeb3Logs = async function (logs, args) {
@@ -39,3 +40,5 @@ const getLogs = async function (
   }
   return await fillWithWeb3Logs(logs, args)
 }
+
+export default getLogs

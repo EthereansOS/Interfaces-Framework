@@ -50,9 +50,9 @@ export const Web3ContextProvider = ({ children }) => {
   const values = {
     onEthereumUpdate: methods.onEthereumUpdate,
     connect: methods.connect,
-    updateInfo: methods.updateInfo,
     formatLink: methods.formatLink,
     loadList: methods.loadList,
+    updateInfo: getInfo,
     ...state,
   }
 
