@@ -4,15 +4,15 @@ import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
 
-const DeFi = ({ setTemplateState }) => {
+const DeFiToken = ({ setTemplateState }) => {
   const organizationOverview = usePlaceholder('organizationDeFi')
   const { organizationHeader, organization } = useOrganizationContext()
   useEffect(() => {
     setTemplateState((s) => ({
       ...s,
-      headerTitle: 'Organization DeFi',
+      headerTitle: 'Organization DeFi Token',
       mainMenu: 'organizationMenu',
-      mainSubMenu: null,
+      mainSubMenu: 'organizationSubMenuDeFi',
       beforeMenu: organizationHeader,
     }))
   }, [setTemplateState, organization, organizationHeader])
@@ -22,8 +22,8 @@ const DeFi = ({ setTemplateState }) => {
   ))
 }
 
-DeFi.propTypes = {
+DeFiToken.propTypes = {
   setTemplateState: T.func.isRequired,
 }
 
-export default DeFi
+export default DeFiToken

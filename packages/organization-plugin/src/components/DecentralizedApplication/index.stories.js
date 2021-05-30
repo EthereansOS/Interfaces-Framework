@@ -10,7 +10,7 @@ const item = {
 
 export const SampleDecentralizedApplication = () => (
   <HashRouter>
-    <DecentralizedApplication />
+    <DecentralizedApplication organization={{ walletAddress: '0xaa' }} />
   </HashRouter>
 )
 

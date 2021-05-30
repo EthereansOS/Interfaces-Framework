@@ -8,7 +8,7 @@ function Header() {
     <header className={style.root}>
       <Container className={style.content}>
         <div className={style.leftContainer}>
-          <Typography variant="h4">
+          <Typography variant="h4" fontFamily="secondary">
             👻 <span className={style.title}>DFO</span>
             hub
           </Typography>

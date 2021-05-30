@@ -3,36 +3,72 @@ import T from 'prop-types'
 import { Card, Typography, Chip, Link } from '@dfohub/design-system'
 
 import Section from '../shared/Section'
+import useOrganizationMetadata from '../../hooks/useOrganizationMetadata'
+import { OrganizationPropType } from '../../propTypes'
 
 import style from './organization-info.module.scss'
 
-function OrganizationInfo({ bio, logo, content }) {
-  const contentCategories = content && Object.keys(content)
+function OrganizationInfo({ organization }) {
+  const { metadata } = useOrganizationMetadata(organization?.metadataLink)
 
   return (
     <Card as="article">
-      <Typography variant="h2" color="primary" className={style.cardTitle}>
+      <Typography
+        fontFamily="secondary"
+        variant="h2"
+        color="primary"
+        className={style.cardTitle}>
         Organization Info
       </Typography>
       <div className={style.content}>
-        <img src={logo} className={style.logo} alt="org logo" />
+        <img src={organization?.icon} className={style.logo} alt="org logo" />
         <div className={style.bioWrapper}>
           <Typography variant="h5">bio</Typography>
-          <Typography variant="body2">{bio}</Typography>
+          <Typography variant="body2">{metadata?.shortDescription}</Typography>
         </div>
-        {contentCategories?.length > 0 && (
-          <div className={style.links}>
-            {contentCategories.map((cat, i) => (
-              <Section key={i} category={cat}>
-                {content[cat].map(({ to, label, href }, i) => (
-                  <Link href={href} to={to} key={i} external>
-                    <Chip className={style.chip} size="small" label={label} />
-                  </Link>
-                ))}
-              </Section>
-            ))}
-          </div>
-        )}
+        <div className={style.links}>
+          <Section category="More">
+            {metadata?.wpUri && (
+              <Link href={metadata?.wpUri} external>
+                <Chip className={style.chip} size="small" label="Explainer" />
+              </Link>
+            )}
+            {metadata?.roadmapUri && (
+              <Link href={metadata.roadmapUri} external>
+                <Chip className={style.chip} size="small" label="Roadmap" />
+              </Link>
+            )}
+            {metadata?.repoUri && (
+              <Link href={metadata?.repoUri} external>
+                <Chip className={style.chip} size="small" label="Ext. repo" />
+              </Link>
+            )}
+            {metadata?.discussionUri && (
+              <Link href={metadata?.discussionUri} external>
+                <Chip className={style.chip} size="small" label="Discussion" />
+              </Link>
+            )}
+          </Section>
+          <Section category="Secure Domain">
+            {metadata?.externalENS && (
+              <Link href={`//${metadata.externalDNS}`} external>
+                <Chip className={style.chip} size="small" label="ENS Link" />
+              </Link>
+            )}
+          </Section>
+          <Section category="External Domains">
+            {metadata?.externalDNS && (
+              <Link href={`//${metadata.externalDNS}`} external>
+                <Chip className={style.chip} size="small" label="DNS Link" />
+              </Link>
+            )}
+            {metadata?.externalENS && (
+              <Link href={`//${metadata?.externalENS}`} external>
+                <Chip className={style.chip} size="small" label="ENS Link" />
+              </Link>
+            )}
+          </Section>
+        </div>
       </div>
     </Card>
   )
@@ -41,14 +77,5 @@ function OrganizationInfo({ bio, logo, content }) {
 export default OrganizationInfo
 
 OrganizationInfo.propTypes = {
-  bio: T.string,
-  avatar: T.string,
-  logo: T.string,
-  content: T.shape({
-    [T.string]: T.arrayOf({
-      label: T.string.isRequired,
-      href: T.string,
-      to: T.string,
-    }),
-  }),
+  organization: OrganizationPropType,
 }
