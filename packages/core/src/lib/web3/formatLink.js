@@ -1,4 +1,4 @@
-function formatLink(context, link) {
+function formatLink({ context }, link) {
   link = link ? (link instanceof Array ? link[0] : link) : ''
   if (link.indexOf('assets') === 0 || link.indexOf('/assets') === 0) {
     return link

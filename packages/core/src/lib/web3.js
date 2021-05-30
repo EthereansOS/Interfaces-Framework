@@ -40,7 +40,7 @@ function initWeb3(context, setState) {
   const loadDFO = async function loadDFO(address, allAddresses) {
     allAddresses = allAddresses || []
     allAddresses.push(address)
-    const dfo = newContract(web3, context.proxyAbi, address)
+    const dfo = newContract({ web3 }, context.proxyAbi, address)
     let votingToken
 
     try {
@@ -69,7 +69,7 @@ function initWeb3(context, setState) {
 
     try {
       await blockchainCall(
-        newContract(web3, context.votingTokenAbi, votingToken).methods.name
+        newContract({ web3 }, context.votingTokenAbi, votingToken).methods.name
       )
     } catch (e) {
       votingToken = undefined
@@ -109,7 +109,11 @@ function initWeb3(context, setState) {
   // - toBlock
   // - ?
   const getLogs = async function (a, endOnFirstResult) {
-    return getLogsFn(web3, web3ForLogs, context, networkId, a, endOnFirstResult)
+    return getLogsFn(
+      { web3, web3ForLogs, context, networkId },
+      a,
+      endOnFirstResult
+    )
   }
 
   function onEthereumUpdate(millis, newConnection) {
@@ -158,13 +162,13 @@ function initWeb3(context, setState) {
             const dfo = loadDFO(getNetworkElement('dfoAddress'))
             // window.loadOffChainWallets();
             const ENSController = newContract(
-              web3,
+              { web3 },
               context.ENSAbi,
               context.ensAddress
             )
             try {
               dfoHubENSResolver = newContract(
-                web3,
+                { web3 },
                 context.resolverAbi,
                 await blockchainCall(
                   ENSController.methods.resolver,
@@ -173,12 +177,12 @@ function initWeb3(context, setState) {
               )
             } catch (e) {}
             uniswapV2Factory = newContract(
-              web3,
+              { web3 },
               context.uniSwapV2FactoryAbi,
               context.uniSwapV2FactoryAddress
             )
             uniswapV2Router = newContract(
-              web3,
+              { web3 },
               context.uniSwapV2RouterAbi,
               context.uniSwapV2RouterAddress
             )
@@ -236,11 +240,11 @@ function initWeb3(context, setState) {
   }
 
   function getNetworkElement(element) {
-    return getNetworkElementFn(context, networkId, element)
+    return getNetworkElementFn({ context, networkId }, element)
   }
 
   async function blockchainCall(value, oldCall) {
-    return blockchainCallFn(web3, context, value, oldCall)
+    return blockchainCallFn({ web3, context }, value, oldCall)
   }
 
   // This updates the element info reading from the blockchain
@@ -309,7 +313,7 @@ function initWeb3(context, setState) {
     }
 
     newElement.token = newContract(
-      web3,
+      { web3 },
       context.votingTokenAbi,
       votingTokenAddress
     )
@@ -321,7 +325,7 @@ function initWeb3(context, setState) {
     try {
       newElement.metadata = await window.AJAXRequest(
         formatLink(
-          context,
+          { context },
           (newElement.metadataLink = web3.eth.abi.decodeParameter(
             'string',
             await blockchainCall(
@@ -340,12 +344,12 @@ function initWeb3(context, setState) {
       newElement.token.methods.decimals
     )
     newElement.stateHolder = newContract(
-      web3,
+      { web3 },
       context.stateHolderAbi,
       stateHolderAddress
     )
     newElement.functionalitiesManager = newContract(
-      web3,
+      { web3 },
       context.functionalitiesManagerAbi,
       functionalitiesManagerAddress
     )

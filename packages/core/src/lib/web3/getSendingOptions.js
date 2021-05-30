@@ -1,10 +1,10 @@
 import { getAddress } from './getAddress'
 
-function getSendingOptions(web3, transaction, value) {
+function getSendingOptions({ web3 }, transaction, value) {
   return new Promise(async function (resolve, reject) {
     let walletAddress
     if (transaction) {
-      walletAddress = await getAddress(web3)
+      walletAddress = await getAddress({ web3 })
       const from = walletAddress
       const nonce = await web3.eth.getTransactionCount(from)
       // TODO I can't find the code that sets window.bypassEstimation in the production code, so I guess is always undefined

@@ -6,7 +6,7 @@ export const resetContracts = () => {
   allContracts = {}
 }
 
-export const newContract = (web3, abi, address) => {
+export const newContract = ({ web3 }, abi, address) => {
   let key = web3.utils.sha3(JSON.stringify(abi))
   const contracts = (allContracts[key] = allContracts[key] || {})
   address = address || voidEthereumAddress

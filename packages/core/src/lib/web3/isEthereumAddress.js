@@ -1,4 +1,4 @@
-function isEthereumAddress(web3, ad) {
+function isEthereumAddress({ web3 }, ad) {
   if (ad === undefined || ad === null) {
     return false
   }

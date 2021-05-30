@@ -5,10 +5,7 @@
 import getNetworkElement from './getNetwworkElement'
 
 const getLogs = async function (
-  web3,
-  web3ForLogs,
-  context,
-  networkId,
+  { web3, web3ForLogs, context, networkId },
   a,
   endOnFirstResult
 ) {

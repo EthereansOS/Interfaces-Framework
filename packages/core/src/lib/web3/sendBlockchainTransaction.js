@@ -1,8 +1,7 @@
 import getSendingOptions from './getSendingOptions'
 
 const sendBlockchainTransaction = function sendBlockchainTransaction(
-  web3,
-  context,
+  { web3, context },
   value,
   transaction
 ) {
@@ -16,7 +15,7 @@ const sendBlockchainTransaction = function sendBlockchainTransaction(
     try {
       ;(transaction = transaction.send
         ? transaction.send(
-            await getSendingOptions(web3, transaction, value),
+            await getSendingOptions({ web3 }, transaction, value),
             handleTransactionError
           )
         : transaction)
