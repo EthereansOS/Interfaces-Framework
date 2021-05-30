@@ -1,5 +1,6 @@
 .root {
   width: 100%;
+  margin: calc(var(--unit) * 8) 0;
 }
 
 .root tbody > tr {

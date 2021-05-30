@@ -12,7 +12,7 @@ const variantToTags = {
 }
 
 const Typography = (props) => {
-  const { children, variant, className, color, weight, fontFamily } = props
+  const { children, variant, className, color, weight, fontFamily, as } = props
   const attr = {
     className: classNames(style.root, className),
     style: {
@@ -34,7 +34,7 @@ const Typography = (props) => {
     attr.className = classNames(attr.className, style[`font-${fontFamily}`])
   }
 
-  return React.createElement(variantToTags[variant] || variant, {
+  return React.createElement(as || variantToTags[variant] || variant, {
     ...attr,
     children,
   })
@@ -59,6 +59,7 @@ Typography.propTypes = {
   color: T.string,
   fontFamily: T.string,
   weight: T.oneOfType([T.string, T.number]),
+  as: T.string,
 }
 
 Typography.defaultProps = {

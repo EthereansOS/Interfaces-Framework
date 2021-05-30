@@ -1,0 +1,13 @@
+.root {
+  display: inline-block;
+  padding: calc(var(--unit) * 2) calc(var(--unit) * 3);
+  background-color: var(--color-background-black);
+  border-radius: calc(var(--unit) * 2);
+  align-items: center;
+  display: flex;
+  margin: var(--unit);
+}
+
+.root > span {
+  margin-right: calc(var(--unit) * 2);
+}

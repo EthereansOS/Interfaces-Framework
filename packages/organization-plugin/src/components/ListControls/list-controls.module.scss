@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  background-color: var(--color-background-black);
+  color: var(--color-text);
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+}
