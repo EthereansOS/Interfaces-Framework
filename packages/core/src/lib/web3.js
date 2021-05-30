@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 import nameHash from 'eth-ens-namehash'
-import Web3 from 'web3'
 import makeBlockie from 'ethereum-blockies-base64'
 
 export const CONNECTING = 'connecting'
@@ -14,6 +13,13 @@ export const DFO_DEPLOYED_EVENT = 'DFODeployed(address_indexed,address)'
 export const NEW_DFO_DEPLOYED_EVENT =
   'DFODeployed(address_indexed,address_indexed,address,address)'
 
+import blockchainCallFn from './web3/blockchainCall'
+import formatLink from './web3/formatLink'
+import createWeb3 from './web3/createWeb3'
+import getNetworkElementFn from './web3/getNetworkElement'
+import getLogsFn from './web3/getLogs'
+import { resetContracts, newContract } from './web3/contracts'
+
 function initWeb3(context, setState) {
   const voidEthereumAddress = '0x0000000000000000000000000000000000000000'
 
@@ -21,7 +27,6 @@ function initWeb3(context, setState) {
   let networkId
   let web3ForLogs
   // This is a map with all the contracts
-  let allContracts = {}
   let proxyChangedTopic
   let dfoHubENSResolver = null
   let uniswapV2Factory = null
@@ -32,26 +37,10 @@ function initWeb3(context, setState) {
   let walletAvatar = null
   let dfoEvent = null
 
-  // Creates a new contract object from the `abi` and the address
-  // ABI is the interface.
-  const newContract = (abi, address) => {
-    let key = web3.utils.sha3(JSON.stringify(abi))
-    const contracts = (allContracts[key] = allContracts[key] || {})
-    address = address || voidEthereumAddress
-    key = address.toLowerCase()
-    contracts[key] =
-      contracts[key] ||
-      new web3.eth.Contract(
-        abi,
-        address === voidEthereumAddress ? undefined : address
-      )
-    return contracts[key]
-  }
-
   const loadDFO = async function loadDFO(address, allAddresses) {
     allAddresses = allAddresses || []
     allAddresses.push(address)
-    const dfo = newContract(context.proxyAbi, address)
+    const dfo = newContract(web3, context.proxyAbi, address)
     let votingToken
 
     try {
@@ -80,7 +69,7 @@ function initWeb3(context, setState) {
 
     try {
       await blockchainCall(
-        newContract(context.votingTokenAbi, votingToken).methods.name
+        newContract(web3, context.votingTokenAbi, votingToken).methods.name
       )
     } catch (e) {
       votingToken = undefined
@@ -120,34 +109,7 @@ function initWeb3(context, setState) {
   // - toBlock
   // - ?
   const getLogs = async function (a, endOnFirstResult) {
-    const args = JSON.parse(JSON.stringify(a))
-    const logs = []
-    args.fromBlock =
-      args.fromBlock || getNetworkElement('deploySearchStart') + ''
-    args.toBlock = args.toBlock || (await web3.eth.getBlockNumber()) + ''
-    const to = parseInt(args.toBlock)
-    const fillWithWeb3Logs = async function (logs, args) {
-      if (web3.currentProvider === web3ForLogs.currentProvider) {
-        return logs
-      }
-      const newArgs = {}
-      Object.entries(args).forEach((entry) => (newArgs[entry[0]] = entry[1]))
-      newArgs.fromBlock = web3.startBlock
-      newArgs.toBlock = 'latest'
-      logs.push(...(await web3.eth.getPastLogs(newArgs)))
-      return logs
-    }
-    while (isNaN(to) || parseInt(args.fromBlock) <= to) {
-      let newTo = parseInt(args.fromBlock) + context.blockSearchSection
-      newTo = newTo <= to ? newTo : to
-      args.toBlock = isNaN(newTo) ? args.toBlock : newTo + ''
-      logs.push(...(await web3ForLogs.eth.getPastLogs(args)))
-      if (isNaN(to) || (logs.length > 0 && endOnFirstResult === true)) {
-        return await fillWithWeb3Logs(logs, args)
-      }
-      args.fromBlock = parseInt(args.toBlock) + 1 + ''
-    }
-    return await fillWithWeb3Logs(logs, args)
+    return getLogsFn(web3, web3ForLogs, context, networkId, a, endOnFirstResult)
   }
 
   function onEthereumUpdate(millis, newConnection) {
@@ -160,7 +122,7 @@ function initWeb3(context, setState) {
         async function () {
           let update = false
           if (!networkId || networkId !== parseInt(window.ethereum.chainId)) {
-            allContracts = {}
+            resetContracts()
             window.ethereum &&
               (window.ethereum.enable = () =>
                 window.ethereum.request({ method: 'eth_requestAccounts' }))
@@ -196,11 +158,13 @@ function initWeb3(context, setState) {
             const dfo = loadDFO(getNetworkElement('dfoAddress'))
             // window.loadOffChainWallets();
             const ENSController = newContract(
+              web3,
               context.ENSAbi,
               context.ensAddress
             )
             try {
               dfoHubENSResolver = newContract(
+                web3,
                 context.resolverAbi,
                 await blockchainCall(
                   ENSController.methods.resolver,
@@ -209,10 +173,12 @@ function initWeb3(context, setState) {
               )
             } catch (e) {}
             uniswapV2Factory = newContract(
+              web3,
               context.uniSwapV2FactoryAbi,
               context.uniSwapV2FactoryAddress
             )
             uniswapV2Router = newContract(
+              web3,
               context.uniSwapV2RouterAbi,
               context.uniSwapV2RouterAddress
             )
@@ -252,7 +218,6 @@ function initWeb3(context, setState) {
             web3,
             networkId,
             web3ForLogs,
-            allContracts,
             proxyChangedTopic,
             dfoHubENSResolver,
             uniswapV2Factory,
@@ -270,197 +235,12 @@ function initWeb3(context, setState) {
     })
   }
 
-  async function createWeb3(connectionProvider) {
-    const web3 = new Web3(connectionProvider)
-    web3.currentProvider.setMaxListeners &&
-      web3.currentProvider.setMaxListeners(0)
-    web3.eth.transactionBlockTimeout = 999999999
-    web3.eth.transactionPollingTimeout = new Date().getTime()
-    web3.startBlock = await web3.eth.getBlockNumber()
-    return web3
-  }
-
-  const getNetworkElement = function getNetworkElement(element) {
-    // TODO: fixeme: hoow this work if it;s a number when set networkId?
-    // https://github.com/EthereansOS/Organizations-Interface/blob/master/assets/scripts/script.js#L260
-    const network = context.ethereumNetwork[networkId]
-    if (network === undefined || network === null) {
-      return
-    }
-    return context[element + network]
-  }
-
-  function isEthereumAddress(ad) {
-    if (ad === undefined || ad === null) {
-      return false
-    }
-    let address = ad.split(' ').join('')
-    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-      return false
-    } else if (
-      /^(0x)?[0-9a-f]{40}$/.test(address) ||
-      /^(0x)?[0-9A-F]{40}$/.test(address)
-    ) {
-      return true
-    } else {
-      address = address.replace('0x', '')
-      const addressHash = web3.utils.sha3(address.toLowerCase())
-      for (let i = 0; i < 40; i++) {
-        if (
-          (parseInt(addressHash[i], 16) > 7 &&
-            address[i].toUpperCase() !== address[i]) ||
-          (parseInt(addressHash[i], 16) <= 7 &&
-            address[i].toLowerCase() !== address[i])
-        ) {
-          //return false;
-        }
-      }
-    }
-    return true
-  }
-
-  async function getAddress() {
-    await window.ethereum.enable()
-    return (walletAddress = (await web3.eth.getAccounts())[0])
-  }
-
-  function getSendingOptions(transaction, value) {
-    return new Promise(async function (ok, ko) {
-      if (transaction) {
-        const from = await getAddress()
-        const nonce = await web3.eth.getTransactionCount(from)
-        // TODO I can't find the code that sets window.bypassEstimation in the production code, so I guess is always undefined
-        // return window.bypassEstimation
-        return undefined
-          ? ok({
-              nonce,
-              from,
-              // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
-              // gas: window.gasLimit || '7900000',
-              gas: '7900000',
-              value,
-            })
-          : transaction.estimateGas(
-              {
-                nonce,
-                from,
-                gasPrice: web3.utils.toWei('13', 'gwei'),
-                value,
-                gas: '7900000',
-                gasLimit: '7900000',
-              },
-              function (error, gas) {
-                if (error) {
-                  return ko(error.message || error)
-                }
-                return ok({
-                  nonce,
-                  from,
-                  // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
-                  // gas: gas || window.gasLimit || '7900000',
-                  gas: gas || '7900000',
-                  value,
-                })
-              }
-            )
-      }
-      return ok({
-        from: walletAddress || null,
-        // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
-        // gas: window.gasLimit || '99999999',
-        gas: '99999999',
-      })
-    })
+  function getNetworkElement(element) {
+    return getNetworkElementFn(context, networkId, element)
   }
 
   async function blockchainCall(value, oldCall) {
-    const args = []
-    const call = value !== undefined && isNaN(value) ? value : oldCall
-    for (let i = value === call ? 1 : 2; i < arguments.length; i++) {
-      args.push(arguments[i])
-    }
-    value = isNaN(value) ? undefined : value
-    const method = (
-      call.implementation ? call.get : call.new ? call.new : call
-    ).apply(call, args)
-    return method._method.stateMutability === 'view' ||
-      method._method.stateMutability === 'pure'
-      ? method.call(await getSendingOptions())
-      : sendBlockchainTransaction(value, method)
-  }
-
-  const sendBlockchainTransaction = function sendBlockchainTransaction(
-    value,
-    transaction
-  ) {
-    return new Promise(async function (ok, ko) {
-      const handleTransactionError = function handleTransactionError(e) {
-        e !== undefined &&
-          e !== null &&
-          (e.message || e).indexOf('not mined within') === -1 &&
-          ko(e)
-      }
-      try {
-        ;(transaction = transaction.send
-          ? transaction.send(
-              await getSendingOptions(transaction, value),
-              handleTransactionError
-            )
-          : transaction)
-          .on('transactionHash', (transactionHash) => {
-            // TODO implement publish to transaction/start
-            // $.publish('transaction/start')
-            const stop = function () {
-              // TODO implement unsubscribe to transaction/stop
-              // $.unsubscribe('transaction/stop', stop)
-              handleTransactionError('stopped')
-            }
-            // TODO implement subscribe to transaction/stop
-            // $.subscribe('transaction/stop', stop)
-            const timeout = async function () {
-              const receipt = await web3.eth.getTransactionReceipt(
-                transactionHash
-              )
-              if (
-                !receipt ||
-                !receipt.blockNumber ||
-                (await web3.eth.getBlockNumber()) <
-                  receipt.blockNumber + (context.transactionConfirmations || 0)
-              ) {
-                return setTimeout(
-                  timeout,
-                  context.transactionConfirmationsTimeoutMillis
-                )
-              }
-              // TODO implement unsubscribe to transaction/stop
-              // $.unsubscribe('transaction/stop', stop)
-              return transaction.then(ok)
-            }
-            setTimeout(timeout)
-          })
-          .catch(handleTransactionError)
-      } catch (e) {
-        return handleTransactionError(e)
-      }
-    })
-  }
-
-  function formatLink(link) {
-    link = link ? (link instanceof Array ? link[0] : link) : ''
-    if (link.indexOf('assets') === 0 || link.indexOf('/assets') === 0) {
-      return link
-    }
-    for (var temp of context.ipfsUrlTemplates) {
-      link = link.split(temp).join(context.ipfsUrlChanger)
-    }
-    while (link && link.startsWith('/')) {
-      link = link.substring(1)
-    }
-    return (!link ? '' : link.indexOf('http') === -1 ? 'https://' + link : link)
-      .split('https:')
-      .join('')
-      .split('http:')
-      .join('')
+    return blockchainCallFn(web3, context, value, oldCall)
   }
 
   // This updates the element info reading from the blockchain
@@ -528,7 +308,11 @@ function initWeb3(context, setState) {
       } catch (e) {}
     }
 
-    newElement.token = newContract(context.votingTokenAbi, votingTokenAddress)
+    newElement.token = newContract(
+      web3,
+      context.votingTokenAbi,
+      votingTokenAddress
+    )
     newElement.name = await blockchainCall(newElement.token.methods.name)
     newElement.symbol = await blockchainCall(newElement.token.methods.symbol)
     newElement.totalSupply = await blockchainCall(
@@ -537,6 +321,7 @@ function initWeb3(context, setState) {
     try {
       newElement.metadata = await window.AJAXRequest(
         formatLink(
+          context,
           (newElement.metadataLink = web3.eth.abi.decodeParameter(
             'string',
             await blockchainCall(
@@ -555,10 +340,12 @@ function initWeb3(context, setState) {
       newElement.token.methods.decimals
     )
     newElement.stateHolder = newContract(
+      web3,
       context.stateHolderAbi,
       stateHolderAddress
     )
     newElement.functionalitiesManager = newContract(
+      web3,
       context.functionalitiesManagerAbi,
       functionalitiesManagerAddress
     )
@@ -776,6 +563,7 @@ function initWeb3(context, setState) {
 
     return logs
   }
+
   // ************************************************************
 
   async function getDFOLogs(args) {
