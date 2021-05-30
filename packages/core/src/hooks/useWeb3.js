@@ -13,18 +13,40 @@ export const Web3ContextProvider = ({ children }) => {
   const { context } = useInit()
 
   useEffect(() => {
-    const { onEthereumUpdate, connect, updateInfo, formatLink, loadList } =
+    const { onEthereumUpdate, connect, getInfo, formatLink, loadList } =
       initWeb3(context, setState)
     setMethods((s) => ({
       ...s,
       onEthereumUpdate,
       connect,
-      updateInfo,
+      getInfo,
       formatLink,
       loadList,
     }))
   }, [context])
 
+  const getInfo = async (element) => {
+    if (!element || element.updating) {
+      return
+    }
+    setState((s) => ({
+      ...s,
+      list: {
+        ...s.list,
+        [element.key]: { ...element, updating: true },
+      },
+    }))
+
+    const newElement = await methods.getInfo(element)
+
+    setState((s) => ({
+      ...s,
+      list: {
+        ...s.list,
+        [newElement.key]: { ...newElement, updating: false, updated: true },
+      },
+    }))
+  }
   const values = {
     onEthereumUpdate: methods.onEthereumUpdate,
     connect: methods.connect,
