@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card, Typography, Chip, Link } from '@dfohub/design-system'
+import { tokenPercentage } from '@dfohub/core'
 
 import Section from '../shared/Section'
-import { tokenPercentage } from '../../utils'
 import { OrganizationPropType } from '../../propTypes'
 
 import style from './rules-and-funds.module.scss'
