@@ -20,13 +20,10 @@ describe('web3', () => {
   })
 
   it('init web3 with the correct functions', async () => {
-    const { onEthereumUpdate, connect, updateInfo } = initWeb3(
-      context,
-      setState
-    )
+    const { onEthereumUpdate, connect, getInfo } = initWeb3(context, setState)
     expect(onEthereumUpdate).toBeInstanceOf(Function)
     expect(connect).toBeInstanceOf(Function)
-    expect(updateInfo).toBeInstanceOf(Function)
+    expect(getInfo).toBeInstanceOf(Function)
     expect(setState).not.toHaveBeenCalled()
   })
 
@@ -34,10 +31,10 @@ describe('web3', () => {
     it('specify the correct status when connecting', async () => {
       const { connect } = initWeb3(context, setState)
       await connect()
-      expect(setState).toHaveBeenCalledTimes(3)
+      expect(setState).toHaveBeenCalledTimes(2)
       const firstSetState = setState.mock.calls[0][0]()
       expect(firstSetState.connectionStatus).toEqual(CONNECTING)
-      const thirdSetState = setState.mock.calls[2][0]()
+      const thirdSetState = setState.mock.calls[1][0]()
       expect(thirdSetState.connectionStatus).toEqual(CONNECTED)
       expect(thirdSetState.web3).toBeTruthy()
     })
@@ -45,7 +42,7 @@ describe('web3', () => {
     it('set the DFO contract data when connecting', async () => {
       const { connect } = initWeb3(context, setState)
       await connect()
-      expect(setState).toHaveBeenCalledTimes(3)
+      expect(setState).toHaveBeenCalledTimes(2)
       const secondSetState = setState.mock.calls[1][0]()
       expect(secondSetState.list.DFO.key).toEqual('DFO')
       expect(secondSetState.list.DFO.dFO).toBeTruthy()
@@ -55,8 +52,8 @@ describe('web3', () => {
     it('set the web3 object when connecting', async () => {
       const { connect } = initWeb3(context, setState)
       await connect()
-      expect(setState).toHaveBeenCalledTimes(3)
-      const thirdSetState = setState.mock.calls[2][0]()
+      expect(setState).toHaveBeenCalledTimes(2)
+      const thirdSetState = setState.mock.calls[1][0]()
       expect(thirdSetState.web3).toBeTruthy()
     })
   })
@@ -69,6 +66,6 @@ describe('web3', () => {
       await loadList()
       expect(setState).toHaveBeenCalledTimes(4)
       // TODO: add assert on state changes
-    })
+    }, 25000)
   })
 })

@@ -1,7 +1,3 @@
-// a:
-// - fromBlocks
-// - toBlock
-// - ?
 import getNetworkElement from './getNetworkElement'
 
 const getLogs = async function (
@@ -9,7 +5,6 @@ const getLogs = async function (
   a,
   endOnFirstResult
 ) {
-  console.log(web3, web3ForLogs)
   const args = JSON.parse(JSON.stringify(a))
   const logs = []
   args.fromBlock =

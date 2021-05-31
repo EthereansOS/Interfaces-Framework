@@ -57,10 +57,6 @@ async function initConnection(environment, onUpdate) {
     // delete window.tokensList
     // delete window.loadedTokens
 
-    const dfo = loadDFO(
-      { web3, web3ForLogs, context, networkId },
-      getNetworkElement({ context, networkId }, 'dfoAddress')
-    )
     // window.loadOffChainWallets();
     const ENSController = newContract(
       { web3 },
@@ -91,32 +87,33 @@ async function initConnection(environment, onUpdate) {
     wethAddress = web3.utils.toChecksumAddress(
       await blockchainCall({ web3, context }, uniswapV2Router.methods.WETH)
     )
-    const list = {
-      DFO: {
-        key: 'DFO',
-        dFO: await dfo,
-        startBlock: getNetworkElement(
-          { context, networkId },
-          'deploySearchStart'
-        ),
-      },
+
+    const dfo = await loadDFO(
+      { web3, web3ForLogs, context, networkId },
+      getNetworkElement({ context, networkId }, 'dfoAddress')
+    )
+
+    dfoHub = {
+      key: 'DFO',
+      dFO: dfo,
+      startBlock: getNetworkElement(
+        { context, networkId },
+        'deploySearchStart'
+      ),
     }
-    dfoHub = list.DFO
+
     update = true
   }
 
-  try {
-    walletAddress = (await web3.eth.getAccounts())[0]
-  } catch (e) {
-    console.log(e)
-    walletAddress = null
-  }
+  const accounts = await web3.eth.getAccounts()
+  walletAddress = accounts && accounts.length > 0 ? accounts[0] : null
+  walletAvatar = walletAddress ? makeBlockie(walletAddress) : null
 
-  try {
-    walletAvatar = makeBlockie(walletAddress)
-  } catch (e) {
-    console.log(e)
-  }
+  // TODO: fixme
+  // Questo c'era sull'originale: https://github.com/EthereansOS/Organizations-Interface/blob/master/assets/scripts/script.js#L243
+  // non dobbiamo usare jquery
+  // update && $.publish('ethereum/update');
+  // $.publish('ethereum/ping');
 
   return {
     web3,
@@ -130,6 +127,9 @@ async function initConnection(environment, onUpdate) {
     dfoHub,
     walletAddress,
     walletAvatar,
+    list: {
+      DFO: dfoHub,
+    },
   }
 }
 

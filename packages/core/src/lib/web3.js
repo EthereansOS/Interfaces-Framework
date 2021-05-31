@@ -37,6 +37,7 @@ function initWeb3(context, setState) {
   let walletAddress = null
   let walletAvatar = null
   let dfoEvent = null
+  const alreadyLoadedDFOs = {}
 
   const loadDFO = async function loadDFO(
     { web3, web3ForLogs, context, networkId },
@@ -154,7 +155,7 @@ function initWeb3(context, setState) {
         onEthereumUpdate
       )
 
-      console.log(newState)
+      // console.log(newState)
 
       web3 = newState.web3
       networkId = newState.networkId
@@ -169,7 +170,7 @@ function initWeb3(context, setState) {
       walletAvatar = newState.walletAvatar
 
       // TODO FIx the list init
-      setState((s) => ({
+      setState((s = {}) => ({
         ...s,
         ...newState,
         list: !s.list || !Object.keys(s.list).length ? { DFO: dfoHub } : s.list,
@@ -210,7 +211,7 @@ function initWeb3(context, setState) {
   // toBlock === window.getNetworkElement('deploySearchStart')
   async function loadList(topics, toBlock, lastBlockNumber) {
     if (toBlock === getNetworkElement('deploySearchStart')) {
-      console.log('Return', getNetworkElement('deploySearchStart'))
+      // console.log('Return', getNetworkElement('deploySearchStart'))
       return
     }
     const lastEthBlock = await await web3.eth.getBlockNumber()
@@ -278,22 +279,23 @@ function initWeb3(context, setState) {
       toBlock: '' + toBlock,
     })
 
-    // PORCATA TEMPORANEA
     for (const [index, log] of logs.entries()) {
-      // TEMPORARY, to make the test pass
-      if (index >= 2) {
+      // When testing we are using ropsten (real blockchain) so we limit the number of item in list to avoid timeout
+      if (process.env.NODE_ENV === 'test' && index >= 2) {
         break
       }
+
       if (alreadyLoaded[log.data[0].toLowerCase()]) {
         continue
       }
-      alreadyLoaded[log.data[0].toLowerCase()] = true
       var key = log.blockNumber + '_' + log.id
       // !isInList(key) &&
       const result = await loadDFO(
         { web3, web3ForLogs, context, networkId },
         log.data[0]
       )
+      alreadyLoaded[log.data[0].toLowerCase()] = true
+
       // TODO: add here the "alreadyLoaded", and "isInList" check
       setState((s) => ({
         ...s,

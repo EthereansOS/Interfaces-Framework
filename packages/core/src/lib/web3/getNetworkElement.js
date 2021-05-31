@@ -1,5 +1,5 @@
 function getNetworkElement({ context, networkId }, element) {
-  // TODO: fixeme: hoow this work if it;s a number when set networkId?
+  // TODO: fix me: how this work if it's a number when set networkId?
   // https://github.com/EthereansOS/Organizations-Interface/blob/master/assets/scripts/script.js#L260
   const network = context.ethereumNetwork[networkId]
   if (network === undefined || network === null) {
