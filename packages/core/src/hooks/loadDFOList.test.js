@@ -5,7 +5,7 @@ import cw3p from 'create-web3-provider'
 import * as context from '../../test-data/context.json'
 import initWeb3 from '../lib/web3'
 
-import loadList from './loadList'
+import loadDFOList from './loadDFOList'
 
 describe('loadList', () => {
   beforeAll(async () => {
@@ -25,9 +25,10 @@ describe('loadList', () => {
     const methods = initWeb3(context, setInitialState)
     await methods.connect()
     const initialState = stateFn()
-    await loadList(methods, initialState, setState)()
+    await loadDFOList(methods, () => initialState, setState)()
     expect(setState).toHaveBeenCalledTimes(4)
-    // Her we should assert that setState has benn called with the correct items
-    // const firstSetState = setState.mock.calls[0][0](initialState)
+    const firstCallState = setState.mock.calls[0][0](initialState)
+    // TODO: add more significative assertions
+    expect(Object.keys(firstCallState.list).length).toEqual(2)
   }, 25000)
 })

@@ -7,7 +7,7 @@ import getNetworkElement from './getNetworkElement'
 import blockchainCall from './blockchainCall'
 
 async function initConnection(environment, onUpdate) {
-  const { loadDFO, context } = environment
+  const { loadDFOFn, context } = environment
   let networkId = environment.networkId
   let web3 = environment.web3
   let web3ForLogs = environment.web3ForLogs
@@ -88,7 +88,7 @@ async function initConnection(environment, onUpdate) {
       await blockchainCall({ web3, context }, uniswapV2Router.methods.WETH)
     )
 
-    const dfo = await loadDFO(
+    const dfo = await loadDFOFn(
       { web3, web3ForLogs, context, networkId },
       getNetworkElement({ context, networkId }, 'dfoAddress')
     )

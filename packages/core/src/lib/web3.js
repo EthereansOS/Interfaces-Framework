@@ -147,7 +147,7 @@ function initWeb3(context, setState) {
           dfoHub,
           walletAddress,
           walletAvatar,
-          loadDFO,
+          loadDFOFn,
           context,
         },
         onEthereumUpdate

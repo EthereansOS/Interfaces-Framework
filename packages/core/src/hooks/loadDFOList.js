@@ -3,8 +3,8 @@ export const DFO_DEPLOYED_EVENT = 'DFODeployed(address_indexed,address)'
 export const NEW_DFO_DEPLOYED_EVENT =
   'DFODeployed(address_indexed,address_indexed,address,address)'
 
-const loadDFOList = (methods, state, setState) => async () => {
-  const { web3, dfoHub, dfoEvent } = state
+const loadDFOList = (methods, getState, setState) => async () => {
+  const { web3, dfoHub, dfoEvent } = getState()
   const { getNetworkElement, loadDFO, getLogs } = methods
 
   // Refactored from: https://github.com/EthereansOS/Organizations-Interface/blob/master/spa/dFOList/controller.jsx#L41
@@ -63,8 +63,8 @@ const loadDFOList = (methods, state, setState) => async () => {
         break
       }
 
-      var key = log.blockNumber + '_' + log.id
-      if (isInList(key, state.list)) {
+      const key = log.blockNumber + '_' + log.id
+      if (isInList(key, getState().list)) {
         continue
       }
       const result = await loadDFO(log.data[0])
@@ -97,9 +97,9 @@ const loadDFOList = (methods, state, setState) => async () => {
       event = event || logVar.event
       logs.push(logVar)
     }
-    var deployArgs = []
+    const deployArgs = []
     if (event) {
-      var rebuiltArgs = event.substring(event.indexOf('(') + 1)
+      let rebuiltArgs = event.substring(event.indexOf('(') + 1)
       rebuiltArgs = JSON.parse(
         '["' +
           rebuiltArgs
@@ -116,10 +116,10 @@ const loadDFOList = (methods, state, setState) => async () => {
     }
     const dfoEv =
       dfoEvent || web3.utils.sha3('Event(string,bytes32,bytes32,bytes)')
-    var eventTopic = event && web3.utils.sha3(event)
-    var manipulatedLogs = []
+    const eventTopic = event && web3.utils.sha3(event)
+    const manipulatedLogs = []
     for (const i in logs) {
-      var log = logs[i]
+      const log = logs[i]
       if (log.topics && log.topics[0] !== dfoEv) {
         continue
       }
@@ -138,7 +138,7 @@ const loadDFOList = (methods, state, setState) => async () => {
         deployArgs.length > 0 &&
         (deployArgs.length > 1 || deployArgs[0] !== '')
       ) {
-        var data = web3.eth.abi.decodeParameters(
+        const data = web3.eth.abi.decodeParameters(
           deployArgs,
           log.data || (log.raw && log.raw.data)
         )

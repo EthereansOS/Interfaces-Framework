@@ -58,7 +58,7 @@ export const Web3ContextProvider = ({ children }) => {
     }))
   }
 
-  const loadList = loadDFOList(methods, state, setState)
+  const loadList = loadDFOList(methods, () => state, setState)
 
   const values = {
     onEthereumUpdate: methods.onEthereumUpdate,
