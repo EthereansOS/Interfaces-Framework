@@ -4,6 +4,7 @@ import T from 'prop-types'
 import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
 
 import { useInit } from './useInit'
+import loadDFOList from './loadList'
 
 const Web3Context = React.createContext('web3')
 
@@ -13,15 +14,24 @@ export const Web3ContextProvider = ({ children }) => {
   const { context } = useInit()
 
   useEffect(() => {
-    const { onEthereumUpdate, connect, getInfo, formatLink, loadList } =
-      initWeb3(context, setState)
+    const {
+      onEthereumUpdate,
+      connect,
+      getInfo,
+      formatLink,
+      getLogs,
+      loadDFO,
+      getNetworkElement,
+    } = initWeb3(context, setState)
     setMethods((s) => ({
       ...s,
       onEthereumUpdate,
       connect,
       getInfo,
       formatLink,
-      loadList,
+      getLogs,
+      loadDFO,
+      getNetworkElement,
     }))
   }, [context])
 
@@ -48,11 +58,13 @@ export const Web3ContextProvider = ({ children }) => {
     }))
   }
 
+  const loadList = loadDFOList(methods, state, setState)
+
   const values = {
     onEthereumUpdate: methods.onEthereumUpdate,
     connect: methods.connect,
     formatLink: methods.formatLink,
-    loadList: methods.loadList,
+    loadList,
     updateInfo: getInfo,
     ...state,
   }

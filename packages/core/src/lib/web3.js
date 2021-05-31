@@ -7,11 +7,6 @@ export const CONNECTING = 'connecting'
 export const UPDATING = 'updating'
 export const NOT_CONNECTED = 'not_connected'
 export const CONNECTED = 'connected'
-export const BLOCK_SEARCH_SIZE = 40000
-
-export const DFO_DEPLOYED_EVENT = 'DFODeployed(address_indexed,address)'
-export const NEW_DFO_DEPLOYED_EVENT =
-  'DFODeployed(address_indexed,address_indexed,address,address)'
 
 import blockchainCallFn from './web3/blockchainCall'
 import formatLink from './web3/formatLink'
@@ -37,9 +32,8 @@ function initWeb3(context, setState) {
   let walletAddress = null
   let walletAvatar = null
   let dfoEvent = null
-  const alreadyLoadedDFOs = {}
 
-  const loadDFO = async function loadDFO(
+  const loadDFOFn = async function loadDFOFn(
     { web3, web3ForLogs, context, networkId },
     address,
     allAddresses
@@ -100,7 +94,7 @@ function initWeb3(context, setState) {
         },
         true
       )
-      return await loadDFO(
+      return await loadDFOFn(
         { web3, web3ForLogs, context, networkId },
         web3.eth.abi.decodeParameter('address', logs[0].topics[1]),
         allAddresses
@@ -117,10 +111,14 @@ function initWeb3(context, setState) {
     return dfo
   }
 
-  // a:
-  // - fromBlocks
-  // - toBlock
-  // - ?
+  const loadDFO = async function (address, allAddresses) {
+    return loadDFOFn(
+      { web3, web3ForLogs, context, networkId },
+      address,
+      allAddresses
+    )
+  }
+
   const getLogs = async function (a, endOnFirstResult) {
     return getLogsFn(
       { web3, web3ForLogs, context, networkId },
@@ -154,8 +152,6 @@ function initWeb3(context, setState) {
         },
         onEthereumUpdate
       )
-
-      // console.log(newState)
 
       web3 = newState.web3
       networkId = newState.networkId
@@ -207,217 +203,14 @@ function initWeb3(context, setState) {
     return result
   }
 
-  // Chiamare getLogs due volte fino a che
-  // toBlock === window.getNetworkElement('deploySearchStart')
-  async function loadList(topics, toBlock, lastBlockNumber) {
-    if (toBlock === getNetworkElement('deploySearchStart')) {
-      // console.log('Return', getNetworkElement('deploySearchStart'))
-      return
-    }
-    const lastEthBlock = await await web3.eth.getBlockNumber()
-    lastBlockNumber = lastBlockNumber || lastEthBlock
-    toBlock = toBlock || lastBlockNumber
-    let fromBlock = toBlock - BLOCK_SEARCH_SIZE
-    const startBlock = getNetworkElement('deploySearchStart')
-    fromBlock = fromBlock > startBlock ? startBlock : toBlock
-    await getEventLogs(fromBlock, toBlock, NEW_DFO_DEPLOYED_EVENT)
-    await getEventLogs(fromBlock, toBlock, DFO_DEPLOYED_EVENT)
-    return loadList(topics, fromBlock, lastBlockNumber)
-  }
-
-  // Da: https://github.com/EthereansOS/Organizations-Interface/blob/master/spa/dFOList/controller.jsx#L41
-
-  // TEMPORARY, TODO: FIX
-  // ************************************************************
-  const alreadyLoaded = {}
-  // function isInList(key) {
-  // if (state?.list[key]) {
-  //   return true
-  // }
-  // if (!key.dFO) {
-  //   try {
-  //     key = web3.utils.toChecksumAddress(key)
-  //   } catch (e) {
-  //     return false
-  //   }
-  //   if (
-  //     Object.values(state.list).filter(
-  //       (it) =>
-  //         it.dFO.options.allAddresses.filter(
-  //           (addr) => web3.utils.toChecksumAddress(addr) === key
-  //         ).length > 0
-  //     ).length > 0
-  //   ) {
-  //     return true
-  //   }
-  // } else {
-  //   var keys = key.dFO.options.allAddresses.map((it) =>
-  //     web3.utils.toChecksumAddress(it)
-  //   )
-  //   var list = Object.values(state.list).map((it) =>
-  //     it.dFO.options.allAddresses.map((it) =>
-  //       web3.utils.toChecksumAddress(it)
-  //     )
-  //   )
-  //   for (var addresses of state.list) {
-  //     for (var address of addresses) {
-  //       if (keys.indexOf(address) != -1) {
-  //         return true
-  //       }
-  //     }
-  //   }
-  // }
-  // return false
-  // }
-
-  async function getEventLogs(fromBlock, toBlock, event, topics) {
-    const logs = await getDFOLogs({
-      address: dfoHub.dFO.options.allAddresses,
-      topics,
-      event,
-      fromBlock: '' + fromBlock,
-      toBlock: '' + toBlock,
-    })
-
-    for (const [index, log] of logs.entries()) {
-      // When testing we are using ropsten (real blockchain) so we limit the number of item in list to avoid timeout
-      if (process.env.NODE_ENV === 'test' && index >= 2) {
-        break
-      }
-
-      if (alreadyLoaded[log.data[0].toLowerCase()]) {
-        continue
-      }
-      var key = log.blockNumber + '_' + log.id
-      // !isInList(key) &&
-      const result = await loadDFO(
-        { web3, web3ForLogs, context, networkId },
-        log.data[0]
-      )
-      alreadyLoaded[log.data[0].toLowerCase()] = true
-
-      // TODO: add here the "alreadyLoaded", and "isInList" check
-      setState((s) => ({
-        ...s,
-        list: {
-          ...s.list,
-          [key]: {
-            key,
-            dFO: result,
-            updating: false,
-            updated: false,
-            startBlock: log.blockNumber,
-          },
-        },
-      }))
-    }
-
-    return logs
-  }
-
-  // ************************************************************
-
-  async function getDFOLogs(args) {
-    dfoEvent =
-      dfoEvent || web3.utils.sha3('Event(string,bytes32,bytes32,bytes)')
-    const logArgs = {
-      topics: [dfoEvent],
-      fromBlock: '0',
-      toBlock: 'latest',
-    }
-    args.address && (logArgs.address = args.address)
-    args.event &&
-      logArgs.topics.push(
-        args.event.indexOf('0x') === 0
-          ? args.event
-          : web3.utils.sha3(args.event)
-      )
-    args.topics && logArgs.topics.push(...args.topics)
-    args.fromBlock && (logArgs.fromBlock = args.fromBlock)
-    args.toBlock && (logArgs.toBlock = args.toBlock)
-    return formatDFOLogs(
-      await getLogs(logArgs),
-      args.event && args.event.indexOf('0x') === -1 ? args.event : undefined
-    )
-  }
-
-  function formatDFOLogs(logVar, event) {
-    if (!logVar || (!isNaN(logVar.length) && logVar.length === 0)) {
-      return logVar
-    }
-    const logs = []
-    if (logVar.length) {
-      logs.push(...logVar)
-    } else {
-      event = event || logVar.event
-      logs.push(logVar)
-    }
-    var deployArgs = []
-    if (event) {
-      var rebuiltArgs = event.substring(event.indexOf('(') + 1)
-      rebuiltArgs = JSON.parse(
-        '["' +
-          rebuiltArgs
-            .substring(0, rebuiltArgs.indexOf(')'))
-            .split(',')
-            .join('","') +
-          '"]'
-      )
-      for (var i in rebuiltArgs) {
-        if (!rebuiltArgs[i].endsWith('_indexed')) {
-          deployArgs.push(rebuiltArgs[i])
-        }
-      }
-    }
-    dfoEvent =
-      dfoEvent || web3.utils.sha3('Event(string,bytes32,bytes32,bytes)')
-    var eventTopic = event && web3.utils.sha3(event)
-    var manipulatedLogs = []
-    for (const i in logs) {
-      var log = logs[i]
-      if (log.topics && log.topics[0] !== dfoEvent) {
-        continue
-      }
-      log.topics && log.topics.splice(0, 1)
-      if (eventTopic && log.topics && log.topics[0] !== eventTopic) {
-        continue
-      }
-      log.raw && log.raw.topics && log.raw.topics.splice(0, 1)
-      try {
-        log.data && (log.data = web3.eth.abi.decodeParameter('bytes', log.data))
-        log.raw &&
-          log.raw.data &&
-          (log.raw.data = web3.eth.abi.decodeParameter('bytes', log.raw.data))
-      } catch (e) {}
-      if (
-        deployArgs.length > 0 &&
-        (deployArgs.length > 1 || deployArgs[0] !== '')
-      ) {
-        var data = web3.eth.abi.decodeParameters(
-          deployArgs,
-          log.data || (log.raw && log.raw.data)
-        )
-        log.data && (log.data = [])
-        log.raw && log.raw.data && (log.raw.data = [])
-        Object.keys(data).map((key) => {
-          if (isNaN(parseInt(key))) {
-            return
-          }
-          log.data && log.data.push(data[key])
-          log.raw && log.raw.data && log.raw.data.push(data[key])
-        })
-      }
-      manipulatedLogs.push(log)
-    }
-    return logVar.length ? manipulatedLogs : manipulatedLogs[0] || logVar
-  }
-
   return {
     onEthereumUpdate,
     connect,
     getInfo,
-    loadList,
     formatLink,
+    getLogs,
+    loadDFO,
+    getNetworkElement,
   }
 }
 

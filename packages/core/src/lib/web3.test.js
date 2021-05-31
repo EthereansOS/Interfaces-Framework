@@ -57,15 +57,4 @@ describe('web3', () => {
       expect(thirdSetState.web3).toBeTruthy()
     })
   })
-
-  describe('loadList', () => {
-    it('Load the list of organizations', async () => {
-      const { loadList, connect } = initWeb3(context, setState)
-      await connect()
-      setState.mockClear()
-      await loadList()
-      expect(setState).toHaveBeenCalledTimes(4)
-      // TODO: add assert on state changes
-    }, 25000)
-  })
 })
