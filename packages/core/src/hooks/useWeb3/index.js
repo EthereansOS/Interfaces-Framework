@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import T from 'prop-types'
 
-import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
-
-import { useInit } from './useInit'
-import loadDFOList from './loadList'
+import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../../lib/web3'
+import { useInit } from '../useInit'
+import loadDFOList from '../loadList'
 
 const Web3Context = React.createContext('web3')
 

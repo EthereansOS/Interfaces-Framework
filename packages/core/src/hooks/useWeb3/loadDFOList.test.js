@@ -2,8 +2,8 @@ import '@testing-library/jest-dom/extend-expect'
 
 import cw3p from 'create-web3-provider'
 
-import * as context from '../../test-data/context.json'
-import initWeb3 from '../lib/web3'
+import * as context from '../../../test-data/context.json'
+import initWeb3 from '../../lib/web3'
 
 import loadDFOList from './loadDFOList'
 
