@@ -1,18 +1,20 @@
 /* eslint-disable */
 
 import nameHash from 'eth-ens-namehash'
-import Web3 from 'web3'
 import makeBlockie from 'ethereum-blockies-base64'
 
 export const CONNECTING = 'connecting'
 export const UPDATING = 'updating'
 export const NOT_CONNECTED = 'not_connected'
 export const CONNECTED = 'connected'
-export const BLOCK_SEARCH_SIZE = 40000
 
-export const DFO_DEPLOYED_EVENT = 'DFODeployed(address_indexed,address)'
-export const NEW_DFO_DEPLOYED_EVENT =
-  'DFODeployed(address_indexed,address_indexed,address,address)'
+import blockchainCallFn from './web3/blockchainCall'
+import formatLink from './web3/formatLink'
+import getNetworkElementFn from './web3/getNetworkElement'
+import initConnectionFn from './web3/initConnection'
+import getLogsFn from './web3/getLogs'
+import { newContract } from './web3/contracts'
+import getInfoFn from './web3/getInfo'
 
 function initWeb3(context, setState) {
   const voidEthereumAddress = '0x0000000000000000000000000000000000000000'
@@ -21,7 +23,6 @@ function initWeb3(context, setState) {
   let networkId
   let web3ForLogs
   // This is a map with all the contracts
-  let allContracts = {}
   let proxyChangedTopic
   let dfoHubENSResolver = null
   let uniswapV2Factory = null
@@ -32,26 +33,14 @@ function initWeb3(context, setState) {
   let walletAvatar = null
   let dfoEvent = null
 
-  // Creates a new contract object from the `abi` and the address
-  // ABI is the interface.
-  const newContract = (abi, address) => {
-    let key = web3.utils.sha3(JSON.stringify(abi))
-    const contracts = (allContracts[key] = allContracts[key] || {})
-    address = address || voidEthereumAddress
-    key = address.toLowerCase()
-    contracts[key] =
-      contracts[key] ||
-      new web3.eth.Contract(
-        abi,
-        address === voidEthereumAddress ? undefined : address
-      )
-    return contracts[key]
-  }
-
-  const loadDFO = async function loadDFO(address, allAddresses) {
+  const loadDFOFn = async function loadDFOFn(
+    { web3, web3ForLogs, context, networkId },
+    address,
+    allAddresses
+  ) {
     allAddresses = allAddresses || []
     allAddresses.push(address)
-    const dfo = newContract(context.proxyAbi, address)
+    const dfo = newContract({ web3 }, context.proxyAbi, address)
     let votingToken
 
     try {
@@ -74,20 +63,26 @@ function initWeb3(context, setState) {
 
     if (!votingToken || votingToken === voidEthereumAddress) {
       try {
-        votingToken = await blockchainCall(dfo.methods.getToken)
+        votingToken = await blockchainCallFn(
+          { web3, context },
+          dfo.methods.getToken
+        )
       } catch (e) {}
     }
 
     try {
-      await blockchainCall(
-        newContract(context.votingTokenAbi, votingToken).methods.name
+      await blockchainCallFn(
+        { web3, context },
+        newContract({ web3, web3ForLogs }, context.votingTokenAbi, votingToken)
+          .methods.name
       )
     } catch (e) {
       votingToken = undefined
     }
 
     if (!votingToken || votingToken === voidEthereumAddress) {
-      const logs = await getLogs(
+      const logs = await getLogsFn(
+        { web3, context, web3ForLogs, networkId },
         {
           address,
           topics: [
@@ -99,7 +94,8 @@ function initWeb3(context, setState) {
         },
         true
       )
-      return await loadDFO(
+      return await loadDFOFn(
+        { web3, web3ForLogs, context, networkId },
         web3.eth.abi.decodeParameter('address', logs[0].topics[1]),
         allAddresses
       )
@@ -115,557 +111,91 @@ function initWeb3(context, setState) {
     return dfo
   }
 
-  // a:
-  // - fromBlocks
-  // - toBlock
-  // - ?
+  const loadDFO = async function (address, allAddresses) {
+    return loadDFOFn(
+      { web3, web3ForLogs, context, networkId },
+      address,
+      allAddresses
+    )
+  }
+
   const getLogs = async function (a, endOnFirstResult) {
-    const args = JSON.parse(JSON.stringify(a))
-    const logs = []
-    args.fromBlock =
-      args.fromBlock || getNetworkElement('deploySearchStart') + ''
-    args.toBlock = args.toBlock || (await web3.eth.getBlockNumber()) + ''
-    const to = parseInt(args.toBlock)
-    const fillWithWeb3Logs = async function (logs, args) {
-      if (web3.currentProvider === web3ForLogs.currentProvider) {
-        return logs
-      }
-      const newArgs = {}
-      Object.entries(args).forEach((entry) => (newArgs[entry[0]] = entry[1]))
-      newArgs.fromBlock = web3.startBlock
-      newArgs.toBlock = 'latest'
-      logs.push(...(await web3.eth.getPastLogs(newArgs)))
-      return logs
-    }
-    while (isNaN(to) || parseInt(args.fromBlock) <= to) {
-      let newTo = parseInt(args.fromBlock) + context.blockSearchSection
-      newTo = newTo <= to ? newTo : to
-      args.toBlock = isNaN(newTo) ? args.toBlock : newTo + ''
-      logs.push(...(await web3ForLogs.eth.getPastLogs(args)))
-      if (isNaN(to) || (logs.length > 0 && endOnFirstResult === true)) {
-        return await fillWithWeb3Logs(logs, args)
-      }
-      args.fromBlock = parseInt(args.toBlock) + 1 + ''
-    }
-    return await fillWithWeb3Logs(logs, args)
+    return getLogsFn(
+      { web3, web3ForLogs, context, networkId },
+      a,
+      endOnFirstResult
+    )
   }
 
   function onEthereumUpdate(millis, newConnection) {
-    return new Promise(function (ok) {
+    return new Promise(async function (resolve) {
       setState((s) => ({
         ...s,
         connectionStatus: newConnection ? CONNECTING : UPDATING,
       }))
-      setTimeout(
-        async function () {
-          let update = false
-          if (!networkId || networkId !== parseInt(window.ethereum.chainId)) {
-            allContracts = {}
-            window.ethereum &&
-              (window.ethereum.enable = () =>
-                window.ethereum.request({ method: 'eth_requestAccounts' }))
-            window.ethereum &&
-              window.ethereum.autoRefreshOnNetworkChange &&
-              (window.ethereum.autoRefreshOnNetworkChange = false)
-            window.ethereum &&
-              window.ethereum.on &&
-              (!window.ethereum._events ||
-                !window.ethereum._events.accountsChanged ||
-                window.ethereum._events.accountsChanged.length === 0) &&
-              window.ethereum.on('accountsChanged', onEthereumUpdate)
-            window.ethereum &&
-              window.ethereum.on &&
-              (!window.ethereum._events ||
-                !window.ethereum._events.chainChanged ||
-                window.ethereum._events.chainChanged.length === 0) &&
-              window.ethereum.on('chainChanged', onEthereumUpdate)
-            // web3 = await createWeb3(context.blockchainConnectionString || window.ethereum);
-            web3 = await createWeb3(window.ethereum)
-            networkId = await web3.eth.net.getId()
-            web3ForLogs = await createWeb3(
-              getNetworkElement('blockchainConnectionForLogString') ||
-                web3.currentProvider
-            )
-            const network = context.ethereumNetwork[networkId]
-            if (network === undefined || network === null) {
-              return alert('This network is actually not supported!')
-            }
-            // delete window.tokensList
-            // delete window.loadedTokens
 
-            const dfo = loadDFO(getNetworkElement('dfoAddress'))
-            // window.loadOffChainWallets();
-            const ENSController = newContract(
-              context.ENSAbi,
-              context.ensAddress
-            )
-            try {
-              dfoHubENSResolver = newContract(
-                context.resolverAbi,
-                await blockchainCall(
-                  ENSController.methods.resolver,
-                  nameHash.hash(nameHash.normalize('dfohub.eth'))
-                )
-              )
-            } catch (e) {}
-            uniswapV2Factory = newContract(
-              context.uniSwapV2FactoryAbi,
-              context.uniSwapV2FactoryAddress
-            )
-            uniswapV2Router = newContract(
-              context.uniSwapV2RouterAbi,
-              context.uniSwapV2RouterAddress
-            )
-            wethAddress = web3.utils.toChecksumAddress(
-              await blockchainCall(uniswapV2Router.methods.WETH)
-            )
-            const list = {
-              DFO: {
-                key: 'DFO',
-                dFO: await dfo,
-                startBlock: getNetworkElement('deploySearchStart'),
-              },
-            }
-            dfoHub = list.DFO
-            setState((s) => ({ ...s, list }))
-            update = true
-          }
-          try {
-            walletAddress = (await web3.eth.getAccounts())[0]
-          } catch (e) {
-            console.log(e)
-            walletAddress = null
-          }
-          try {
-            walletAvatar = makeBlockie(walletAddress)
-          } catch (e) {
-            console.log(e)
-          }
-
-          // Questo c'era sull'originale: https://github.com/EthereansOS/Organizations-Interface/blob/master/assets/scripts/script.js#L243
-          // non dobbiamo usare jquery
-          // update && $.publish('ethereum/update');
-          // $.publish('ethereum/ping');
-
-          setState((s) => ({
-            ...s,
-            web3,
-            networkId,
-            web3ForLogs,
-            allContracts,
-            proxyChangedTopic,
-            dfoHubENSResolver,
-            uniswapV2Factory,
-            uniswapV2Router,
-            wethAddress,
-            dfoHub,
-            walletAddress,
-            walletAvatar,
-            connectionStatus: CONNECTED,
-          }))
-          return ok(web3)
+      const newState = await initConnectionFn(
+        {
+          web3,
+          networkId,
+          web3ForLogs,
+          proxyChangedTopic,
+          dfoHubENSResolver,
+          uniswapV2Factory,
+          uniswapV2Router,
+          wethAddress,
+          dfoHub,
+          walletAddress,
+          walletAvatar,
+          loadDFOFn,
+          context,
         },
-        !isNaN(millis) ? millis : 550
+        onEthereumUpdate
       )
+
+      web3 = newState.web3
+      networkId = newState.networkId
+      web3ForLogs = newState.web3ForLogs
+      proxyChangedTopic = newState.proxyChangedTopic
+      dfoHubENSResolver = newState.dfoHubENSResolver
+      uniswapV2Factory = newState.uniswapV2Factory
+      uniswapV2Router = newState.uniswapV2Router
+      wethAddress = newState.wethAddress
+      dfoHub = newState.dfoHub
+      walletAddress = newState.walletAddress
+      walletAvatar = newState.walletAvatar
+
+      // TODO FIx the list init
+      setState((s = {}) => ({
+        ...s,
+        ...newState,
+        list: !s.list || !Object.keys(s.list).length ? { DFO: dfoHub } : s.list,
+        connectionStatus: CONNECTED,
+      }))
+      return resolve(newState.web3)
     })
   }
 
-  async function createWeb3(connectionProvider) {
-    const web3 = new Web3(connectionProvider)
-    web3.currentProvider.setMaxListeners &&
-      web3.currentProvider.setMaxListeners(0)
-    web3.eth.transactionBlockTimeout = 999999999
-    web3.eth.transactionPollingTimeout = new Date().getTime()
-    web3.startBlock = await web3.eth.getBlockNumber()
-    return web3
-  }
-
-  const getNetworkElement = function getNetworkElement(element) {
-    // TODO: fixeme: hoow this work if it;s a number when set networkId?
-    // https://github.com/EthereansOS/Organizations-Interface/blob/master/assets/scripts/script.js#L260
-    const network = context.ethereumNetwork[networkId]
-    if (network === undefined || network === null) {
-      return
-    }
-    return context[element + network]
-  }
-
-  function isEthereumAddress(ad) {
-    if (ad === undefined || ad === null) {
-      return false
-    }
-    let address = ad.split(' ').join('')
-    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-      return false
-    } else if (
-      /^(0x)?[0-9a-f]{40}$/.test(address) ||
-      /^(0x)?[0-9A-F]{40}$/.test(address)
-    ) {
-      return true
-    } else {
-      address = address.replace('0x', '')
-      const addressHash = web3.utils.sha3(address.toLowerCase())
-      for (let i = 0; i < 40; i++) {
-        if (
-          (parseInt(addressHash[i], 16) > 7 &&
-            address[i].toUpperCase() !== address[i]) ||
-          (parseInt(addressHash[i], 16) <= 7 &&
-            address[i].toLowerCase() !== address[i])
-        ) {
-          //return false;
-        }
-      }
-    }
-    return true
-  }
-
-  async function getAddress() {
-    await window.ethereum.enable()
-    return (walletAddress = (await web3.eth.getAccounts())[0])
-  }
-
-  function getSendingOptions(transaction, value) {
-    return new Promise(async function (ok, ko) {
-      if (transaction) {
-        const from = await getAddress()
-        const nonce = await web3.eth.getTransactionCount(from)
-        // TODO I can't find the code that sets window.bypassEstimation in the production code, so I guess is always undefined
-        // return window.bypassEstimation
-        return undefined
-          ? ok({
-              nonce,
-              from,
-              // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
-              // gas: window.gasLimit || '7900000',
-              gas: '7900000',
-              value,
-            })
-          : transaction.estimateGas(
-              {
-                nonce,
-                from,
-                gasPrice: web3.utils.toWei('13', 'gwei'),
-                value,
-                gas: '7900000',
-                gasLimit: '7900000',
-              },
-              function (error, gas) {
-                if (error) {
-                  return ko(error.message || error)
-                }
-                return ok({
-                  nonce,
-                  from,
-                  // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
-                  // gas: gas || window.gasLimit || '7900000',
-                  gas: gas || '7900000',
-                  value,
-                })
-              }
-            )
-      }
-      return ok({
-        from: walletAddress || null,
-        // TODO I can't find the code that sets window.gasLimit in the production code, so I guess is always undefined
-        // gas: window.gasLimit || '99999999',
-        gas: '99999999',
-      })
-    })
+  function getNetworkElement(element) {
+    return getNetworkElementFn({ context, networkId }, element)
   }
 
   async function blockchainCall(value, oldCall) {
-    const args = []
-    const call = value !== undefined && isNaN(value) ? value : oldCall
-    for (let i = value === call ? 1 : 2; i < arguments.length; i++) {
-      args.push(arguments[i])
-    }
-    value = isNaN(value) ? undefined : value
-    const method = (
-      call.implementation ? call.get : call.new ? call.new : call
-    ).apply(call, args)
-    return method._method.stateMutability === 'view' ||
-      method._method.stateMutability === 'pure'
-      ? method.call(await getSendingOptions())
-      : sendBlockchainTransaction(value, method)
-  }
-
-  const sendBlockchainTransaction = function sendBlockchainTransaction(
-    value,
-    transaction
-  ) {
-    return new Promise(async function (ok, ko) {
-      const handleTransactionError = function handleTransactionError(e) {
-        e !== undefined &&
-          e !== null &&
-          (e.message || e).indexOf('not mined within') === -1 &&
-          ko(e)
-      }
-      try {
-        ;(transaction = transaction.send
-          ? transaction.send(
-              await getSendingOptions(transaction, value),
-              handleTransactionError
-            )
-          : transaction)
-          .on('transactionHash', (transactionHash) => {
-            // TODO implement publish to transaction/start
-            // $.publish('transaction/start')
-            const stop = function () {
-              // TODO implement unsubscribe to transaction/stop
-              // $.unsubscribe('transaction/stop', stop)
-              handleTransactionError('stopped')
-            }
-            // TODO implement subscribe to transaction/stop
-            // $.subscribe('transaction/stop', stop)
-            const timeout = async function () {
-              const receipt = await web3.eth.getTransactionReceipt(
-                transactionHash
-              )
-              if (
-                !receipt ||
-                !receipt.blockNumber ||
-                (await web3.eth.getBlockNumber()) <
-                  receipt.blockNumber + (context.transactionConfirmations || 0)
-              ) {
-                return setTimeout(
-                  timeout,
-                  context.transactionConfirmationsTimeoutMillis
-                )
-              }
-              // TODO implement unsubscribe to transaction/stop
-              // $.unsubscribe('transaction/stop', stop)
-              return transaction.then(ok)
-            }
-            setTimeout(timeout)
-          })
-          .catch(handleTransactionError)
-      } catch (e) {
-        return handleTransactionError(e)
-      }
-    })
-  }
-
-  function formatLink(link) {
-    link = link ? (link instanceof Array ? link[0] : link) : ''
-    if (link.indexOf('assets') === 0 || link.indexOf('/assets') === 0) {
-      return link
-    }
-    for (var temp of context.ipfsUrlTemplates) {
-      link = link.split(temp).join(context.ipfsUrlChanger)
-    }
-    while (link && link.startsWith('/')) {
-      link = link.substring(1)
-    }
-    return (!link ? '' : link.indexOf('http') === -1 ? 'https://' + link : link)
-      .split('https:')
-      .join('')
-      .split('http:')
-      .join('')
+    return blockchainCallFn({ web3, context }, value, oldCall)
   }
 
   // This updates the element info reading from the blockchain
-  async function updateInfo(element) {
-    if (!element || element.updating) {
-      return
-    }
-    setState((s) => ({
-      ...s,
-      list: {
-        ...s.list,
-        [element.key]: { ...element, updating: true },
+  async function getInfo(element) {
+    return getInfoFn(
+      {
+        web3,
+        web3ForLogs,
+        dfoHub,
+        dfoHubENSResolver,
+        context,
       },
-    }))
-
-    let votingTokenAddress
-    let stateHolderAddress
-    let functionalitiesManagerAddress
-
-    const newElement = { ...element }
-    newElement.walletAddress = newElement.dFO.options.address
-
-    try {
-      var delegates = await web3.eth.call({
-        to: newElement.dFO.options.address,
-        data: newElement.dFO.methods.getDelegates().encodeABI(),
-      })
-      try {
-        delegates = web3.eth.abi.decodeParameter('address[]', delegates)
-      } catch (e) {
-        delegates = web3.eth.abi.decodeParameters(
-          ['address', 'address', 'address', 'address', 'address', 'address'],
-          delegates
-        )
-      }
-      votingTokenAddress = delegates[0]
-      stateHolderAddress = delegates[2]
-      functionalitiesManagerAddress = delegates[4]
-      newElement.walletAddress = delegates[5]
-      newElement.doubleProxyAddress = delegates[6]
-    } catch (e) {
-      console.log(e)
-    }
-
-    if (!votingTokenAddress) {
-      votingTokenAddress = await blockchainCall(newElement.dFO.methods.getToken)
-      stateHolderAddress = await blockchainCall(
-        newElement.dFO.methods.getStateHolderAddress
-      )
-      functionalitiesManagerAddress = await blockchainCall(
-        newElement.dFO.methods.getMVDFunctionalitiesManagerAddress
-      )
-      try {
-        newElement.walletAddress = await blockchainCall(
-          newElement.dFO.methods.getMVDWalletAddress
-        )
-      } catch (e) {}
-    }
-
-    if (!newElement.doubleProxyAddress) {
-      try {
-        newElement.doubleProxyAddress = await blockchainCall(
-          newElement.dFO.methods.getDoubleProxyAddress
-        )
-      } catch (e) {}
-    }
-
-    newElement.token = newContract(context.votingTokenAbi, votingTokenAddress)
-    newElement.name = await blockchainCall(newElement.token.methods.name)
-    newElement.symbol = await blockchainCall(newElement.token.methods.symbol)
-    newElement.totalSupply = await blockchainCall(
-      newElement.token.methods.totalSupply
+      element
     )
-    try {
-      newElement.metadata = await window.AJAXRequest(
-        formatLink(
-          (newElement.metadataLink = web3.eth.abi.decodeParameter(
-            'string',
-            await blockchainCall(
-              newElement.dFO.methods.read,
-              'getMetadataLink',
-              '0x'
-            )
-          ))
-        )
-      )
-      Object.entries(newElement.metadata).forEach(
-        (it) => (element[it[0]] = it[1] || element[it[0]])
-      )
-    } catch (e) {}
-    newElement.decimals = await blockchainCall(
-      newElement.token.methods.decimals
-    )
-    newElement.stateHolder = newContract(
-      context.stateHolderAbi,
-      stateHolderAddress
-    )
-    newElement.functionalitiesManager = newContract(
-      context.functionalitiesManagerAbi,
-      functionalitiesManagerAddress
-    )
-    newElement.functionalitiesAmount = parseInt(
-      await blockchainCall(
-        newElement.functionalitiesManager.methods.getFunctionalitiesAmount
-      )
-    )
-    newElement.lastUpdate = newElement.startBlock
-    newElement.minimumBlockNumberForEmergencySurvey = '0'
-    newElement.emergencySurveyStaking = '0'
-
-    try {
-      newElement.minimumBlockNumberForEmergencySurvey =
-        web3.eth.abi.decodeParameter(
-          'uint256',
-          await blockchainCall(
-            newElement.dFO.methods.read,
-            'getMinimumBlockNumberForEmergencySurvey',
-            '0x'
-          )
-        ) || '0'
-      newElement.emergencySurveyStaking =
-        web3.eth.abi.decodeParameter(
-          'uint256',
-          await blockchainCall(
-            newElement.dFO.methods.read,
-            'getEmergencySurveyStaking',
-            '0x'
-          )
-        ) || '0'
-    } catch (e) {}
-    try {
-      newElement.quorum = web3.eth.abi.decodeParameter(
-        'uint256',
-        await blockchainCall(newElement.dFO.methods.read, 'getQuorum', '0x')
-      )
-    } catch (e) {
-      newElement.quorum = '0'
-    }
-    try {
-      newElement.surveySingleReward = web3.eth.abi.decodeParameter(
-        'uint256',
-        await blockchainCall(
-          newElement.dFO.methods.read,
-          'getSurveySingleReward',
-          '0x'
-        )
-      )
-    } catch (e) {
-      newElement.surveySingleReward = '0'
-    }
-    try {
-      newElement.minimumStaking = web3.eth.abi.decodeParameter(
-        'uint256',
-        await blockchainCall(
-          newElement.dFO.methods.read,
-          'getMinimumStaking',
-          '0x'
-        )
-      )
-    } catch (e) {
-      newElement.minimumStaking = '0'
-    }
-    newElement.icon = makeBlockie(newElement.dFO.options.address)
-    try {
-      newElement.link = web3.eth.abi.decodeParameter(
-        'string',
-        await blockchainCall(newElement.dFO.methods.read, 'getLink', '0x')
-      )
-    } catch (e) {}
-    try {
-      newElement.index = web3.eth.abi.decodeParameter(
-        'uint256',
-        await blockchainCall(newElement.dFO.methods.read, 'getIndex', '0x')
-      )
-    } catch (e) {}
-    try {
-      newElement !== dfoHub &&
-        (newElement.ens = await blockchainCall(
-          dfoHubENSResolver.methods.subdomain,
-          newElement.dFO.options.originalAddress
-        ))
-    } catch (e) {}
-    newElement.votesHardCap = '0'
-    try {
-      newElement.votesHardCap = web3.eth.abi.decodeParameter(
-        'uint256',
-        await blockchainCall(
-          newElement.dFO.methods.read,
-          'getVotesHardCap',
-          '0x'
-        )
-      )
-    } catch (e) {}
-    newElement.ens = newElement.ens || ''
-    newElement.ensComplete = newElement.ens + '.dfohub.eth'
-    newElement.ensComplete.indexOf('.') === 0 &&
-      (newElement.ensComplete = newElement.ensComplete.substring(1))
-
-    setState((s) => ({
-      ...s,
-      list: {
-        ...s.list,
-        [newElement.key]: { ...newElement, updating: false, updated: true },
-      },
-    }))
   }
 
   async function connect(millis = 0) {
@@ -673,212 +203,14 @@ function initWeb3(context, setState) {
     return result
   }
 
-  // Chiamare getLogs due volte fino a che
-  // toBlock === window.getNetworkElement('deploySearchStart')
-  async function loadList(topics, toBlock, lastBlockNumber) {
-    if (toBlock === getNetworkElement('deploySearchStart')) {
-      console.log('Return', getNetworkElement('deploySearchStart'))
-      return
-    }
-    const lastEthBlock = await await web3.eth.getBlockNumber()
-    lastBlockNumber = lastBlockNumber || lastEthBlock
-    toBlock = toBlock || lastBlockNumber
-    let fromBlock = toBlock - BLOCK_SEARCH_SIZE
-    const startBlock = getNetworkElement('deploySearchStart')
-    fromBlock = fromBlock > startBlock ? startBlock : toBlock
-    await getEventLogs(fromBlock, toBlock, NEW_DFO_DEPLOYED_EVENT)
-    await getEventLogs(fromBlock, toBlock, DFO_DEPLOYED_EVENT)
-    return loadList(topics, fromBlock, lastBlockNumber)
-  }
-
-  // Da: https://github.com/EthereansOS/Organizations-Interface/blob/master/spa/dFOList/controller.jsx#L41
-
-  // TEMPORARY, TODO: FIX
-  // ************************************************************
-  const alreadyLoaded = {}
-  // function isInList(key) {
-  // if (state?.list[key]) {
-  //   return true
-  // }
-  // if (!key.dFO) {
-  //   try {
-  //     key = web3.utils.toChecksumAddress(key)
-  //   } catch (e) {
-  //     return false
-  //   }
-  //   if (
-  //     Object.values(state.list).filter(
-  //       (it) =>
-  //         it.dFO.options.allAddresses.filter(
-  //           (addr) => web3.utils.toChecksumAddress(addr) === key
-  //         ).length > 0
-  //     ).length > 0
-  //   ) {
-  //     return true
-  //   }
-  // } else {
-  //   var keys = key.dFO.options.allAddresses.map((it) =>
-  //     web3.utils.toChecksumAddress(it)
-  //   )
-  //   var list = Object.values(state.list).map((it) =>
-  //     it.dFO.options.allAddresses.map((it) =>
-  //       web3.utils.toChecksumAddress(it)
-  //     )
-  //   )
-  //   for (var addresses of state.list) {
-  //     for (var address of addresses) {
-  //       if (keys.indexOf(address) != -1) {
-  //         return true
-  //       }
-  //     }
-  //   }
-  // }
-  // return false
-  // }
-
-  async function getEventLogs(fromBlock, toBlock, event, topics) {
-    const logs = await getDFOLogs({
-      address: dfoHub.dFO.options.allAddresses,
-      topics,
-      event,
-      fromBlock: '' + fromBlock,
-      toBlock: '' + toBlock,
-    })
-
-    // PORCATA TEMPORANEA
-    for (const [index, log] of logs.entries()) {
-      // TEMPORARY, to make the test pass
-      if (index >= 2) {
-        break
-      }
-      if (alreadyLoaded[log.data[0].toLowerCase()]) {
-        continue
-      }
-      alreadyLoaded[log.data[0].toLowerCase()] = true
-      var key = log.blockNumber + '_' + log.id
-      // !isInList(key) &&
-      const result = await loadDFO(log.data[0])
-      // TODO: add here the "alreadyLoaded", and "isInList" check
-      setState((s) => ({
-        ...s,
-        list: {
-          ...s.list,
-          [key]: {
-            key,
-            dFO: result,
-            updating: false,
-            updated: false,
-            startBlock: log.blockNumber,
-          },
-        },
-      }))
-    }
-
-    return logs
-  }
-  // ************************************************************
-
-  async function getDFOLogs(args) {
-    dfoEvent =
-      dfoEvent || web3.utils.sha3('Event(string,bytes32,bytes32,bytes)')
-    const logArgs = {
-      topics: [dfoEvent],
-      fromBlock: '0',
-      toBlock: 'latest',
-    }
-    args.address && (logArgs.address = args.address)
-    args.event &&
-      logArgs.topics.push(
-        args.event.indexOf('0x') === 0
-          ? args.event
-          : web3.utils.sha3(args.event)
-      )
-    args.topics && logArgs.topics.push(...args.topics)
-    args.fromBlock && (logArgs.fromBlock = args.fromBlock)
-    args.toBlock && (logArgs.toBlock = args.toBlock)
-    return formatDFOLogs(
-      await getLogs(logArgs),
-      args.event && args.event.indexOf('0x') === -1 ? args.event : undefined
-    )
-  }
-
-  function formatDFOLogs(logVar, event) {
-    if (!logVar || (!isNaN(logVar.length) && logVar.length === 0)) {
-      return logVar
-    }
-    const logs = []
-    if (logVar.length) {
-      logs.push(...logVar)
-    } else {
-      event = event || logVar.event
-      logs.push(logVar)
-    }
-    var deployArgs = []
-    if (event) {
-      var rebuiltArgs = event.substring(event.indexOf('(') + 1)
-      rebuiltArgs = JSON.parse(
-        '["' +
-          rebuiltArgs
-            .substring(0, rebuiltArgs.indexOf(')'))
-            .split(',')
-            .join('","') +
-          '"]'
-      )
-      for (var i in rebuiltArgs) {
-        if (!rebuiltArgs[i].endsWith('_indexed')) {
-          deployArgs.push(rebuiltArgs[i])
-        }
-      }
-    }
-    dfoEvent =
-      dfoEvent || web3.utils.sha3('Event(string,bytes32,bytes32,bytes)')
-    var eventTopic = event && web3.utils.sha3(event)
-    var manipulatedLogs = []
-    for (const i in logs) {
-      var log = logs[i]
-      if (log.topics && log.topics[0] !== dfoEvent) {
-        continue
-      }
-      log.topics && log.topics.splice(0, 1)
-      if (eventTopic && log.topics && log.topics[0] !== eventTopic) {
-        continue
-      }
-      log.raw && log.raw.topics && log.raw.topics.splice(0, 1)
-      try {
-        log.data && (log.data = web3.eth.abi.decodeParameter('bytes', log.data))
-        log.raw &&
-          log.raw.data &&
-          (log.raw.data = web3.eth.abi.decodeParameter('bytes', log.raw.data))
-      } catch (e) {}
-      if (
-        deployArgs.length > 0 &&
-        (deployArgs.length > 1 || deployArgs[0] !== '')
-      ) {
-        var data = web3.eth.abi.decodeParameters(
-          deployArgs,
-          log.data || (log.raw && log.raw.data)
-        )
-        log.data && (log.data = [])
-        log.raw && log.raw.data && (log.raw.data = [])
-        Object.keys(data).map((key) => {
-          if (isNaN(parseInt(key))) {
-            return
-          }
-          log.data && log.data.push(data[key])
-          log.raw && log.raw.data && log.raw.data.push(data[key])
-        })
-      }
-      manipulatedLogs.push(log)
-    }
-    return logVar.length ? manipulatedLogs : manipulatedLogs[0] || logVar
-  }
-
   return {
     onEthereumUpdate,
     connect,
-    updateInfo,
-    loadList,
+    getInfo,
     formatLink,
+    getLogs,
+    loadDFO,
+    getNetworkElement,
   }
 }
 

@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import T from 'prop-types'
 
-import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
-
-import { useInit } from './useInit'
+import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../../lib/web3'
+import { useInit } from '../useInit'
+import loadDFOList from '../loadList'
 
 const Web3Context = React.createContext('web3')
 
@@ -13,24 +13,58 @@ export const Web3ContextProvider = ({ children }) => {
   const { context } = useInit()
 
   useEffect(() => {
-    const { onEthereumUpdate, connect, updateInfo, formatLink, loadList } =
-      initWeb3(context, setState)
+    const {
+      onEthereumUpdate,
+      connect,
+      getInfo,
+      formatLink,
+      getLogs,
+      loadDFO,
+      getNetworkElement,
+    } = initWeb3(context, setState)
     setMethods((s) => ({
       ...s,
       onEthereumUpdate,
       connect,
-      updateInfo,
+      getInfo,
       formatLink,
-      loadList,
+      getLogs,
+      loadDFO,
+      getNetworkElement,
     }))
   }, [context])
+
+  const getInfo = async (element) => {
+    if (!element || element.updating) {
+      return
+    }
+    setState((s) => ({
+      ...s,
+      list: {
+        ...s.list,
+        [element.key]: { ...element, updating: true },
+      },
+    }))
+
+    const newElement = await methods.getInfo(element)
+
+    setState((s) => ({
+      ...s,
+      list: {
+        ...s.list,
+        [newElement.key]: { ...newElement, updating: false, updated: true },
+      },
+    }))
+  }
+
+  const loadList = loadDFOList(methods, () => state, setState)
 
   const values = {
     onEthereumUpdate: methods.onEthereumUpdate,
     connect: methods.connect,
-    updateInfo: methods.updateInfo,
     formatLink: methods.formatLink,
-    loadList: methods.loadList,
+    loadList,
+    updateInfo: getInfo,
     ...state,
   }
 
