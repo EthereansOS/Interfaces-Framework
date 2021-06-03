@@ -1,25 +1,45 @@
-import React from 'react'
-import T from 'prop-types'
-import { Card, Typography, Chip, Link } from '@dfohub/design-system'
+import React, { useState } from 'react'
+import {
+  Card,
+  Typography,
+  Chip,
+  Link,
+  Button,
+  Modal,
+} from '@dfohub/design-system'
 
 import Section from '../shared/Section'
 import useOrganizationMetadata from '../../hooks/useOrganizationMetadata'
 import { OrganizationPropType } from '../../propTypes'
+import { useOrganizationContext } from '../../OrganizationContext'
+import OrganizationEdit from '../OrganizationEdit'
 
 import style from './organization-info.module.scss'
 
 function OrganizationInfo({ organization }) {
   const { metadata } = useOrganizationMetadata(organization?.metadataLink)
+  const { isEditMode } = useOrganizationContext()
+  const [organizationEditVisible, setOrganizationEditVisible] = useState(false)
+
+  const openEditModal = () => {
+    setOrganizationEditVisible(true)
+  }
+
+  const closeEditModal = () => {
+    setOrganizationEditVisible(false)
+  }
 
   return (
     <Card as="article">
-      <Typography
-        fontFamily="secondary"
-        variant="h2"
-        color="primary"
-        className={style.cardTitle}>
-        Organization Info
-      </Typography>
+      <div className={style.cardHeader}>
+        <Typography fontFamily="secondary" variant="h2" color="primary">
+          Organization Info
+        </Typography>
+        {isEditMode && (
+          <Button size="small" text="Change" onClick={openEditModal} />
+        )}
+      </div>
+
       <div className={style.content}>
         <img src={organization?.icon} className={style.logo} alt="org logo" />
         <div className={style.bioWrapper}>
@@ -70,6 +90,10 @@ function OrganizationInfo({ organization }) {
           </Section>
         </div>
       </div>
+
+      <Modal visible={organizationEditVisible}>
+        <OrganizationEdit onClose={closeEditModal} />
+      </Modal>
     </Card>
   )
 }

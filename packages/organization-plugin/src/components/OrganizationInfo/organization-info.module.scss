@@ -1,5 +1,10 @@
-.cardTitle {
+.cardHeader {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
+}
+.cardHeader button {
+  margin-left: calc(var(--unit) * 4);
 }
 
 .content {

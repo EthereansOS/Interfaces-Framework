@@ -1,0 +1,8 @@
+.root {
+  background-color: var(--tooltip-background-color);
+  border-radius: calc(var(--unit) * 6);
+  display: inline-block;
+  padding: calc(var(--unit) * 4);
+  margin: calc(var(--unit) * 5) 0;
+  text-align: center;
+}

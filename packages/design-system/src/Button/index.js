@@ -6,8 +6,17 @@ import { sizePropType } from '../propTypes'
 
 import style from './button.module.scss'
 
-const Button = ({ text, onClick, variant, className, color, size }) => (
+const Button = ({
+  text,
+  onClick,
+  variant,
+  className,
+  color,
+  size,
+  ...props
+}) => (
   <button
+    {...props}
     className={classNames(
       style.root,
       style[variant],

@@ -18,3 +18,4 @@ It **accepts all the basic input props**.
 | onChange       | function | yes      |         | handler triggered by the native change event of the input element      |
 | startComponent | node     |          |         | component to render to the left of the input                           |
 | endComponent   | node     |          |         | component to render to the right of the input                          |
+| multiline      | bool     |          |         | if true renders a textarea                                             |

@@ -17,7 +17,6 @@
 
 .link {
   list-style-type: none;
-  box-sizing: border-box;
   display: inline-block;
   padding-top: 6px;
   padding-bottom: 6px;

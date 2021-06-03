@@ -2,7 +2,7 @@ import React from 'react'
 import T from 'prop-types'
 import { Typography } from '@dfohub/design-system'
 
-import style from './section.module.css'
+import style from './section.module.scss'
 
 const Section = ({ category, children, column, className }) => (
   <div className={className}>
