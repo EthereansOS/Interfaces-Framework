@@ -83,7 +83,8 @@ summary,
 time,
 mark,
 audio,
-video {
+video,
+textarea {
   margin: 0;
   padding: 0;
   border: 0;
@@ -126,6 +127,14 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 input[type='checkbox'] {
   margin: 0;

@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputContainer {
+  background-color: var(--color-background-extra-dark);
+}
+
+.tooltip {
+  width: 100%;
+}
+
+.tooltip p {
+  color: var(--tooltip-color);
+}

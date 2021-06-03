@@ -1,9 +1,8 @@
 .root {
   width: 100%;
-  box-sizing: border-box;
   padding: calc(var(--unit) * 8);
   background-color: var(--color-background);
   color: var(--color-text);
-  border-radius: 25px;
+  border-radius: calc(var(--unit) * 6);
   margin: calc(var(--unit) * 3) 0;
 }

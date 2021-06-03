@@ -21,4 +21,7 @@ body {
   --color-background-dark: #292929;
   --color-background-extra-dark: #212121;
   --color-background-black: #191919;
+
+  --tooltip-background-color: #383838;
+  --tooltip-color: #888888;
 }

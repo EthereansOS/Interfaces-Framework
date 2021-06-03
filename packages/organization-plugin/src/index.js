@@ -10,6 +10,7 @@ import DecentralizedApplication from './components/DecentralizedApplication'
 import RulesAndFunds from './components/RulesAndFunds'
 import List from './pages/List'
 import { OrganizationContextProvider } from './OrganizationContext'
+import EditMetadata from './pages/EditMetadata'
 
 const initPlugin = ({ addElement }) => {
   addElement('globalContexts', {
@@ -192,6 +193,17 @@ const initPlugin = ({ addElement }) => {
     key: 'rulesAndFunds',
     index: 30,
     Component: RulesAndFunds,
+  })
+
+  addElement('router', {
+    index: 20,
+    path: '/organizations/:address/edit',
+    Component: EditMetadata,
+    exact: true,
+    requireConnection: true,
+    templateProps: {
+      showBeforeMenu: true,
+    },
   })
 
   addElement('router', {

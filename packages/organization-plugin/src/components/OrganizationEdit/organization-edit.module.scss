@@ -1,0 +1,40 @@
+.root {
+  padding: calc(var(--unit) * 4);
+}
+
+.root h1 {
+  margin-bottom: calc(var(--unit) * 8);
+  text-align: center;
+}
+
+.root button:first-child {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.root input,
+.root textarea,
+.inputContainer {
+  background-color: var(--color-background-extra-dark);
+}
+
+.inputContainer {
+  margin-top: calc(var(--unit) * 4);
+}
+
+.root textarea {
+  width: 100%;
+  min-height: 60px;
+}
+
+.root form {
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.tooltip p {
+  color: var(--tooltip-color);
+}
