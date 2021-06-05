@@ -1,18 +1,10 @@
 import '@testing-library/jest-dom/extend-expect'
 
-import cw3p from 'create-web3-provider'
-
 import * as context from '../../test-data/context.json'
 
 import initWeb3, { CONNECTING, CONNECTED } from './web3'
 
 describe('web3', () => {
-  beforeAll(async () => {
-    // The fastest way to test this is actually using ropsten, mocking a provider
-    // is actually a mess.
-    window.ethereum = cw3p({ network: 'ropsten' })
-  })
-
   const setState = jest.fn()
 
   afterEach(() => {

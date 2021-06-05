@@ -7,7 +7,7 @@ import initWeb3 from '../../lib/web3'
 
 import loadDFOList from './loadDFOList'
 
-describe('loadList', () => {
+describe.only('loadList', () => {
   beforeAll(async () => {
     window.ethereum = cw3p({ network: 'ropsten' })
   })
@@ -21,7 +21,7 @@ describe('loadList', () => {
     jest.clearAllMocks()
   })
 
-  it('Load the list of organizations', async () => {
+  it.skip('Load the list of organizations', async () => {
     const methods = initWeb3(context, setInitialState)
     await methods.connect()
     const initialState = stateFn()

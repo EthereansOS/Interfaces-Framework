@@ -71,11 +71,13 @@ function initWeb3(context, setState) {
     }
 
     try {
-      await blockchainCallFn(
-        { web3, context },
-        newContract({ web3, web3ForLogs }, context.votingTokenAbi, votingToken)
-          .methods.name
+      const tokenContract = newContract(
+        { web3, web3ForLogs },
+        context.votingTokenAbi,
+        votingToken
       )
+
+      await blockchainCallFn({ web3, context }, tokenContract.methods.name)
     } catch (e) {
       votingToken = undefined
     }
