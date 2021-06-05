@@ -57,12 +57,7 @@ const loadDFOList = (methods, getState, setState) => async () => {
       toBlock: '' + toBlock,
     })
 
-    for (const [index, log] of logs.entries()) {
-      // When testing we are using ropsten (real blockchain) so we limit the number of item in list to avoid timeout
-      if (process.env.NODE_ENV === 'test' && index >= 2) {
-        break
-      }
-
+    for (const log of logs) {
       const key = log.blockNumber + '_' + log.id
       if (isInList(key, getState().list)) {
         continue
@@ -177,8 +172,9 @@ const loadDFOList = (methods, getState, setState) => async () => {
     args.topics && logArgs.topics.push(...args.topics)
     args.fromBlock && (logArgs.fromBlock = args.fromBlock)
     args.toBlock && (logArgs.toBlock = args.toBlock)
+    const logs = await getLogs(logArgs)
     return formatDFOLogs(
-      await getLogs(logArgs),
+      logs,
       args.event && args.event.indexOf('0x') === -1 ? args.event : undefined
     )
   }

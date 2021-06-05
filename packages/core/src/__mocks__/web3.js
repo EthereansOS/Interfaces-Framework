@@ -17,11 +17,21 @@ function Contract(abi, address) {
 }
 
 const eth = {
-  getBlockNumber: jest.fn(),
   getAccounts: jest.fn(),
+  getBlockNumber: jest.fn().mockImplementation(() => 10377970),
   getPastLogs: jest.fn().mockImplementation((args) => {
     const { address } = args
-    return logs[address] || []
+    // address can be both one string and an array
+    // https://web3js.readthedocs.io/en/v1.2.0/web3-eth.html#getpastlogs
+    if (!Array.isArray(address)) {
+      return logs[address] ? [logs[address]] : []
+    }
+    // We get all the logs with the same address and the same topic, in order,
+    // see: https://web3js.readthedocs.io/en/v1.2.0/web3-eth.html#getpastlogs
+    const lg = address.map((add) => logs[add]).filter((l) => !!l)
+    return lg.filter(
+      (l) => JSON.stringify(l.topics) === JSON.stringify(args.topics)
+    )
   }),
   net: {
     getId: () => 3, // we use the ropsten addresses
