@@ -1,0 +1,44 @@
+.root {
+  border-color: var(--color-text);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+
+  &.primary {
+    border-top-color: var(--color-primary);
+  }
+
+  &.secondary {
+    border-top-color: var(--color-secondary);
+  }
+
+  &.small {
+    width: 15px;
+    height: 15px;
+    border-width: 2px;
+  }
+
+  &.medium {
+    border-width: 4px;
+    width: 30px;
+    height: 30px;
+  }
+
+  &.large {
+    border-width: 6px;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
