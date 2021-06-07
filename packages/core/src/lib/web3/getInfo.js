@@ -94,6 +94,7 @@ async function getInfo(environment, element) {
     environment,
     newElement.token.methods.totalSupply
   )
+
   try {
     newElement.metadata = await window.AJAXRequest(
       formatLink(
@@ -113,6 +114,7 @@ async function getInfo(environment, element) {
       (it) => (element[it[0]] = it[1] || element[it[0]])
     )
   } catch (e) {}
+
   newElement.decimals = await blockchainCall(
     environment,
     newElement.token.methods.decimals
@@ -137,19 +139,19 @@ async function getInfo(environment, element) {
   newElement.minimumBlockNumberForEmergencySurvey = '0'
   newElement.emergencySurveyStaking = '0'
 
-  await refreshBalances(
-    {
-      web3,
-      context,
-      dfoHub: newElement.key === 'DFO' ? newElement : getState().list.DFO,
-      walletAddress,
-      uniswapV2Router,
-      wethAddress,
-      getState,
-      updateElement,
-    },
-    newElement
-  )
+  // await refreshBalances(
+  //   {
+  //     web3,
+  //     context,
+  //     dfoHub: newElement.key === 'DFO' ? newElement : getState().list.DFO,
+  //     walletAddress,
+  //     uniswapV2Router,
+  //     wethAddress,
+  //     getState,
+  //     updateElement,
+  //   },
+  //   newElement
+  // )
 
   try {
     newElement.minimumBlockNumberForEmergencySurvey =

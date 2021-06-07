@@ -8,14 +8,13 @@ import blockchainCallFn from './web3/blockchainCall'
 import formatLink from './web3/formatLink'
 import getNetworkElementFn from './web3/getNetworkElement'
 import initConnectionFn from './web3/initConnection'
+import initDFOFn from './web3/initDFO'
 import getLogsFn from './web3/getLogs'
-import { newContract } from './web3/contracts'
+import loadDFOFn from './web3/loadDFO'
 import getInfoFn from './web3/getInfo'
 import refreshBalancesFn from './web3/refreshBalances'
 
 function initWeb3(context, setState, getState) {
-  const voidEthereumAddress = '0x0000000000000000000000000000000000000000'
-
   let web3
   let networkId
   let web3ForLogs
@@ -28,92 +27,10 @@ function initWeb3(context, setState, getState) {
   let dfoHub = null
   let walletAddress = null
   let walletAvatar = null
-  let dfoEvent = null
-
-  const loadDFOFn = async function loadDFOFn(
-    { web3, web3ForLogs, context, networkId },
-    address,
-    allAddresses
-  ) {
-    allAddresses = allAddresses || []
-    allAddresses.push(address)
-    const dfo = newContract({ web3 }, context.proxyAbi, address)
-    let votingToken
-
-    try {
-      let delegates = await web3.eth.call({
-        to: document.element.dFO.options.address,
-        data: document.element.dFO.methods.getDelegates().encodeABI(),
-      })
-      try {
-        delegates = web3.eth.abi.decodeParameter('address[]', delegates)
-      } catch (e) {
-        delegates = web3.eth.abi.decodeParameters(
-          ['address', 'address', 'address', 'address', 'address', 'address'],
-          delegates
-        )
-      }
-      votingToken = delegates[0]
-    } catch (e) {
-      votingToken = undefined
-    }
-
-    if (!votingToken || votingToken === voidEthereumAddress) {
-      try {
-        votingToken = await blockchainCallFn(
-          { web3, context },
-          dfo.methods.getToken
-        )
-      } catch (e) {}
-    }
-
-    try {
-      const tokenContract = newContract(
-        { web3, web3ForLogs },
-        context.votingTokenAbi,
-        votingToken
-      )
-
-      await blockchainCallFn({ web3, context }, tokenContract.methods.name)
-    } catch (e) {
-      votingToken = undefined
-    }
-
-    if (!votingToken || votingToken === voidEthereumAddress) {
-      const logs = await getLogsFn(
-        { web3, context, web3ForLogs, networkId },
-        {
-          address,
-          topics: [
-            (proxyChangedTopic =
-              proxyChangedTopic || web3.utils.sha3('ProxyChanged(address)')),
-          ],
-          fromBlock: getNetworkElement('deploySearchStart'),
-          toBlock: 'latest',
-        },
-        true
-      )
-      // This codes assumes that the dfo is always found
-      return await loadDFOFn(
-        { web3, web3ForLogs, context, networkId },
-        web3.eth.abi.decodeParameter('address', logs[0].topics[1]),
-        allAddresses
-      )
-    }
-    dfo.options.originalAddress = allAddresses[0]
-    dfo.options.allAddresses = allAddresses
-    try {
-      dfo.metadataLink = web3.eth.abi.decodeParameter(
-        'string',
-        await blockchainCall(dfo.methods.read, 'getMetadataLink', '0x')
-      )
-    } catch (e) {}
-    return dfo
-  }
 
   const loadDFO = async function (address, allAddresses) {
     return loadDFOFn(
-      { web3, web3ForLogs, context, networkId },
+      { web3, web3ForLogs, context, networkId, proxyChangedTopic },
       address,
       allAddresses
     )
@@ -127,7 +44,7 @@ function initWeb3(context, setState, getState) {
     )
   }
 
-  function onEthereumUpdate(millis, newConnection) {
+  function onEthereumUpdate(newConnection) {
     return new Promise(async function (resolve) {
       setState((s) => ({
         ...s,
@@ -137,17 +54,14 @@ function initWeb3(context, setState, getState) {
       const newState = await initConnectionFn(
         {
           web3,
-          networkId,
           web3ForLogs,
+          networkId,
           proxyChangedTopic,
-          dfoHubENSResolver,
           uniswapV2Factory,
           uniswapV2Router,
           wethAddress,
-          dfoHub,
           walletAddress,
           walletAvatar,
-          loadDFOFn,
           context,
         },
         onEthereumUpdate
@@ -157,19 +71,19 @@ function initWeb3(context, setState, getState) {
       networkId = newState.networkId
       web3ForLogs = newState.web3ForLogs
       proxyChangedTopic = newState.proxyChangedTopic
-      dfoHubENSResolver = newState.dfoHubENSResolver
       uniswapV2Factory = newState.uniswapV2Factory
       uniswapV2Router = newState.uniswapV2Router
       wethAddress = newState.wethAddress
-      dfoHub = newState.dfoHub
       walletAddress = newState.walletAddress
       walletAvatar = newState.walletAvatar
 
+      // dfoHubENSResolver = newState.dfoHubENSResolver
+      // dfoHub = newState.dfoHub
       // TODO FIx the list init
       setState((s = {}) => ({
         ...s,
         ...newState,
-        list: !s.list || !Object.keys(s.list).length ? { DFO: dfoHub } : s.list,
+        // list: !s.list || !Object.keys(s.list).length ? { DFO: dfoHub } : s.list,
         connectionStatus: CONNECTED,
       }))
       return resolve(newState.web3)
@@ -184,24 +98,20 @@ function initWeb3(context, setState, getState) {
     return blockchainCallFn({ web3, context }, value, oldCall)
   }
 
-  async function refreshBalances() {
-    return refreshBalancesFn({
-      web3,
-      context,
-      dfoHub,
-      walletAddress,
-      wethAddress,
-      getState,
-      uniswapV2Router,
-      updateElement: (element) => {
-        console.log(element)
-        // setState((s) => ({
-        //   ...s,
-        //   // Add the logic here to update the balance for the element
-        //   // myBalanceOf
-        // }))
+  async function refreshBalances(element, silent) {
+    return refreshBalancesFn(
+      {
+        web3,
+        context,
+        dfoHub,
+        walletAddress,
+        wethAddress,
+        getState,
+        uniswapV2Router,
       },
-    })
+      element,
+      silent
+    )
   }
 
   // This updates the element info reading from the blockchain
@@ -217,23 +127,40 @@ function initWeb3(context, setState, getState) {
         uniswapV2Router,
         wethAddress,
         getState,
-        updateElement: (element) => {
-          console.log('element')
-          console.log(element)
-        },
       },
       element
     )
   }
 
-  async function connect(millis = 0) {
-    const result = await onEthereumUpdate(millis, true)
+  async function connect() {
+    const result = await onEthereumUpdate(true)
+    return result
+  }
+
+  async function initDFO() {
+    const result = await initDFOFn({
+      web3,
+      networkId,
+      web3ForLogs,
+      proxyChangedTopic,
+      uniswapV2Factory,
+      uniswapV2Router,
+      wethAddress,
+      dfoHubENSResolver,
+      dfoHub,
+      walletAddress,
+      walletAvatar,
+      loadDFOFn,
+      context,
+    })
+
     return result
   }
 
   return {
     onEthereumUpdate,
     connect,
+    initDFO,
     getInfo,
     formatLink,
     getLogs,
