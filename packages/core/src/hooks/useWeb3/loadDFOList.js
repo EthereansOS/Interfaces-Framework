@@ -48,6 +48,7 @@ const loadDFOList = (methods, getState, setState) => async () => {
     return false
   }
 
+  // Get all the ecent logs, and for each log, load the dfo data with `loadDFO`
   const getEventLogs = async (fromBlock, toBlock, event, topics) => {
     const logs = await getDFOLogs({
       address: dfoHub.dFO.options.allAddresses,
@@ -159,6 +160,7 @@ const loadDFOList = (methods, getState, setState) => async () => {
     return logVar.length ? manipulatedLogs : manipulatedLogs[0] || logVar
   }
 
+  // Get the DFO event setting as topic `dfoEvent`.
   const getDFOLogs = async (args) => {
     const event =
       dfoEvent || web3.utils.sha3('Event(string,bytes32,bytes32,bytes)')
@@ -167,6 +169,7 @@ const loadDFOList = (methods, getState, setState) => async () => {
       fromBlock: '0',
       toBlock: 'latest',
     }
+    // if there is an address, set it
     args.address && (logArgs.address = args.address)
     args.event &&
       logArgs.topics.push(
@@ -177,20 +180,20 @@ const loadDFOList = (methods, getState, setState) => async () => {
     args.topics && logArgs.topics.push(...args.topics)
     args.fromBlock && (logArgs.fromBlock = args.fromBlock)
     args.toBlock && (logArgs.toBlock = args.toBlock)
-    return formatDFOLogs(
-      await getLogs(logArgs),
+    const logs = await getLogs(logArgs)
+    const formattedLogs = formatDFOLogs(
+      logs,
       args.event && args.event.indexOf('0x') === -1 ? args.event : undefined
     )
+    return formattedLogs
   }
 
   // Chiama getEventLogs due volte fino a che
   // toBlock === window.getNetworkElement('deploySearchStart')
-
   async function load(topics, toBlock, lastBlockNumber) {
     if (toBlock === getNetworkElement('deploySearchStart')) {
       return
     }
-
     const lastEthBlock = await web3.eth.getBlockNumber()
     const lastBlockNumberNew = lastBlockNumber || lastEthBlock
     const toBlockNew = toBlock || lastBlockNumberNew
@@ -198,9 +201,10 @@ const loadDFOList = (methods, getState, setState) => async () => {
     let fromBlock = toBlockNew - BLOCK_SEARCH_SIZE
     const startBlock = getNetworkElement('deploySearchStart')
     fromBlock = fromBlock > startBlock ? startBlock : toBlockNew
+    // We get all the DFP logs related with the event
     await Promise.all([
       getEventLogs(fromBlock, toBlockNew, NEW_DFO_DEPLOYED_EVENT),
-      getEventLogs(fromBlock, toBlockNew, DFO_DEPLOYED_EVENT),
+      // getEventLogs(fromBlock, toBlockNew, DFO_DEPLOYED_EVENT),
     ])
     return load(topics, fromBlock, lastBlockNumberNew)
   }

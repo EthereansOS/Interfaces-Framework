@@ -84,9 +84,11 @@ async function initConnection(environment, onUpdate) {
       context.uniSwapV2RouterAbi,
       context.uniSwapV2RouterAddress
     )
-    wethAddress = web3.utils.toChecksumAddress(
-      await blockchainCall({ web3, context }, uniswapV2Router.methods.WETH)
+    const callResult = await blockchainCall(
+      { web3, context },
+      uniswapV2Router.methods.WETH
     )
+    wethAddress = web3.utils.toChecksumAddress(callResult)
 
     const dfo = await loadDFOFn(
       { web3, web3ForLogs, context, networkId },

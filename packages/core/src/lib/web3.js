@@ -71,11 +71,13 @@ function initWeb3(context, setState) {
     }
 
     try {
-      await blockchainCallFn(
-        { web3, context },
-        newContract({ web3, web3ForLogs }, context.votingTokenAbi, votingToken)
-          .methods.name
+      const tokenContract = newContract(
+        { web3, web3ForLogs },
+        context.votingTokenAbi,
+        votingToken
       )
+
+      await blockchainCallFn({ web3, context }, tokenContract.methods.name)
     } catch (e) {
       votingToken = undefined
     }
@@ -94,6 +96,7 @@ function initWeb3(context, setState) {
         },
         true
       )
+      // This codes assumes that the dfo is always found
       return await loadDFOFn(
         { web3, web3ForLogs, context, networkId },
         web3.eth.abi.decodeParameter('address', logs[0].topics[1]),
