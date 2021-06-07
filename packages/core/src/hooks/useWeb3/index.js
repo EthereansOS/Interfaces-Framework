@@ -3,7 +3,8 @@ import T from 'prop-types'
 
 import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../../lib/web3'
 import { useInit } from '../useInit'
-import loadDFOList from '../loadList'
+import loadDFOList from '../useWeb3/loadDFOList'
+import getInfoFn from '../../lib/web3/getInfo'
 
 const Web3Context = React.createContext('web3')
 
@@ -12,6 +13,7 @@ export const Web3ContextProvider = ({ children }) => {
   const [methods, setMethods] = useState({})
   const { context } = useInit()
 
+  const getState = () => state
   useEffect(() => {
     const {
       onEthereumUpdate,
@@ -21,7 +23,8 @@ export const Web3ContextProvider = ({ children }) => {
       getLogs,
       loadDFO,
       getNetworkElement,
-    } = initWeb3(context, setState)
+      refreshBalances,
+    } = initWeb3(context, setState, getState)
     setMethods((s) => ({
       ...s,
       onEthereumUpdate,
@@ -31,6 +34,7 @@ export const Web3ContextProvider = ({ children }) => {
       getLogs,
       loadDFO,
       getNetworkElement,
+      refreshBalances,
     }))
   }, [context])
 
@@ -38,6 +42,7 @@ export const Web3ContextProvider = ({ children }) => {
     if (!element || element.updating) {
       return
     }
+
     setState((s) => ({
       ...s,
       list: {
@@ -46,7 +51,10 @@ export const Web3ContextProvider = ({ children }) => {
       },
     }))
 
-    const newElement = await methods.getInfo(element)
+    const newElement = await getInfoFn(
+      { ...getState(), context, getState },
+      element
+    )
 
     setState((s) => ({
       ...s,

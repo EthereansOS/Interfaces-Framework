@@ -11,6 +11,9 @@ const useOrganizations = () => {
   useEffect(() => {
     const run = async () => {
       if (list && Object.keys(list).length) {
+        if (list.DFO.updating) {
+          return
+        }
         for (const key of Object.keys(list)) {
           const el = list[key]
           if (el.updating || el.updated) {

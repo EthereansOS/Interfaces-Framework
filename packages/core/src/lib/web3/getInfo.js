@@ -3,9 +3,21 @@ import makeBlockie from 'ethereum-blockies-base64'
 import { newContract } from './contracts'
 import formatLink from './formatLink'
 import blockchainCall from './blockchainCall'
+import refreshBalances from './refreshBalances'
 
 async function getInfo(environment, element) {
-  const { web3, context, dfoHub, dfoHubENSResolver } = environment
+  const {
+    web3,
+    context,
+    dfoHub,
+    dfoHubENSResolver,
+    walletAddress,
+    uniswapV2Router,
+    wethAddress,
+    getState,
+    updateElement,
+  } = environment
+
   let votingTokenAddress
   let stateHolderAddress
   let functionalitiesManagerAddress
@@ -124,6 +136,20 @@ async function getInfo(environment, element) {
   newElement.lastUpdate = newElement.startBlock
   newElement.minimumBlockNumberForEmergencySurvey = '0'
   newElement.emergencySurveyStaking = '0'
+
+  await refreshBalances(
+    {
+      web3,
+      context,
+      dfoHub: newElement.key === 'DFO' ? newElement : getState().list.DFO,
+      walletAddress,
+      uniswapV2Router,
+      wethAddress,
+      getState,
+      updateElement,
+    },
+    newElement
+  )
 
   try {
     newElement.minimumBlockNumberForEmergencySurvey =
