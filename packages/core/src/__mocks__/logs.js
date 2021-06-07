@@ -1,7 +1,5 @@
 import * as context from '../../test-data/context.json'
 
-import dfoListLogs from './listDfoLogs'
-
 // https://ropsten.etherscan.io/tx/0xd7d12d630c5f2003a529d4dd0cc3609b8c10f3a8ddcfc841315f7ab70cd8e010
 const dfoLogs = [
   {
@@ -91,10 +89,11 @@ const dfoLogs = [
   },
 ]
 
-const allLogs = [...dfoLogs, ...dfoListLogs]
+const allLogs = [...dfoLogs]
 
 const logs = allLogs.reduce((acc, log) => {
-  acc[log.address] = log
+  const prev = acc[log.address] || []
+  acc[log.address] = [...prev, log]
   return acc
 }, {})
 

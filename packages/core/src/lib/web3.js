@@ -96,6 +96,7 @@ function initWeb3(context, setState) {
         },
         true
       )
+      // This codes assumes that the dfo is always found
       return await loadDFOFn(
         { web3, web3ForLogs, context, networkId },
         web3.eth.abi.decodeParameter('address', logs[0].topics[1]),

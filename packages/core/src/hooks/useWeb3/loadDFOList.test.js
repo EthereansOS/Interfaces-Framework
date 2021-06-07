@@ -6,6 +6,8 @@ import initWeb3 from '../../lib/web3'
 import loadDFOList from './loadDFOList'
 
 describe('loadList', () => {
+  beforeAll(async () => {})
+
   let stateFn = () => {}
   const setInitialState = (f) => (stateFn = f)
 
@@ -20,10 +22,8 @@ describe('loadList', () => {
     await methods.connect()
     const initialState = stateFn()
     await loadDFOList(methods, () => initialState, setState)()
-    // TODO: complete
-    // expect(setState).toHaveBeenCalledTimes(4)
-    // const firstCallState = setState.mock.calls[0][0](initialState)
-    // // TODO: add more significative assertions
-    // expect(Object.keys(firstCallState.list).length).toEqual(2)
+    // This test is not actually fully testing the function. We need to mock web3.eth.getPastLogs to find the dfo logs.
+    // The problem is that this search is recursive, and the address of the subsequent searchs done using the "data" field.
+    // This implementation loads ALL the dfo events, then look for the dfo created filtering per topic and using the `data` field to get    // all the others logs recursively, but didn't find any
   })
 })
