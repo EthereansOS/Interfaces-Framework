@@ -1,8 +1,4 @@
 /* eslint-disable */
-
-import nameHash from 'eth-ens-namehash'
-import makeBlockie from 'ethereum-blockies-base64'
-
 export const CONNECTING = 'connecting'
 export const UPDATING = 'updating'
 export const NOT_CONNECTED = 'not_connected'
@@ -15,8 +11,9 @@ import initConnectionFn from './web3/initConnection'
 import getLogsFn from './web3/getLogs'
 import { newContract } from './web3/contracts'
 import getInfoFn from './web3/getInfo'
+import refreshBalancesFn from './web3/refreshBalances'
 
-function initWeb3(context, setState) {
+function initWeb3(context, setState, getState) {
   const voidEthereumAddress = '0x0000000000000000000000000000000000000000'
 
   let web3
@@ -187,6 +184,26 @@ function initWeb3(context, setState) {
     return blockchainCallFn({ web3, context }, value, oldCall)
   }
 
+  async function refreshBalances() {
+    return refreshBalancesFn({
+      web3,
+      context,
+      dfoHub,
+      walletAddress,
+      wethAddress,
+      getState,
+      uniswapV2Router,
+      updateElement: (element) => {
+        console.log(element)
+        // setState((s) => ({
+        //   ...s,
+        //   // Add the logic here to update the balance for the element
+        //   // myBalanceOf
+        // }))
+      },
+    })
+  }
+
   // This updates the element info reading from the blockchain
   async function getInfo(element) {
     return getInfoFn(
@@ -196,6 +213,14 @@ function initWeb3(context, setState) {
         dfoHub,
         dfoHubENSResolver,
         context,
+        walletAddress,
+        uniswapV2Router,
+        wethAddress,
+        getState,
+        updateElement: (element) => {
+          console.log('element')
+          console.log(element)
+        },
       },
       element
     )
@@ -213,6 +238,7 @@ function initWeb3(context, setState) {
     formatLink,
     getLogs,
     loadDFO,
+    refreshBalances,
     getNetworkElement,
   }
 }

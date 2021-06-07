@@ -60,7 +60,7 @@ const loadDFOList = (methods, getState, setState) => async () => {
 
     for (const [index, log] of logs.entries()) {
       // When testing we are using ropsten (real blockchain) so we limit the number of item in list to avoid timeout
-      if (process.env.NODE_ENV === 'test' && index >= 2) {
+      if (/*process.env.NODE_ENV === 'test' && */ index >= 2) {
         break
       }
 
