@@ -1,4 +1,3 @@
-import nameHash from 'eth-ens-namehash'
 import makeBlockie from 'ethereum-blockies-base64'
 
 import { newContract, resetContracts } from './contracts'
@@ -7,20 +6,17 @@ import getNetworkElement from './getNetworkElement'
 import blockchainCall from './blockchainCall'
 
 async function initConnection(environment, onUpdate) {
-  const { loadDFOFn, context } = environment
+  const { context } = environment
   let networkId = environment.networkId
   let web3 = environment.web3
   let web3ForLogs = environment.web3ForLogs
   let uniswapV2Factory = environment.uniswapV2Factory
-  let dfoHubENSResolver = environment.dfoHubENSResolver
   let uniswapV2Router = environment.uniswapV2Router
   let wethAddress = environment.wethAddress
-  let dfoHub = environment.dfoHub
   let walletAddress = environment.walletAddress
   let walletAvatar = environment.walletAvatar
   let proxyChangedTopic = environment.proxyChangedTopic
 
-  let update = false
   if (!networkId || networkId !== parseInt(window.ethereum.chainId)) {
     resetContracts()
     window.ethereum &&
@@ -56,24 +52,9 @@ async function initConnection(environment, onUpdate) {
     }
     // delete window.tokensList
     // delete window.loadedTokens
-
+    //
     // window.loadOffChainWallets();
-    const ENSController = newContract(
-      { web3 },
-      context.ENSAbi,
-      context.ensAddress
-    )
-    try {
-      dfoHubENSResolver = newContract(
-        { web3 },
-        context.resolverAbi,
-        await blockchainCall(
-          { web3, context },
-          ENSController.methods.resolver,
-          nameHash.hash(nameHash.normalize('dfohub.eth'))
-        )
-      )
-    } catch (e) {}
+
     uniswapV2Factory = newContract(
       { web3 },
       context.uniSwapV2FactoryAbi,
@@ -90,48 +71,24 @@ async function initConnection(environment, onUpdate) {
     )
     wethAddress = web3.utils.toChecksumAddress(callResult)
 
-    const dfo = await loadDFOFn(
-      { web3, web3ForLogs, context, networkId },
-      getNetworkElement({ context, networkId }, 'dfoAddress')
-    )
-
-    dfoHub = {
-      key: 'DFO',
-      dFO: dfo,
-      startBlock: getNetworkElement(
-        { context, networkId },
-        'deploySearchStart'
-      ),
-    }
-
-    update = true
+    proxyChangedTopic =
+      proxyChangedTopic || web3.utils.sha3('ProxyChanged(address)')
   }
 
   const accounts = await web3.eth.getAccounts()
   walletAddress = accounts && accounts.length > 0 ? accounts[0] : null
   walletAvatar = walletAddress ? makeBlockie(walletAddress) : null
 
-  // TODO: fixme
-  // Questo c'era sull'originale: https://github.com/EthereansOS/Organizations-Interface/blob/master/assets/scripts/script.js#L243
-  // non dobbiamo usare jquery
-  // update && $.publish('ethereum/update');
-  // $.publish('ethereum/ping');
-
   return {
     web3,
     networkId,
     web3ForLogs,
     proxyChangedTopic,
-    dfoHubENSResolver,
     uniswapV2Factory,
     uniswapV2Router,
     wethAddress,
-    dfoHub,
     walletAddress,
     walletAvatar,
-    list: {
-      DFO: dfoHub,
-    },
   }
 }
 
