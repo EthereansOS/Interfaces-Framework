@@ -15,7 +15,9 @@ const useOrganizationMetadata = (metadataLink) => {
       }
     }
 
-    fetchMetadata()
+    if (metadataLink) {
+      fetchMetadata()
+    }
   }, [metadataLink])
 
   return { metadata, error }

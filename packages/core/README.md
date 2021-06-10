@@ -103,11 +103,11 @@ Eg.
 
 ```js
 <PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
-  <GlobalContextProvider>
+  <GlobalContextsProvider>
     <HashRouter>
       <AppRouter />
     </HashRouter>
-  </GlobalContextProvider>
+  </GlobalContextsProvider>
 </PluginsContextProvider>
 ```
 
@@ -117,9 +117,9 @@ allows to have a context structure like:
 <PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
   <InjectedProvider1>
     <InjectedProvider2>
-    <HashRouter>
-      <AppRouter />
-    </HashRouter>
+      <HashRouter>
+        <AppRouter />
+      </HashRouter>
     </InjectedProvider2>
   </InjectedProvider1>
 </PluginsContextProvider>
@@ -128,8 +128,8 @@ allows to have a context structure like:
 The providers can be added from the `init` function usng the `addElement` method with the `globalContexts` keyword
 
 Eg.
-```js
 
+```js
 addElement('globalContexts', {
   name: 'InjectedProvider1',
   Component: InjectedProvider1,
@@ -137,12 +137,11 @@ addElement('globalContexts', {
 })
 
 addElement('globalContexts', {
-name: 'InjectedProvider2',
-Component: InjectedProvider2,
-index: 20,
+  name: 'InjectedProvider2',
+  Component: InjectedProvider2,
+  index: 20,
 })
 ```
-
 
 ### Other hooks
 

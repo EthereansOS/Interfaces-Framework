@@ -16,7 +16,7 @@ const getEventLogs = async (
   event,
   topics
 ) => {
-  const logs = await getDFOLogs(
+  return getDFOLogs(
     { web3, web3ForLogs, context, networkId, dfoEvent },
     {
       address: dfoHub.dFO.options.allAddresses,
@@ -26,8 +26,6 @@ const getEventLogs = async (
       toBlock: '' + toBlock,
     }
   )
-
-  return logs
 }
 
 async function loadDFOList(
@@ -39,7 +37,7 @@ async function loadDFOList(
   if (
     toBlock === getNetworkElement({ context, networkId }, 'deploySearchStart')
   ) {
-    return
+    return []
   }
   const lastEthBlock = await web3.eth.getBlockNumber()
   const lastBlockNumberNew = lastBlockNumber || lastEthBlock
@@ -67,16 +65,14 @@ async function loadDFOList(
     ),
   ])
 
-  return [
-    ...res[0],
-    ...res[1],
-    ...((await loadDFOList(
-      { web3, context, networkId },
-      topics,
-      fromBlock,
-      lastBlockNumberNew
-    )) || []),
-  ]
+  const nextList = await loadDFOList(
+    { web3, context, networkId },
+    topics,
+    fromBlock,
+    lastBlockNumberNew
+  )
+
+  return [...res[0], ...res[1], ...(nextList || [])]
 }
 
 export default loadDFOList

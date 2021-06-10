@@ -7,7 +7,7 @@ import {
   PluginsContextProvider,
   Web3ContextProvider,
   InitContextProvider,
-  GlobalContextProvider,
+  GlobalContextsProvider,
 } from '@dfohub/core'
 import organizationPlugin from '@dfohub/organization-plugin'
 import appPlugin from './plugins'
@@ -31,11 +31,11 @@ function App() {
       Error={({ error }) => <div>Error on application init: {error}</div>}>
       <Web3ContextProvider>
         <PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
-          <GlobalContextProvider>
+          <GlobalContextsProvider>
             <HashRouter>
               <AppRouter />
             </HashRouter>
-          </GlobalContextProvider>
+          </GlobalContextsProvider>
         </PluginsContextProvider>
       </Web3ContextProvider>
     </InitContextProvider>
