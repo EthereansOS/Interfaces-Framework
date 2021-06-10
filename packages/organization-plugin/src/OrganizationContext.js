@@ -1,4 +1,10 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react'
+import React, {
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react'
 import T from 'prop-types'
 import { useWeb3 } from '@dfohub/core'
 
@@ -7,16 +13,23 @@ import OrganizationHeader from './components/OrganizationHeader'
 const OrganizationContext = React.createContext('dfo-organization')
 
 export const OrganizationContextProvider = ({ children }) => {
-  const { list } = useWeb3()
+  const { list, loadOrganizationDetail } = useWeb3()
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [organizationHeader, setOrganizationHeader] = useState(null)
   const [organizationAddress, setOrganizationAddress] = useState(null)
   const [organizationNotFound, setNotFound] = useState(false)
-  const [organization, setOrganization] = useState()
 
   const setEditMode = useCallback(() => setIsEditMode(true), [setIsEditMode])
   const setViewMode = useCallback(() => setIsEditMode(false), [setIsEditMode])
+
+  const organization = useMemo(
+    () =>
+      Object.values(list || {}).find(
+        (organization) => organization.walletAddress === organizationAddress
+      ),
+    [list, organizationAddress]
+  )
 
   useEffect(() => {
     if (!organization) {
@@ -29,18 +42,27 @@ export const OrganizationContextProvider = ({ children }) => {
     if (!organizationAddress) {
       return
     }
-    const organization = Object.values(list || {}).find(
-      (organization) => organization.walletAddress === organizationAddress
-    )
+
     if (!organization) {
       setNotFound(true)
+      return
     }
-    setOrganization(organization)
-  }, [organizationAddress, list])
+
+    const fetch = async () => {
+      try {
+        await loadOrganizationDetail(organization)
+      } catch (e) {
+        setNotFound(true)
+      }
+    }
+
+    if (!organization.detailsLoaded && !organization.updating) {
+      fetch()
+    }
+  }, [organizationAddress, list, loadOrganizationDetail, organization])
 
   const unsetOrganization = () => {
     setOrganizationAddress()
-    setOrganization()
     setNotFound(false)
   }
 

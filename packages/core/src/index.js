@@ -1,8 +1,8 @@
-export * from './context/GlobalContextsProvider'
+export * from './context/GlobalContexts'
 export * from './hooks/usePlugins'
 export * from './hooks/usePrevious'
 export * from './hooks/useInit'
-export * from './hooks/useWeb3'
+export * from './context/Web3Context'
 
 export { default as tokenPercentage } from './lib/tokenPercentage'
 

@@ -28,7 +28,7 @@ GlobalContextsRenderer.propTypes = {
   children: T.oneOfType([T.arrayOf(T.node), T.node]).isRequired,
 }
 
-export const GlobalContextProvider = ({ children }) => {
+export const GlobalContextsProvider = ({ children }) => {
   const globalContexts = usePlaceholder('globalContexts')
 
   return (
@@ -38,6 +38,6 @@ export const GlobalContextProvider = ({ children }) => {
   )
 }
 
-GlobalContextProvider.propTypes = {
+GlobalContextsProvider.propTypes = {
   children: T.oneOfType([T.arrayOf(T.node), T.node]).isRequired,
 }

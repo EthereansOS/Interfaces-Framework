@@ -11,10 +11,9 @@ const useOrganization = (address) => {
   } = useOrganizationContext()
 
   useEffect(() => {
-    if (!address) {
-      return
+    if (address) {
+      setOrganizationAddress(address)
     }
-    setOrganizationAddress(address)
   }, [setOrganizationAddress, address])
 
   return {

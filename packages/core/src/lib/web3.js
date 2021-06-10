@@ -1,9 +1,3 @@
-/* eslint-disable */
-export const CONNECTING = 'connecting'
-export const UPDATING = 'updating'
-export const NOT_CONNECTED = 'not_connected'
-export const CONNECTED = 'connected'
-
 import blockchainCallFn from './web3/blockchainCall'
 import formatLink from './web3/formatLink'
 import getNetworkElementFn from './web3/getNetworkElement'
@@ -13,6 +7,11 @@ import getLogsFn from './web3/getLogs'
 import loadDFOFn from './web3/loadDFO'
 import getInfoFn from './web3/getInfo'
 import refreshBalancesFn from './web3/refreshBalances'
+
+export const CONNECTING = 'connecting'
+export const UPDATING = 'updating'
+export const NOT_CONNECTED = 'not_connected'
+export const CONNECTED = 'connected'
 
 function initWeb3(context, setState, getState) {
   let web3

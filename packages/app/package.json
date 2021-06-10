@@ -10,6 +10,7 @@
     "@dfohub/organization-plugin": "1.0.0",
     "classnames": "^2.2.6",
     "formik": "^2.2.8",
+    "p-limit": "^3.1.0",
     "pupa": "2.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

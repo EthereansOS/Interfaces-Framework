@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useWeb3 } from '@dfohub/core'
 import { WEB3_CONNECTED } from '@dfohub/core'
 
 import { useOrganizationContext } from '../OrganizationContext'
 
-const MAX_CONCURRENT_UPDATE = 10
-
 const useOrganizations = () => {
   const {
     list,
-    updateInfo,
-    updateDetails,
     initDFO,
-    loadList,
+    loadOrganizationList,
+    listLoaded,
     connectionStatus,
     isDFOInit,
   } = useWeb3()
@@ -27,36 +24,14 @@ const useOrganizations = () => {
   }, [connectionStatus])
 
   useEffect(() => {
-    if (!isDFOInit) {
-      return
+    if (!listLoaded && isDFOInit) {
+      loadOrganizationList()
     }
-    loadList()
-  }, [isDFOInit, loadList])
-
-  useEffect(() => {
-    if (!list || !isDFOInit) return
-
-    const updating = Object.values(list).filter(
-      (element) => element.updating
-    ).length
-
-    const toUpdate = Object.values(list)
-      .filter((element) => !element.hasDetails && !element.updating)
-      .slice(0, MAX_CONCURRENT_UPDATE - updating)
-
-    // TODO uncomment this to limit the number of the detail requests
-    if (Object.values(list).filter((element) => element.hasDetails).length > 5)
-      return
-
-    if (toUpdate.length > MAX_CONCURRENT_UPDATE) {
-      return
-    }
-    updateDetails(toUpdate)
-  }, [isDFOInit, list])
+  }, [isDFOInit])
 
   return {
     organizations: list || [],
-    unsetOrganization: () => unsetOrganization(),
+    unsetOrganization,
   }
 }
 
