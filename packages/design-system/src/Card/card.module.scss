@@ -1,8 +1,20 @@
 .root {
   width: 100%;
-  padding: calc(var(--unit) * 8);
   background-color: var(--color-background);
   color: var(--color-text);
   border-radius: calc(var(--unit) * 6);
   margin: calc(var(--unit) * 3) 0;
+  padding-bottom: calc(var(--unit) * 8);
+}
+
+.content {
+  padding: calc(var(--unit) * 8) calc(var(--unit) * 8) 0 calc(var(--unit) * 8);
+}
+
+.root > footer {
+  margin-top: calc(var(--unit) * 8);
+  margin-bottom: calc(var(--unit) * -2);
+  background-color: var(--color-background-black);
+  width: 100%;
+  padding: calc(var(--unit) * 8);
 }

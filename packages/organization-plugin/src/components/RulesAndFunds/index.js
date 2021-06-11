@@ -9,7 +9,7 @@ import style from './rules-and-funds.module.scss'
 
 function RulesAndFunds({ organization }) {
   return (
-    <Card as="article">
+    <Card>
       <Typography
         variant="h2"
         color="primary"
