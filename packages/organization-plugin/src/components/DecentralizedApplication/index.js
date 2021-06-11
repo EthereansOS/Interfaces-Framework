@@ -34,7 +34,7 @@ function DecentralizedApplication({ organization }) {
   ]
 
   return (
-    <Card as="article">
+    <Card>
       <Typography
         variant="h2"
         color="primary"

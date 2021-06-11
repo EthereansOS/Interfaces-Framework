@@ -9,3 +9,14 @@ export default {
 }
 
 export const SampleCard = () => <Card>This is a sample card with a text</Card>
+export const SampleCardWithFooterContent = () => (
+  <Card
+    as="article"
+    Footer={
+      <div>
+        <p>hi</p>
+      </div>
+    }>
+    <p>This is a sample card with a text</p>
+  </Card>
+)

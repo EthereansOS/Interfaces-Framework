@@ -30,7 +30,7 @@ function OrganizationInfo({ organization }) {
   }
 
   return (
-    <Card as="article">
+    <Card>
       <div className={style.cardHeader}>
         <Typography fontFamily="secondary" variant="h2" color="primary">
           Organization Info
