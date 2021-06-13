@@ -1,0 +1,23 @@
+image: cypress/base:10
+
+cache: &node_modules
+  key: node_modules
+  paths:
+    - node_modules/
+
+stages:
+  - build
+
+# to cache Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
+variables:
+  CYPRESS_CACHE_FOLDER: '$CI_PROJECT_DIR/cache/Cypress'
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+    - npm run lint
+    - npm run test
+
