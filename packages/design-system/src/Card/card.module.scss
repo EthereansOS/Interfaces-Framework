@@ -11,10 +11,10 @@
   padding: calc(var(--unit) * 8) calc(var(--unit) * 8) 0 calc(var(--unit) * 8);
 }
 
-.root > footer {
+.footer {
   margin-top: calc(var(--unit) * 8);
   margin-bottom: calc(var(--unit) * -2);
   background-color: var(--color-background-black);
   width: 100%;
-  padding: calc(var(--unit) * 8);
+  padding: calc(var(--unit) * 6) calc(var(--unit) * 25);
 }

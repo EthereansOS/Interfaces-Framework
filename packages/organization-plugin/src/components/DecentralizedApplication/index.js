@@ -1,15 +1,19 @@
-import React from 'react'
-import T from 'prop-types'
-import { Card, Typography, Chip, Link } from '@dfohub/design-system'
+import React, { useState } from 'react'
+import { Card, Typography, Chip, Link, Button } from '@dfohub/design-system'
 import { useLocation } from 'react-router-dom'
 
 import Section from '../shared/Section'
 import { OrganizationPropType } from '../../propTypes'
+import { useOrganizationContext } from '../../OrganizationContext'
 
 import style from './decentralized-app.module.scss'
+import ChangeCodeFooter from './ChangeCodeFooter'
+import CodeFooter from './CodeFooter'
 
 function DecentralizedApplication({ organization }) {
+  const { isEditMode } = useOrganizationContext()
   const location = useLocation()
+
   const links = [
     {
       label: 'View',
@@ -33,8 +37,22 @@ function DecentralizedApplication({ organization }) {
     },
   ]
 
+  const [CardFooter, setCardFooter] = useState()
+
+  const openCodeFooter = () =>
+    setCardFooter((s) =>
+      s === ChangeCodeFooter || s === undefined ? CodeFooter : undefined
+    )
+
+  const openChangeCodeFooter = () =>
+    setCardFooter((s) =>
+      s === CodeFooter || s === undefined ? ChangeCodeFooter : undefined
+    )
+
   return (
-    <Card>
+    <Card
+      footerClassName={CardFooter === CodeFooter ? style.codeFooter : undefined}
+      Footer={CardFooter && <CardFooter organization={organization} />}>
       <Typography
         variant="h2"
         color="primary"
@@ -103,9 +121,20 @@ function DecentralizedApplication({ organization }) {
             </Link>
           </Section>
           <Section category="📲 Front-end:">
-            <Link to="/list">
-              <Chip className={style.chip} size="small" label="Code" />
-            </Link>
+            <Button
+              className={style.chip}
+              size="small"
+              text="Code"
+              onClick={openCodeFooter}
+            />
+
+            {isEditMode && (
+              <Button
+                size="small"
+                text="Change"
+                onClick={openChangeCodeFooter}
+              />
+            )}
           </Section>
           <Section category="🛠 Functions" column>
             <Typography variant="h5">

@@ -1,0 +1,15 @@
+.footer {
+  display: flex;
+}
+
+.footer article {
+  flex: 1;
+}
+
+.layer {
+  text-align: center;
+}
+
+.layer h6 {
+  margin-bottom: calc(var(--unit) * 6);
+}

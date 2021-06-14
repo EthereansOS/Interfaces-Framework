@@ -1,0 +1,37 @@
+.footer {
+  text-align: center;
+}
+
+.footerHeader {
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.footerHeader > p {
+  flex: 1;
+  margin-right: calc(var(--unit) * 16);
+}
+
+.footerHeader > div {
+  flex: 1;
+}
+
+.footerRowContainer {
+  display: flex;
+  align-items: center;
+}
+
+.inputsContainer {
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor {
+  margin-top: calc(var(--unit) * 6);
+}
+
+.submit {
+  margin-top: calc(var(--unit) * 6);
+}
