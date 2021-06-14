@@ -5,7 +5,9 @@ async function blockchainCall({ web3, context }, value, oldCall) {
   const args = []
   const call = value !== undefined && isNaN(value) ? value : oldCall
   for (let i = value === call ? 2 : 3; i < arguments.length; i++) {
-    arguments[i] && args.push(arguments[i])
+    arguments[i] !== undefined &&
+      arguments[i] !== null &&
+      args.push(arguments[i])
   }
   value = isNaN(value) ? undefined : value
   const method = (

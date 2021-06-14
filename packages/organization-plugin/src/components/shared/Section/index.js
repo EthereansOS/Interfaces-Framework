@@ -11,7 +11,7 @@ const Section = ({ category, children, column, className }) => (
     </Typography>
     <div
       className={style.categoryWrapper}
-      style={column && { flexDirection: 'column' }}>
+      style={column && { flexDirection: 'column', alignItems: 'flex-start' }}>
       {children}
     </div>
   </div>

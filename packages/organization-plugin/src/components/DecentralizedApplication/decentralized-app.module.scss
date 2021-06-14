@@ -35,3 +35,8 @@ h5 {
 .descriptionText {
   line-height: 2;
 }
+
+.codeFooter {
+  background-color: var(--color-background-light);
+  padding: calc(var(--unit) * 6) calc(var(--unit) * 2) 0 calc(var(--unit) * 2);
+}

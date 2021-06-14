@@ -7,6 +7,7 @@ import { useInit } from '../hooks/useInit'
 import loadDFO from '../lib/web3/loadDFO'
 import loadDFOList from '../lib/web3/loadDFOList'
 import getInfoFn from '../lib/web3/getInfo'
+import loadContentFn from '../lib/web3/loadContent'
 import loadOrganizationListInfo from '../lib/web3/loadOrganizationListInfo'
 
 const Web3Context = React.createContext('web3')
@@ -206,11 +207,15 @@ export const Web3ContextProvider = ({ children }) => {
     context,
   ])
 
+  const loadContent = (tokenId, address, raw) =>
+    loadContentFn({ web3, context, networkId }, tokenId, address, raw)
+
   const values = {
     ...methods,
     ...state,
     loadOrganizationList,
     loadOrganizationDetail,
+    loadContent,
   }
 
   return <Web3Context.Provider value={values}>{children}</Web3Context.Provider>

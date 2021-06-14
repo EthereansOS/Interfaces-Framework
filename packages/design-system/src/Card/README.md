@@ -10,6 +10,7 @@ This component implements a card.
 
 ## Props
 
-| Name   | Type      | Required | Default | Description                                    |
-| ------ | --------- | -------- | ------- | ---------------------------------------------- |
-| Footer | ReactNode |          |         | footer component to show on a black background |
+| Name            | Type      | Required | Default | Description                                    |
+| --------------- | --------- | -------- | ------- | ---------------------------------------------- |
+| Footer          | ReactNode |          |         | footer component to show on a black background |
+| footerClassName | string    |          |         |                                                |

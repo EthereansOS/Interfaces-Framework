@@ -1,6 +1,5 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react-hooks'
-import { WEB3_CONNECTED } from '@dfohub/core'
 
 const web3 = {
   list: [
