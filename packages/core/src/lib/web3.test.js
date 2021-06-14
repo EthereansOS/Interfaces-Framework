@@ -31,16 +31,6 @@ describe('web3', () => {
       expect(thirdSetState.web3).toBeTruthy()
     })
 
-    it('set the DFO contract data when connecting', async () => {
-      const { connect } = initWeb3(context, setState)
-      await connect()
-      expect(setState).toHaveBeenCalledTimes(2)
-      const secondSetState = setState.mock.calls[1][0]()
-      expect(secondSetState.list.DFO.key).toEqual('DFO')
-      expect(secondSetState.list.DFO.dFO).toBeTruthy()
-      expect(secondSetState.list.DFO.startBlock).toBeTruthy()
-    })
-
     it('set the web3 object when connecting', async () => {
       const { connect } = initWeb3(context, setState)
       await connect()

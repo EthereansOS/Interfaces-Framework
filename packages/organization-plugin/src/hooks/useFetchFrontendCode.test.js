@@ -23,17 +23,16 @@ describe('useFetchFrontendCode', () => {
 
     mockWeb3.loadContent.mockResolvedValueOnce(mockedDecCode)
 
-    const { result } = renderHook(() => useFetchFrontendCode(orgIndex, orgLink))
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useFetchFrontendCode(orgIndex, orgLink)
+    )
 
-    let state
-    act(() => {
-      state = result.current
-    })
+    await waitForNextUpdate()
 
     expect(mockWeb3.loadContent).toBeCalledWith(orgIndex)
     expect(window.fetch).toBeCalledWith(orgLink, { mode: 'no-cors' })
 
-    expect(state).toEqual({
+    expect(result.current).toEqual({
       distributedCode: mockedDistrCode,
       decentralizedCode: mockedDecCode,
     })

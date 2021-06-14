@@ -20,12 +20,7 @@ describe('hooks/useInit', () => {
     )
 
     const { result } = renderHook(() => useInit(), { wrapper })
-    let state
-    act(() => {
-      state = result.current
-    })
-
-    expect(state).toEqual({ isInit: true, error: null, foo: 'bar' })
+    expect(result.current).toEqual({ isInit: true, error: null, foo: 'bar' })
   })
 
   it('The component is still not initialized', async () => {
