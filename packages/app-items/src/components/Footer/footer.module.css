@@ -1,0 +1,47 @@
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.root {
+  border-top: 1px solid var(--color-default);
+  padding-top: calc(var(--unit) * 10);
+}
+
+.root section {
+  max-width: 800px;
+  text-align: center;
+}
+
+.linkList {
+  line-height: calc(var(--unit) * 4);
+  margin-bottom: calc(var(--unit) * 10);
+}
+
+.root section a {
+  font-size: 15px;
+  color: #6e6e6e;
+  text-decoration: underline;
+  display: inline-block;
+  margin: 10px;
+  font-weight: bold;
+}
+
+.disclaimer {
+  width: 400px;
+}
+
+.disclaimerText {
+  color: var(--color-light);
+  line-height: calc(var(--unit) * 5);
+}
+
+.brandized {
+  font-family: var(--font-family-secondary);
+  font-weight: bolder;
+}
+
+.image {
+  width: 100%;
+}

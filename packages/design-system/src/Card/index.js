@@ -4,9 +4,17 @@ import classNames from 'classnames'
 
 import style from './card.module.scss'
 
-const Card = ({ children, className, footerClassName, Footer }) => (
+const Card = ({
+  children,
+  className,
+  contentClassName,
+  footerClassName,
+  Footer,
+}) => (
   <article className={classNames(style.root, className)}>
-    <section className={style.content}>{children}</section>
+    <section className={classNames(style.content, contentClassName)}>
+      {children}
+    </section>
     {Footer && (
       <footer className={classNames(style.footer, footerClassName)}>
         {Footer}

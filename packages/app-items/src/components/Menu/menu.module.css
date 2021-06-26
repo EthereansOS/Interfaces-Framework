@@ -1,0 +1,38 @@
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes slidebg {
+  to {
+    background-position: 20vw;
+  }
+}
+
+.root {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-inline-start: 0;
+  list-style-type: none;
+}
+
+.link {
+  list-style-type: none;
+  display: inline-block;
+  margin-left: calc(var(--unit) * 3);
+  margin-right: calc(var(--unit) * 3);
+  text-align: center;
+  background-color: inherit;
+}
+
+li {
+  text-decoration: none;
+  display: inline-block;
+  margin: 0 5px;
+  font-family: var(--font-family-secondary);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-default);
+}

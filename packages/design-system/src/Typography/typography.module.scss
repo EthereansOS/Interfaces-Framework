@@ -16,11 +16,20 @@
     font-family: var(--font-family-secondary);
   }
 
-  &.body1 {
-    font-size: 14px;
+  &.left {
+    text-align: left;
+  }
+  &.center {
+    text-align: center;
+  }
+  &.right {
+    text-align: right;
   }
 
-  &.body2 {
-    font-size: 12px;
+  b {
+    font-weight: bold;
+  }
+  strong {
+    font-weight: bold;
   }
 }

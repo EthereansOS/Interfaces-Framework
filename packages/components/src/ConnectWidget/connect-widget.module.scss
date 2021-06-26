@@ -1,5 +1,14 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .root {
-  max-width: 200px;
+  max-width: 400px;
 
   display: flex;
   flex-direction: column;
@@ -7,5 +16,10 @@
 
   img {
     width: 200px;
+    display: inline-block;
+
+    &.rotateLogo {
+      animation: spin 3s infinite linear;
+    }
   }
 }

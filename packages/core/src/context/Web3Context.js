@@ -4,6 +4,7 @@ import pLimit from 'p-limit'
 
 import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
 import { useInit } from '../hooks/useInit'
+import { usePlaceholder } from '../hooks/usePlugins'
 import loadDFO from '../lib/web3/loadDFO'
 import loadDFOList from '../lib/web3/loadDFOList'
 import getInfoFn from '../lib/web3/getInfo'
@@ -14,7 +15,12 @@ const Web3Context = React.createContext('web3')
 
 const limit = pLimit(20)
 
+const WEB3_CONTEXT_STATUS_NEW = 'WEB3_CONTEXT_STATUS_NEW'
+const WEB3_CONTEXT_STATUS_ON_INIT = 'WEB3_CONTEXT_STATUS_ON_INIT'
+const WEB3_CONTEXT_STATUS_INIT = 'WEB3_CONTEXT_STATUS_INIT'
+
 export const Web3ContextProvider = ({ children }) => {
+  const [initStatus, setInitStatus] = useState(WEB3_CONTEXT_STATUS_NEW)
   const [state, setState] = useState({
     connectionStatus: NOT_CONNECTED,
     listLoaded: false,
@@ -24,37 +30,59 @@ export const Web3ContextProvider = ({ children }) => {
   const { dfoHub, web3, web3ForLogs, networkId, dfoEvent, dfoHubENSResolver } =
     state
 
+  const afterInitFunctionList = usePlaceholder('web3/afterInit')
+
   const getState = useCallback(() => state, [state])
 
   useEffect(() => {
-    const {
-      onEthereumUpdate,
-      connect,
-      getInfo,
-      formatLink,
-      getLogs,
-      loadDFO,
-      getNetworkElement,
-      refreshBalances,
-      initDFO,
-    } = initWeb3(context, setState, getState)
-
     setMethods((s) => ({
       ...s,
-      onEthereumUpdate,
-      connect,
-      getInfo,
-      formatLink,
-      getLogs,
-      loadDFO,
-      initDFO: async () => {
-        const result = await initDFO()
-        setState((s) => ({ ...s, ...result, isDFOInit: true }))
+      connect: async () => {
+        await methods.connectFn(afterInitFunctionList.map((item) => item.fn))
       },
-      getNetworkElement,
-      refreshBalances,
     }))
-  }, [context])
+  }, [methods.connectFn, afterInitFunctionList])
+
+  useEffect(() => {
+    async function run() {
+      if (initStatus !== WEB3_CONTEXT_STATUS_NEW) {
+        return
+      }
+
+      setInitStatus(WEB3_CONTEXT_STATUS_ON_INIT)
+      const {
+        onEthereumUpdate,
+        connect,
+        getInfo,
+        formatLink,
+        getLogs,
+        loadDFO,
+        getNetworkElement,
+        refreshBalances,
+        initDFO,
+      } = initWeb3(context, setState, getState)
+
+      setMethods((s) => ({
+        ...s,
+        onEthereumUpdate,
+        connectFn: connect,
+        getInfo,
+        formatLink,
+        getLogs,
+        loadDFO,
+        initDFO: async () => {
+          const result = await initDFO()
+          setState((s) => ({ ...s, ...result, isDFOInit: true }))
+        },
+        getNetworkElement,
+        refreshBalances,
+      }))
+
+      setInitStatus(WEB3_CONTEXT_STATUS_INIT)
+    }
+
+    run()
+  }, [context, initStatus])
 
   const loadOrganizationDetail = async (organization) => {
     if (!organization || organization.updating) {

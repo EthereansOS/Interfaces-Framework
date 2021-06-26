@@ -1,0 +1,40 @@
+.fullWidthImage {
+  width: 100%;
+}
+
+.title {
+
+}
+
+.description {
+  margin-bottom: calc(var(--unit) * 8);
+}
+
+.info {
+  max-width: 500px;
+  margin-bottom: calc(var(--unit) * 10);
+}
+
+.actions {
+  max-width: 660px;
+  display: flex;
+}
+
+.actions .item {
+  width: 300px;
+  margin-right: calc(var(--unit) * 10);
+  margin-left: calc(var(--unit) * 10);
+  box-sizing: border-box;
+  margin-bottom: calc(var(--unit) * 10);
+}
+
+.actions .item .itemDescription{
+  margin-bottom: calc(var(--unit) * 7);
+}
+
+.buttonGroup {
+  margin-top: calc(var(--unit) * 7);
+  display: flex;
+  justify-content: space-around;
+}
+

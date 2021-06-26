@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+}
+
+.item {
+  cursor: pointer;
+  font-size: 90%;
+  margin: 0 calc(var(--unit) * 2);
+}
+
+.selected {
+  cursor: default;
+}

@@ -1,0 +1,33 @@
+.root {
+  margin-top: 20px;
+}
+
+.navigator {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: calc(var(--unit) * 8);
+}
+
+.disclaimer {
+  margin: 0 auto;
+  background-color: var(--card-background-primary);
+  width: 70%;
+  padding: calc(var(--unit) * 6);
+  margin-bottom: calc(var(--unit) * 6);
+}
+
+.disclaimerContent {
+  padding: 0;
+}
+
+.itemList {
+  display: flex;
+  max-width: 1024px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto;
+  .itemContainer {
+    margin: 0 calc(var(--unit) * 4) calc(var(--unit) * 8);
+  }
+}
