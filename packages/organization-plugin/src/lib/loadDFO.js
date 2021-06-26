@@ -1,10 +1,10 @@
-import { VOID_ETHEREUM_ADDRESS } from '../constants'
-
-import { newContract } from './contracts'
-import getNetworkElement from './getNetworkElement'
-import blockchainCall from './blockchainCall'
-import blockchainCallFn from './blockchainCall'
-import getLogsFn from './getLogs'
+import {
+  newContract,
+  getNetworkElement,
+  blockchainCall,
+  getLogs,
+  VOID_ETHEREUM_ADDRESS,
+} from '@dfohub/core'
 
 async function loadDFO(
   { web3, web3ForLogs, context, networkId, proxyChangedTopic },
@@ -36,7 +36,7 @@ async function loadDFO(
 
   if (!votingToken || votingToken === VOID_ETHEREUM_ADDRESS) {
     try {
-      votingToken = await blockchainCallFn(
+      votingToken = await blockchainCall(
         { web3, context },
         dfo.methods.getToken
       )
@@ -50,13 +50,13 @@ async function loadDFO(
       votingToken
     )
 
-    await blockchainCallFn({ web3, context }, tokenContract.methods.name)
+    await blockchainCall({ web3, context }, tokenContract.methods.name)
   } catch (e) {
     votingToken = undefined
   }
 
   if (!votingToken || votingToken === VOID_ETHEREUM_ADDRESS) {
-    const logs = await getLogsFn(
+    const logs = await getLogs(
       { web3, context, web3ForLogs, networkId },
       {
         address,

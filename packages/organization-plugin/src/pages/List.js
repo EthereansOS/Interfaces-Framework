@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import T from 'prop-types'
 import { Table, Typography, Link } from '@dfohub/design-system'
 
-import useOrganizations from '../hooks/useOrganizations'
 import ListControls from '../components/ListControls'
+import { useOrganizationContext } from '../OrganizationContext'
 
 const columns = [
   {
@@ -49,7 +49,7 @@ const columns = [
 ]
 
 const List = ({ setTemplateState }) => {
-  const { organizations, unsetOrganization } = useOrganizations()
+  const { organizations, unsetOrganization } = useOrganizationContext()
 
   useEffect(() => {
     unsetOrganization()

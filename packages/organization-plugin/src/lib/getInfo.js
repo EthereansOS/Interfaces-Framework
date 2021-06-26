@@ -1,9 +1,6 @@
 import makeBlockie from 'ethereum-blockies-base64'
-
-import { newContract } from './contracts'
-import formatLink from './formatLink'
-import blockchainCall from './blockchainCall'
-import refreshBalances from './refreshBalances'
+import { newContract, formatLink, blockchainCall } from '@dfohub/core'
+// import refreshBalances from './refreshBalances'
 
 async function getInfo(environment, element) {
   const {

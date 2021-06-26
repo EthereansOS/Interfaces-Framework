@@ -1,4 +1,10 @@
-import React, { useContext, useReducer, useEffect, useCallback } from 'react'
+import React, {
+  useContext,
+  useReducer,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react'
 import T from 'prop-types'
 
 const PluginsContext = React.createContext('dfo-plugins')
@@ -116,7 +122,10 @@ export const usePlugins = () => {
 
 export const usePlaceholder = (placeholderName) => {
   const pluginsContext = useContext(PluginsContext)
-  return pluginsContext.getPlaceholders(placeholderName)
+  return useMemo(
+    () => pluginsContext.getPlaceholders(placeholderName),
+    [pluginsContext, placeholderName]
+  )
 }
 
 export const useSinglePlaceholder = (placeholderName) => {

@@ -15,7 +15,6 @@ describe('web3', () => {
     const { onEthereumUpdate, connect, getInfo } = initWeb3(context, setState)
     expect(onEthereumUpdate).toBeInstanceOf(Function)
     expect(connect).toBeInstanceOf(Function)
-    expect(getInfo).toBeInstanceOf(Function)
     expect(setState).not.toHaveBeenCalled()
   })
 
