@@ -1,6 +1,6 @@
 .root {
   display: flex;
-  background-color: #292929;
+  background-color: var(--text-input-background-color);
   align-items: center;
   padding: calc(var(--unit) * 2) var(--unit);
 }
@@ -8,12 +8,13 @@
 .input {
   background-color: transparent;
   outline: 0;
-  border: 0;
-  color: var(--color-text);
+  border: var(--text-input-border-width) solid var(--text-input-border-color);
+  border-radius: var(--text-input-border-radius);
+  color: var(--text-input-text-color);
   font-family: var(--font-family);
 
   &::placeholder  {
-    color: var(--color-default);
+    color: var(--text-input-placeholder-color);
   }
 }
 

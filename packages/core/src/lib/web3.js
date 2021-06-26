@@ -43,14 +43,14 @@ function initWeb3(context, setState, getState) {
     )
   }
 
-  function onEthereumUpdate(newConnection) {
+  function onEthereumUpdate(newConnection, afterInitListFn) {
     return new Promise(async function (resolve) {
       setState((s) => ({
         ...s,
         connectionStatus: newConnection ? CONNECTING : UPDATING,
       }))
 
-      const newState = await initConnectionFn(
+      let newState = await initConnectionFn(
         {
           web3,
           web3ForLogs,
@@ -65,6 +65,11 @@ function initWeb3(context, setState, getState) {
         },
         onEthereumUpdate
       )
+
+      for (const afterInitFn of afterInitListFn || []) {
+        const result = await afterInitFn({ ...newState, context })
+        newState = { ...newState, ...result }
+      }
 
       web3 = newState.web3
       networkId = newState.networkId
@@ -131,8 +136,8 @@ function initWeb3(context, setState, getState) {
     )
   }
 
-  async function connect() {
-    const result = await onEthereumUpdate(true)
+  async function connect(afterInitListFn) {
+    const result = await onEthereumUpdate(true, afterInitListFn)
     return result
   }
 

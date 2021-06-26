@@ -1,0 +1,14 @@
+.root {
+  min-height: 100vh;
+  height: 100%;
+  background-color: var(--color-background-light);
+}
+
+.container {
+  padding: calc(var(--header-height)) 10px 0 10px;
+  min-height: 300px;
+}
+
+.hideHeader {
+  padding-top: 0;
+}

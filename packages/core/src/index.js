@@ -3,6 +3,7 @@ export * from './hooks/usePlugins'
 export * from './hooks/usePrevious'
 export * from './hooks/useInit'
 export * from './context/Web3Context'
+export * from './lib/web3/index'
 
 export { default as tokenPercentage } from './lib/tokenPercentage'
 

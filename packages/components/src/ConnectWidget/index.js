@@ -11,10 +11,17 @@ const ConnectWidget = ({
   connectionStatus,
   onClickConnect,
   title,
+  rotateLogo,
   className,
 }) => (
   <div className={classNames(style['root'], className)}>
-    {logo ? <img src={logo} alt="logo" /> : null}
+    {logo ? (
+      <img
+        src={logo}
+        alt="logo"
+        className={classNames({ [style.rotateLogo]: !!rotateLogo })}
+      />
+    ) : null}
     <Typography variant="h1" color="primary">
       {title}
     </Typography>
@@ -25,10 +32,11 @@ const ConnectWidget = ({
       <>
         <Button onClick={onClickConnect} text="Connect" variant="primary" />
         <br />
-        <p>
-          Connect to the{' '}
-          <a href="https://etherscan.io/directory/Wallet">Web3</a> to enter
-        </p>
+        <Typography variant="body2" align="center">
+          You need a{' '}
+          <a href="https://etherscan.io/directory/Wallet">Web3 Enabler</a> to
+          use this Dapp - If you have problems connecting, refresh the page.
+        </Typography>
       </>
     )}
   </div>

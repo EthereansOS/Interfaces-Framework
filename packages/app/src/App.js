@@ -29,15 +29,15 @@ function App() {
       }}
       Loading={() => <div>Loading...</div>}
       Error={({ error }) => <div>Error on application init: {error}</div>}>
-      <Web3ContextProvider>
-        <PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
+      <PluginsContextProvider plugins={[appPlugin, organizationPlugin]}>
+        <Web3ContextProvider>
           <GlobalContextsProvider>
             <HashRouter>
               <AppRouter />
             </HashRouter>
           </GlobalContextsProvider>
-        </PluginsContextProvider>
-      </Web3ContextProvider>
+        </Web3ContextProvider>
+      </PluginsContextProvider>
     </InitContextProvider>
   )
 }

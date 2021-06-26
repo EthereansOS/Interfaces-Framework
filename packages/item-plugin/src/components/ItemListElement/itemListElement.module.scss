@@ -1,0 +1,21 @@
+.root {
+  cursor: pointer;
+  display: flex;
+  width: 300px;
+}
+
+.image {
+  cursor: pointer;
+  font-size: 90%;
+  margin: 0 calc(var(--unit) * 2);
+}
+
+.title {
+  font-size: 16px;
+  color: var(--color-text-dark);
+}
+
+.symbol {
+  color: var(--color-text-dark);
+  font-size: 13px;
+}

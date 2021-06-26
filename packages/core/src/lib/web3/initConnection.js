@@ -55,21 +55,26 @@ async function initConnection(environment, onUpdate) {
     //
     // window.loadOffChainWallets();
 
-    uniswapV2Factory = newContract(
-      { web3 },
-      context.uniSwapV2FactoryAbi,
-      context.uniSwapV2FactoryAddress
-    )
-    uniswapV2Router = newContract(
-      { web3 },
-      context.uniSwapV2RouterAbi,
-      context.uniSwapV2RouterAddress
-    )
-    const callResult = await blockchainCall(
-      { web3, context },
-      uniswapV2Router.methods.WETH
-    )
-    wethAddress = web3.utils.toChecksumAddress(callResult)
+    if (context.uniSwapV2FactoryAbi && context.uniSwapV2FactoryAddress) {
+      uniswapV2Factory = newContract(
+        { web3 },
+        context.uniSwapV2FactoryAbi,
+        context.uniSwapV2FactoryAddress
+      )
+    }
+
+    if (context.uniSwapV2RouterAbi && context.uniSwapV2RouterAddress) {
+      uniswapV2Router = newContract(
+        { web3 },
+        context.uniSwapV2RouterAbi,
+        context.uniSwapV2RouterAddress
+      )
+      const callResult = await blockchainCall(
+        { web3, context },
+        uniswapV2Router.methods.WETH
+      )
+      wethAddress = web3.utils.toChecksumAddress(callResult)
+    }
 
     proxyChangedTopic =
       proxyChangedTopic || web3.utils.sha3('ProxyChanged(address)')

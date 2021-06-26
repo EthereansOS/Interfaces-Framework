@@ -1,0 +1,71 @@
+{
+    "global" : [
+        "Format",
+        "Project",
+        "Created"
+    ],
+    "basic" : [],
+    "art" : [
+        "Artist",
+        "Edition",
+        "Rarity",
+        "Movement"
+    ],
+    "movie" : [
+        "Artist",
+        "Duration",
+        "Genre",
+        "language",
+        "Subtitles"
+    ],
+    "song" : [
+        "Artist",
+        "Duration",
+        "Genre",
+        "language"
+    ],
+    "Voxel" : [
+        "Artist",
+        "Game",
+        "Rarity",
+        "Size_X",
+        "Size_Y",
+        "Size_Z"
+    ],
+    "land" : [
+        "Artist",
+        "Game",
+        "Rarity",
+        "Size_X",
+        "Size_Y",
+        "Size_Z"
+    ],
+    "3d" : [
+        "Artist",
+        "Usage",
+        "Size_X",
+        "Size_Y",
+        "Size_Z"
+    ],
+    "gameitem" : [
+        "Artist",
+        "Game",
+        "Rarity",
+        "Type",
+        "Season"
+
+    ],
+    "gamecard" : [
+        "Artist",
+        "Game",
+        "Rarity",
+        "Type",
+        "Season"
+    ],
+    "document" : [
+        "Type"
+    ],
+    "token" : [
+        
+    ]
+}

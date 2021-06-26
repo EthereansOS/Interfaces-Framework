@@ -30,7 +30,7 @@ async function loadOrganizationListInfo(environment, organization) {
     newElement.walletAddress = delegates[5]
     newElement.doubleProxyAddress = delegates[6]
   } catch (e) {
-    console.log(e)
+    console.log('loadOrganizationListInfo - delegates', e)
   }
 
   if (!votingTokenAddress) {

@@ -1,0 +1,26 @@
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.root {
+  &.always,
+  &.hover:hover {
+    background: var(--shiny-text-gradient);
+    background-size: 200% auto;
+    color: #6e6e6e;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &.animated {
+    animation: shine 3s linear infinite;
+  }
+
+  &.strong {
+    font-weight: bolder;
+  }
+}

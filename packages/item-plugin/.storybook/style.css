@@ -1,0 +1,46 @@
+body {
+  background-color: var(--color-background-light);
+  color: var(--color-text);
+}
+
+:root {
+  --container-width: 100%;
+  --header-height: 80px;
+  --unit: 4px;
+
+  --font-family: ITEMregular, sans-serif;
+  --font-family-secondary: ITEMGig, sans-serif;
+
+  --color-default: #212121;
+  --color-light: #9c9c9c;
+  --color-primary: #8653f6;
+  --color-secondary: rgb(255, 0, 122);
+  --color-text: #6e6e6e;
+  --color-text-dark: #212121;
+  --color-background-light: #ffff;
+  --color-background: #333333;
+  --color-background-dark: #292929;
+  --color-background-extra-dark: #212121;
+  --color-background-black: #191919;
+
+  --tooltip-background-color: #383838;
+  --tooltip-color: #888888;
+
+  --button-border-radius: 8px;
+  --button-color: var(--color-text);
+  --button-color-primary: #fff;
+  --button-color-secondary: var(--color-text);
+  --button-background-color: var(--color-default);
+  --button-background-color-primary: var(--color-primary);
+  --button-background-color-secondary: var(--color-secondary);
+  --button-background-image-primary: linear-gradient(
+    to right,
+    rgb(144, 72, 253) 30%,
+    rgb(75, 203, 201) 90%
+  );
+
+  --text-input-background-color: #ffffff;
+  --text-input-border-color: #191919;
+  --text-input-border-width: 2px;
+  --text-input-border-radius: 5px;
+}

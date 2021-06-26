@@ -11,4 +11,31 @@
   --color-background-dark: #292929;
   --color-background-extra-dark: #212121;
   --color-background-black: #191919;
+
+  --button-border-radius: 0px;
+  --button-color: var(--color-text);
+  --button-color-primary: var(--color-text);
+  --button-color-secondary: var(--color-text);
+  --button-background-color: var(--color-default);
+  --button-background-color-primary: var(--color-primary);
+  --button-background-color-secondary: var(--color-secondary);
+  --button-background-image: none;
+  --button-background-image-primary: none;
+  --button-background-image-secondary: none;
+
+  --text-input-text-color: #fefefe;
+  --text-input-placeholder-color: #a8a8a8;
+  --text-input-background-color: #292929;
+  --text-input-border-color: transparent;
+  --text-input-border-width: 0px;
+  --text-input-border-radius: 0;
+
+  --shiny-text-animation: shine 3s linear infinite;
+  --shiny-text-gradient: linear-gradient(
+    to right,
+    #9048fd 20%,
+    #4bcbc9 40%,
+    #4bcbc9 70%,
+    #9048fd 90%
+  );
 }

@@ -44,7 +44,7 @@ async function getInfo(environment, element) {
     newElement.walletAddress = delegates[5]
     newElement.doubleProxyAddress = delegates[6]
   } catch (e) {
-    console.log(e)
+    console.log('getInfo - delegates', e)
   }
 
   if (!votingTokenAddress) {

@@ -1,0 +1,27 @@
+[
+    {
+        "name" : "EXPLORE",
+        "module" : "spa/explore",
+        "selected" : true,
+        "otherModules" : [
+            "spa/collection",
+            "spa/item"
+        ]
+    },
+    {
+        "name" : "CREATE",
+        "module" : "spa/create"
+    },
+    {
+        "name" : "WRAP",
+        "module" : "spa/wrap"
+    },
+    {
+        "name" : "TRANSFER",
+        "module" : "spa/transfer"
+    },
+    {
+        "name" : "FARM",
+        "module" : "spa/farm"
+    }
+]

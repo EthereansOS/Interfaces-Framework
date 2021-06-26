@@ -1,18 +1,24 @@
 .root {
-  background-color: var(--color-default);
-  color: var(--color-text);
+  background-color: var(--button-background-color);
+  color: var(--button-color);
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
   border: 0;
   cursor: pointer;
+  background-image: var(--button-background-image);
+  border-radius: var(--button-border-radius);
 
   &.primary {
-    background-color: var(--color-primary);
+    color: var(--button-color-primary);
+    background-color: var(--button-background-color-primary);
+    background-image: var(--button-background-image-primary);
   }
 
   &.secondary {
-    background-color: var(--color-secondary);
+    color: var(--button-color-secondary);
+    background-color: var(--button-background-color-secondary);
+    background-image: var(--button-background-image-secondary);
   }
 
   &.small {
