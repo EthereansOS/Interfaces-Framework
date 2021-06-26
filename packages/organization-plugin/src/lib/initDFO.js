@@ -1,8 +1,6 @@
 import nameHash from 'eth-ens-namehash'
+import { newContract, getNetworkElement, blockchainCall } from '@dfohub/core'
 
-import { newContract } from './contracts'
-import getNetworkElement from './getNetworkElement'
-import blockchainCall from './blockchainCall'
 import loadDFO from './loadDFO'
 
 async function initDFO(environment) {

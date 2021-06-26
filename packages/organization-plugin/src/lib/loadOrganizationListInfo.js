@@ -1,7 +1,5 @@
 import makeBlockie from 'ethereum-blockies-base64'
-
-import { newContract } from './contracts'
-import blockchainCall from './blockchainCall'
+import { newContract, blockchainCall } from '@dfohub/core'
 
 async function loadOrganizationListInfo(environment, organization) {
   const { web3, context, dfoHub, dfoHubENSResolver } = environment

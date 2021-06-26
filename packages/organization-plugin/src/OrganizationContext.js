@@ -6,14 +6,14 @@ import React, {
   useMemo,
 } from 'react'
 import T from 'prop-types'
-import { useWeb3 } from '@dfohub/core'
 
 import OrganizationHeader from './components/OrganizationHeader'
+import useOrganizations from './hooks/useOrganizations'
 
 const OrganizationContext = React.createContext('dfo-organization')
 
 export const OrganizationContextProvider = ({ children }) => {
-  const { list, loadOrganizationDetail } = useWeb3()
+  const { organizations, loadOrganizationDetail } = useOrganizations()
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [organizationHeader, setOrganizationHeader] = useState(null)
@@ -25,10 +25,10 @@ export const OrganizationContextProvider = ({ children }) => {
 
   const organization = useMemo(
     () =>
-      Object.values(list || {}).find(
+      Object.values(organizations || {}).find(
         (organization) => organization.walletAddress === organizationAddress
       ),
-    [list, organizationAddress]
+    [organizations, organizationAddress]
   )
 
   useEffect(() => {
@@ -59,12 +59,12 @@ export const OrganizationContextProvider = ({ children }) => {
     if (!organization.detailsLoaded && !organization.updating) {
       fetch()
     }
-  }, [organizationAddress, list, loadOrganizationDetail, organization])
+  }, [organizationAddress, organizations, loadOrganizationDetail, organization])
 
-  const unsetOrganization = () => {
+  const unsetOrganization = useCallback(() => {
     setOrganizationAddress()
     setNotFound(false)
-  }
+  }, [setOrganizationAddress, setNotFound])
 
   const contextValue = {
     isEditMode,
@@ -72,6 +72,7 @@ export const OrganizationContextProvider = ({ children }) => {
     setViewMode,
     organizationHeader,
     organization,
+    organizations,
     setOrganizationAddress,
     unsetOrganization,
     organizationNotFound,

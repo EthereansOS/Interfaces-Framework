@@ -1,10 +1,10 @@
 import {
+  getNetworkElement,
   BLOCK_SEARCH_SIZE,
   DFO_DEPLOYED_EVENT,
   NEW_DFO_DEPLOYED_EVENT,
-} from '../constants'
+} from '@dfohub/core'
 
-import getNetworkElement from './getNetworkElement'
 // Chiama getEventLogs due volte fino a che
 // toBlock === window.getNetworkElement('deploySearchStart')
 import getDFOLogs from './getDFOLogs'

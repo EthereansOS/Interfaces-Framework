@@ -69,6 +69,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
+    "eth-ens-namehash": "2.0.8",
+    "ethereum-blockies-base64": "1.0.2",
     "prop-types": "^15.7.2",
     "regenerator-runtime": "0.13.7"
   },

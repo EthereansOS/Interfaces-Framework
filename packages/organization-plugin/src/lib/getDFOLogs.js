@@ -1,5 +1,5 @@
 // Get the DFO event setting as topic `dfoEvent`.
-import getLogs from './getLogs'
+import { getLogs } from '@dfohub/core'
 
 const formatDFOLogs = ({ dfoEvent, web3 }, logVar, event) => {
   if (!logVar || (!isNaN(logVar.length) && logVar.length === 0)) {
