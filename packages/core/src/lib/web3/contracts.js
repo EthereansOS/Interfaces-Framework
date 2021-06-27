@@ -6,11 +6,10 @@ export const resetContracts = () => {
   allContracts = {}
 }
 
-export const newContract = ({ web3 }, abi, address) => {
-  let key = web3.utils.sha3(JSON.stringify(abi))
-  const contracts = (allContracts[key] = allContracts[key] || {})
-  address = address || VOID_ETHEREUM_ADDRESS
-  key = address.toLowerCase()
+export const newContract = ({ web3 }, abi, address = VOID_ETHEREUM_ADDRESS) => {
+  const abiKey = web3.utils.sha3(JSON.stringify(abi))
+  const contracts = (allContracts[abiKey] = allContracts[abiKey] || {})
+  const key = address.toLowerCase()
   contracts[key] =
     contracts[key] ||
     new web3.eth.Contract(
@@ -19,3 +18,5 @@ export const newContract = ({ web3 }, abi, address) => {
     )
   return contracts[key]
 }
+
+export const getAllContracts = () => allContracts
