@@ -1,4 +1,5 @@
 import * as context from '../../test-data/context.json'
+import { VOID_ETHEREUM_ADDRESS } from '../lib/constants'
 
 const createContractMethod = (stateMutability, returnedAddress) => {
   // we need to call apply on this
@@ -36,6 +37,12 @@ const contracts = {
     methods: {
       name: createContractMethod('view', 'TEST'),
     },
+  },
+  '0x29D7d1dd5B6f9C864d9db560D72a247c178aE86B': {
+    name: 'TEST',
+  },
+  [VOID_ETHEREUM_ADDRESS]: {
+    name: 'EMPTY_ETH_ADDRESS',
   },
 }
 

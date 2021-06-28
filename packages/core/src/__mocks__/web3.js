@@ -1,6 +1,8 @@
 import Web3 from 'web3'
 import { intersection } from 'lodash'
 
+import { VOID_ETHEREUM_ADDRESS } from '../lib/constants'
+
 import logs from './logs'
 import contracts from './contracts'
 
@@ -14,7 +16,8 @@ const currentProvider = {
 
 // arrow functions cannot be called with new
 function Contract(abi, address) {
-  return contracts[address] || {}
+  if (address) return contracts[address] || {}
+  return contracts[VOID_ETHEREUM_ADDRESS]
 }
 
 const eth = {
