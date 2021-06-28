@@ -6,5 +6,6 @@ export { default as getLogs } from './getLogs'
 export { default as loadMetadatas } from './loadMetadatas'
 export { default as formatLink } from './formatLink'
 export { default as getElementImage } from './getElementImage'
+export { default as fromDecimals } from './fromDecimals'
 
 export * from './contracts'

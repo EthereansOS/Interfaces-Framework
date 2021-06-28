@@ -26,7 +26,6 @@
 .leftContainer {
   display: flex;
   align-items: center;
-  flex: 1;
 }
 
 .rightContainer {
@@ -39,5 +38,19 @@
   font-size: 30px;
   color: white;
   text-decoration: none;
-  flex: 1;
+}
+
+.balance {
+  display: flex;
+  align-items: center;
+}
+
+.balance img {
+  width: 24px;
+  border-radius: 50%;
+  margin-right: calc(var(--unit) * 4);
+}
+
+.balance p {
+  line-height: 150%;
 }
