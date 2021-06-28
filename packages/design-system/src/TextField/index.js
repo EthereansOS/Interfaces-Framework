@@ -11,18 +11,19 @@ const TextField = (props) => {
     onChange,
     startComponent,
     endComponent,
-    multiline,
+    isMultiline,
+    isRounded,
     ...otherProps
   } = props
 
-  const InputComponent = multiline ? 'textarea' : 'input'
+  const InputComponent = isMultiline ? 'textarea' : 'input'
 
   return (
-    <div className={classNames(className, style.root)}>
+    <div
+      className={classNames(className, style.root, isRounded && style.rounded)}>
       {startComponent && (
         <span className={style.startContainer}>{startComponent}</span>
       )}
-
       <InputComponent
         onChange={onChange}
         className={classNames(inputClassName, style.input)}
@@ -37,13 +38,12 @@ const TextField = (props) => {
 
 TextField.propTypes = {
   className: T.string,
-  multiline: T.bool,
+  isMultiline: T.bool,
+  isRounded: T.bool,
   onChange: T.func.isRequired,
   startComponent: T.node,
   endComponent: T.node,
   inputClassName: T.string,
 }
-
-TextField.defaultProps = {}
 
 export default TextField

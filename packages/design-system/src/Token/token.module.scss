@@ -1,0 +1,9 @@
+.root {
+  display: flex;
+  align-items: center;
+
+  img {
+    max-width: 20px;
+    padding-right: var(--unit);
+  }
+}

@@ -5,6 +5,10 @@
   padding: calc(var(--unit) * 2) var(--unit);
 }
 
+.rounded {
+  border-radius: 50px;
+}
+
 .input {
   background-color: transparent;
   outline: 0;

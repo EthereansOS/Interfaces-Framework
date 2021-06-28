@@ -29,6 +29,7 @@
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-image": "^2.0.5",
     "@rollup/plugin-node-resolve": "^10.0.0",
+    "@rollup/plugin-babel": "^5.3.0",
     "@storybook/addon-actions": "^6.1.8",
     "@storybook/addon-essentials": "^6.1.5",
     "@storybook/addon-links": "^6.1.5",
@@ -65,6 +66,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "prop-types": "^15.7.2"
+    "formik": "^2.2.9",
+    "prop-types": "^15.7.2",
+    "yup": "^0.32.9"
   }
 }

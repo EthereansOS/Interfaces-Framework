@@ -1,0 +1,52 @@
+.root {
+  max-width: 240px;
+}
+
+.token,
+.actions,
+.amount {
+  display: flex;
+}
+
+.token {
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: calc(var(--unit) * 3);
+
+  p {
+    margin-left: calc(var(--unit) * 3);
+  }
+}
+
+.actions {
+  justify-content: space-between;
+  margin-top: calc(var(--unit) * 3);
+}
+
+.transfer,
+.swap {
+  margin: calc(var(--unit) * 3) 0;
+
+  p {
+    margin-top: calc(var(--unit) * 3);
+  }
+}
+
+.amount,
+.select {
+  justify-content: space-between;
+  margin-top: calc(var(--unit) * 3);
+}
+
+.amountInput {
+  width: 70%;
+}
+
+.addressInput {
+  margin-top: calc(var(--unit) * 3);
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: calc(var(--unit) * 3);
+}
