@@ -11,4 +11,10 @@
   --color-background-dark: #292929;
   --color-background-extra-dark: #212121;
   --color-background-black: #191919;
+
+  /* TODO: css theme should be unique and shared across repos (to discuss later) */
+  --font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+  'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif';
+  --font-family-secondary: 'Courier New', 'Lucida Console', 'Courier', 'Times',
+    'Arial';
 }

@@ -31,14 +31,6 @@ npx lerna run build
 
 to build all the packages.
 
-During development, it's better to execute:
-
-```shell script
-npx lerna run build:dev
-```
-
-because it watches any change in the source code of the packages and rebuilds automatically.
-
 ## How to run the application?
 
 As a prerequisite, you need to install the [MetaMask Plugin](https://metamask.io/download.html) for your preferred browser.

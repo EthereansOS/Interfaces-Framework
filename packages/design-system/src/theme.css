@@ -12,6 +12,11 @@
   --color-background-extra-dark: #212121;
   --color-background-black: #191919;
 
+  --font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+  'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif';
+  --font-family-secondary: 'Courier New', 'Lucida Console', 'Courier', 'Times',
+    'Arial';
+    
   --button-border-radius: 0px;
   --button-color: var(--color-text);
   --button-color-primary: var(--color-text);

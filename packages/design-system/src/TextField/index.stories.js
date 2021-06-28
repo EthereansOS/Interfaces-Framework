@@ -11,24 +11,19 @@ export default {
 const Template = (args) => <TextField {...args} />
 
 export const Default = Template.bind({})
-Default.args = {
-  // children: 'This is a title',
+Default.args = {}
+
+export const Rounded = Template.bind({})
+Rounded.args = {
+  isRounded: true,
 }
 
-export const ColorPrimary = Template.bind({})
-ColorPrimary.args = {
-  // children: 'This is a title with primary color',
-  // color: 'primary',
+export const Multiline = Template.bind({})
+Multiline.args = {
+  isMultiline: true,
 }
 
-export const ColorSecondary = Template.bind({})
-ColorSecondary.args = {
-  // children: 'This is a title with secondary color',
-  // color: 'secondary',
-}
-
-export const ColorCustom = Template.bind({})
-ColorCustom.args = {
-  // children: 'This is a title with custom color',
-  // color: '#00CCCC',
+export const Decorated = Template.bind({})
+Decorated.args = {
+  startComponent: <p>foo</p>,
 }

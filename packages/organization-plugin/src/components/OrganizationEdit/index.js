@@ -38,7 +38,11 @@ function OrganizationEdit({ onClose }) {
             <Typography weight="bold" variant="body1">
               BIO:
             </Typography>
-            <TextField name="bio" className={style.inputContainer} multiline />
+            <TextField
+              name="bio"
+              className={style.inputContainer}
+              isMultiline
+            />
             <Tooltip className={style.tooltip}>
               <Typography variant="body2">
                 A brief description of the organization
