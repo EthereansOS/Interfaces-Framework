@@ -4,6 +4,12 @@ import * as context from '../../test-data/context.json'
 
 import initWeb3, { CONNECTING, CONNECTED } from './web3'
 
+jest.mock('./web3/initConnection', () =>
+  jest.fn(() => ({
+    web3: {},
+  }))
+)
+
 describe('web3', () => {
   const setState = jest.fn()
 
@@ -12,7 +18,7 @@ describe('web3', () => {
   })
 
   it('init web3 with the correct functions', async () => {
-    const { onEthereumUpdate, connect, getInfo } = initWeb3(context, setState)
+    const { onEthereumUpdate, connect } = initWeb3(context, setState)
     expect(onEthereumUpdate).toBeInstanceOf(Function)
     expect(connect).toBeInstanceOf(Function)
     expect(setState).not.toHaveBeenCalled()

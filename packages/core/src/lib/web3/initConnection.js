@@ -80,6 +80,7 @@ async function initConnection(environment, onUpdate) {
       proxyChangedTopic || web3.utils.sha3('ProxyChanged(address)')
   }
 
+  await window.ethereum.enable()
   const accounts = await web3.eth.getAccounts()
   walletAddress = accounts && accounts.length > 0 ? accounts[0] : null
   walletAvatar = walletAddress ? makeBlockie(walletAddress) : null
