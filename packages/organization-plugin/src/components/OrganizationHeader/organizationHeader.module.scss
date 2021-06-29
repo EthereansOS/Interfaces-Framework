@@ -43,6 +43,7 @@
 .balance {
   display: flex;
   align-items: center;
+  max-width: 300px;
 }
 
 .balance img {
@@ -53,4 +54,7 @@
 
 .balance p {
   line-height: 150%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

@@ -24,6 +24,8 @@
     "@babel/core": "^7.12.8",
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-react": "^7.12.7",
+    "@dfohub/core": "1.0.0",
+    "@dfohub/design-system": "1.0.0",
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-image": "^2.0.5",
     "@rollup/plugin-node-resolve": "^10.0.0",
@@ -36,6 +38,7 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^12.1.10",
+    "babel-jest": "^27.0.5",
     "babel-loader": "8.1.0",
     "eslint": "^7.11.00",
     "eslint-config-prettier": "^6.14.0",
@@ -55,8 +58,6 @@
     "rollup-plugin-visualizer": "^4.2.0",
     "sass": "^1.30.0",
     "sass-loader": "^9.0.3",
-    "@dfohub/core": "1.0.0",
-    "@dfohub/design-system": "1.0.0",
     "web3": "^1.3.0"
   },
   "peerDependencies": {
@@ -77,6 +78,9 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./src/setupTests.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(css|less|scss)$": "babel-jest"
+    }
   }
 }
