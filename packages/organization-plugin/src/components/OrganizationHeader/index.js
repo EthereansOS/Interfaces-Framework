@@ -31,9 +31,9 @@ const OrganizationHeader = ({ organization }) => {
             {walletAddress}
             <br />
             <b>
-              Balance:
+              Balance:{' '}
               {/* TODO enable the refreshBalance function to have myBalanceOf */}
-              {fromDecimals(organization.myBalanceOf, organization.decimals)}
+              {fromDecimals(organization.myBalanceOf, organization.decimals)}{' '}
               {organization.symbol}
             </b>
           </Typography>

@@ -1,14 +1,30 @@
 import makeBlockie from 'ethereum-blockies-base64'
-import { newContract, blockchainCall } from '@dfohub/core'
+import {
+  newContract,
+  blockchainCall,
+  fromDecimals,
+  getEthereumPrice,
+  toDecimals,
+} from '@dfohub/core'
 
 async function loadOrganizationListInfo(environment, organization) {
-  const { web3, context, dfoHub, dfoHubENSResolver } = environment
+  const {
+    web3,
+    context,
+    dfoHub,
+    dfoHubENSResolver,
+    wethAddress,
+    uniswapV2Router,
+  } = environment
 
   let votingTokenAddress
   let functionalitiesManagerAddress
 
   const newElement = { ...organization }
   newElement.walletAddress = newElement.dFO.options.address
+  newElement.singleCommunityTokenDollar = '0'
+
+  const ethereumPrice = await getEthereumPrice({ context })
 
   try {
     let delegates = await web3.eth.call({
@@ -84,6 +100,73 @@ async function loadOrganizationListInfo(environment, organization) {
   newElement.ensComplete = newElement.ens
     ? `${newElement.ens}.dfohub.eth`
     : 'dfohub.eth'
+
+  newElement.decimals = await blockchainCall(
+    environment,
+    newElement.token.methods.decimals
+  )
+
+  newElement.totalSupply = await blockchainCall(
+    environment,
+    newElement.token.methods.totalSupply
+  )
+
+  newElement.communityTokens = await blockchainCall(
+    { web3, context },
+    newElement.token.methods.balanceOf,
+    newElement.walletAddress
+  )
+
+  try {
+    newElement.communityTokensDollar = fromDecimals(
+      (
+        await blockchainCall(
+          { web3, context },
+          uniswapV2Router.methods.getAmountsOut,
+          toDecimals('1', newElement.decimals),
+          [newElement.token.options.address, wethAddress]
+        )
+      )[1],
+      18,
+      true
+    )
+    newElement.singleCommunityTokenDollar = newElement.communityTokensDollar
+    newElement.communityTokensDollar =
+      parseFloat(fromDecimals(newElement.communityTokens, 18, true)) *
+      newElement.communityTokensDollar *
+      ethereumPrice
+  } catch (e) {
+    console.error(e)
+  }
+
+  newElement.availableSupply = web3.utils
+    .toBN(newElement.totalSupply)
+    .sub(web3.utils.toBN(newElement.communityTokens))
+    .toString()
+
+  try {
+    newElement.unlockedMarketCapDollar =
+      parseFloat(newElement.singleCommunityTokenDollar.split(',').join('.')) *
+      parseFloat(
+        fromDecimals(newElement.availableSupply, newElement.decimals, true)
+      )
+  } catch (e) {
+    console.error(e)
+  }
+  try {
+    newElement.lockedMarketCapDollar =
+      parseFloat(newElement.singleCommunityTokenDollar.split(',').join('.')) *
+      parseFloat(
+        fromDecimals(newElement.communityTokens, newElement.decimals, true)
+      )
+  } catch (e) {}
+  try {
+    newElement.totalMarketCapDollar =
+      parseFloat(newElement.singleCommunityTokenDollar.split(',').join('.')) *
+      parseFloat(
+        fromDecimals(newElement.totalSupply, newElement.decimals, true)
+      )
+  } catch (e) {}
 
   return newElement
 }

@@ -13,8 +13,15 @@ const limit = pLimit(20)
 const useOrganizations = () => {
   const { context } = useInit()
 
-  const { connectionStatus, networkId, web3, web3ForLogs, proxyChangedTopic } =
-    useWeb3()
+  const {
+    connectionStatus,
+    networkId,
+    web3,
+    web3ForLogs,
+    proxyChangedTopic,
+    wethAddress,
+    uniswapV2Router,
+  } = useWeb3()
 
   const [state, setState] = useState({
     listLoaded: false,
@@ -70,6 +77,8 @@ const useOrganizations = () => {
             dfoHub: state.dfoHub,
             dfoHubENSResolver: state.dfoHubENSResolver,
             context,
+            wethAddress,
+            uniswapV2Router,
           },
           updatedOrganization
         )
@@ -130,7 +139,6 @@ const useOrganizations = () => {
       dfoEvent: state.dfoEvent,
     })
 
-    console.log(list)
     const newItems = {
       DFO: {
         ...state.dfoHub,
