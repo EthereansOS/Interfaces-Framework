@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import T from 'prop-types'
+import { create as createIpfsHttpClient } from 'ipfs-http-client'
 
 import ethosEvents from '../lib/ethosEvents'
 import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
@@ -23,15 +24,10 @@ export const Web3ContextProvider = ({ children }) => {
   const afterInitFunctionList = usePlaceholder('web3/afterInit')
 
   useEffect(() => {
-    // TODO this is not loading properly
-    console.log('----', window.hasOwnProperty('IpfsHttpClient'))
-    // eslint-disable-next-line no-undef
-    window.hasOwnProperty('IpfsHttpClient') &&
-      setState((s) => ({
-        ...s,
-        // eslint-disable-next-line no-undef
-        ipfsHttpClient: new IpfsHttpClient(context.ipfsHost),
-      }))
+    setState((s) => ({
+      ...s,
+      ipfsHttpClient: createIpfsHttpClient(context.ipfsHost),
+    }))
   }, [context])
 
   useEffect(() => {
