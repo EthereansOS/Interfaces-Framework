@@ -1,0 +1,30 @@
+.card {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.card > * {
+  flex: 1;
+}
+
+.nameContainer {
+  margin-right: calc(var(--unit) * 8);
+
+  h5 {
+    word-break: break-word;
+  }
+}
+
+.changeButtonContainer {
+  flex: 0.5;
+}
+
+.submitButtonsContainer {
+  display: flex;
+  margin-top: calc(var(--unit) * 2);
+  align-items: center;
+
+  :first-of-type {
+    margin-right: calc(var(--unit) * 2);
+  }
+}

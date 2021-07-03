@@ -7,8 +7,8 @@ import { Formik, Form } from 'formik'
 
 import { OrganizationPropType } from '../../propTypes'
 import organizationFunctionCall from '../../lib/organizationFunctionCall'
+import { FnParamInputField, FnParamSelectField } from '../shared/FnParamsFields'
 
-import { FnParamInputField, FnParamSelectField } from './FnParamsFields'
 import style from './card-footer.module.scss'
 
 const CardFooter = ({ selectedFnName, name, footerType, fn, organization }) => {
@@ -71,7 +71,7 @@ const CardFooter = ({ selectedFnName, name, footerType, fn, organization }) => {
     return (
       <div className={style.queryContainer}>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {({ isSubmitting, values }) => (
+          {({ isSubmitting }) => (
             <Form>
               {fn.submitable ? (
                 <>

@@ -98,8 +98,6 @@ const List = ({ setTemplateState }) => {
     sortBy: 'circSupply',
   })
 
-  console.log(filters)
-
   useEffect(() => {
     unsetOrganization()
   }, [unsetOrganization])

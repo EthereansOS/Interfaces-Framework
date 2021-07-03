@@ -14,6 +14,8 @@ import Table from './Table'
 import TextField from './TextField'
 import Tooltip from './Tooltip'
 import Typography from './Typography'
+import LinearProgress from './LinearProgress'
+import CircularProgress from './CircularProgress'
 
 export {
   Button,
@@ -28,4 +30,6 @@ export {
   TextField,
   Tooltip,
   Typography,
+  LinearProgress,
+  CircularProgress,
 }

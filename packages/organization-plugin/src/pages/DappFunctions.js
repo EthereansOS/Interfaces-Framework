@@ -17,11 +17,7 @@ const DappFunctions = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organizationHeader])
 
-  return (
-    <>
-      <FunctionList organization={organization} />
-    </>
-  )
+  return <FunctionList organization={organization} />
 }
 
 DappFunctions.propTypes = {
