@@ -21,6 +21,7 @@
   "dependencies": {
     "eth-ens-namehash": "^2.0.8",
     "ethereum-blockies-base64": "^1.0.2",
+    "pubsub-js": "1.9.3",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {

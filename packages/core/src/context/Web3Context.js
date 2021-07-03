@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import T from 'prop-types'
 
+import ethosEvents from '../lib/ethosEvents'
 import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
 import { usePlaceholder } from '../hooks/usePlugins'
 import useEthosContext from '../hooks/useEthosContext'
@@ -15,12 +16,23 @@ export const Web3ContextProvider = ({ children }) => {
   const [initStatus, setInitStatus] = useState(WEB3_CONTEXT_STATUS_NEW)
   const [state, setState] = useState({
     connectionStatus: NOT_CONNECTED,
-    listLoaded: false,
   })
   const [methods, setMethods] = useState({})
   const context = useEthosContext()
 
   const afterInitFunctionList = usePlaceholder('web3/afterInit')
+
+  useEffect(() => {
+    // TODO this is not loading properly
+    console.log('----', window.hasOwnProperty('IpfsHttpClient'))
+    // eslint-disable-next-line no-undef
+    window.hasOwnProperty('IpfsHttpClient') &&
+      setState((s) => ({
+        ...s,
+        // eslint-disable-next-line no-undef
+        ipfsHttpClient: new IpfsHttpClient(context.ipfsHost),
+      }))
+  }, [context])
 
   useEffect(() => {
     setMethods((s) => ({
@@ -55,6 +67,7 @@ export const Web3ContextProvider = ({ children }) => {
   const values = {
     ...methods,
     ...state,
+    ethosEvents,
   }
 
   return <Web3Context.Provider value={values}>{children}</Web3Context.Provider>
