@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
+import StateList from '../components/StateList'
 
 const DappState = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationDapp')
   const { organizationHeader, organization } = useOrganizationContext()
   useEffect(() => {
     setTemplateState((s) => ({
@@ -17,9 +16,7 @@ const DappState = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return organizationOverview.map(({ Component, key }) => (
-    <Component key={key} organization={organization} />
-  ))
+  return <StateList organization={organization} />
 }
 
 DappState.propTypes = {
