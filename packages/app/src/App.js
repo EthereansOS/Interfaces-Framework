@@ -3,6 +3,7 @@ import React from 'react'
 import '@dfohub/design-system/dist/index.cjs.css'
 import '@dfohub/components/dist/index.cjs.css'
 import '@dfohub/organization-plugin/dist/index.cjs.css'
+
 import {
   PluginsContextProvider,
   Web3ContextProvider,
@@ -13,6 +14,10 @@ import organizationPlugin from '@dfohub/organization-plugin'
 import appPlugin from './plugins'
 import AppRouter from './router'
 import './app.css'
+
+// FIXME this should be imported in the app otherwise breaks the unit test of the modules
+// ipfs.http.client.min is imported from HTML
+// import './lib/ipfs.http.client.min'
 
 function App() {
   return (

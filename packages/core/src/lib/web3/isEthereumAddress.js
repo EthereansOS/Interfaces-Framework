@@ -1,4 +1,6 @@
-function isEthereumAddress({ web3 }, ad) {
+import web3Utils from 'web3-utils'
+
+function isEthereumAddress(ad) {
   if (ad === undefined || ad === null) {
     return false
   }
@@ -12,7 +14,7 @@ function isEthereumAddress({ web3 }, ad) {
     return true
   } else {
     address = address.replace('0x', '')
-    const addressHash = web3.utils.sha3(address.toLowerCase())
+    const addressHash = web3Utils.sha3(address.toLowerCase())
     for (let i = 0; i < 40; i++) {
       if (
         (parseInt(addressHash[i], 16) > 7 &&

@@ -6,7 +6,9 @@ export * from './context/Web3Context'
 export * from './lib/web3/index'
 export * from './lib/constants'
 
+export { default as web3Utils } from 'web3-utils'
 export { default as useEthosContext } from './hooks/useEthosContext'
+export { default as ethosEvents } from './lib/ethosEvents'
 export { default as tokenPercentage } from './lib/tokenPercentage'
 
 export {
