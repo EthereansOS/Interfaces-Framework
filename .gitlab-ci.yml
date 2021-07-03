@@ -1,4 +1,4 @@
-image: cypress/base:10
+image: cypress/base:14
 
 cache: &node_modules
   key: node_modules
