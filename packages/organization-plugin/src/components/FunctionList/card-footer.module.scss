@@ -1,0 +1,11 @@
+.queryContainer {
+  text-align: center;
+  padding: calc(var(--unit) * 10);
+}
+
+.queryHeader {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: calc(var(--unit) * 4);
+}

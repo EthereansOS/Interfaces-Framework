@@ -6,40 +6,22 @@ import { sizePropType } from '../propTypes'
 
 import style from './button.module.scss'
 
-const Button = ({
-  text,
-  onClick,
-  variant,
-  className,
-  color,
-  size,
-  ...props
-}) => (
+const Button = ({ text, className, color, size, ...props }) => (
   <button
     {...props}
-    className={classNames(
-      style.root,
-      style[variant],
-      style[color],
-      style[size],
-      className
-    )}
-    onClick={onClick}>
+    className={classNames(style.root, style[color], style[size], className)}>
     {text}
   </button>
 )
 
 Button.propTypes = {
-  onClick: T.func.isRequired,
   className: T.string,
   text: T.string.isRequired,
-  variant: T.string,
-  color: T.oneOf(['primary', 'secondary']),
+  color: T.oneOf(['primary', 'secondary', 'tertiary']),
   size: sizePropType,
 }
 
 Button.defaultProps = {
-  variant: 'default',
   color: 'primary',
   size: 'medium',
 }

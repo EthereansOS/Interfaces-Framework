@@ -5,6 +5,8 @@ import initWeb3, { NOT_CONNECTED, CONNECTED, CONNECTING } from '../lib/web3'
 import { useInit } from '../hooks/useInit'
 import { usePlaceholder } from '../hooks/usePlugins'
 import loadContentFn from '../lib/web3/loadContent'
+import loadFunctionalityFn from '../lib/web3/loadFunctionality'
+import loadFunctionalityNamesFn from '../lib/web3/loadFunctionalityNames'
 
 const Web3Context = React.createContext('web3')
 
@@ -57,10 +59,18 @@ export const Web3ContextProvider = ({ children }) => {
   const loadContent = (tokenId, address, raw) =>
     loadContentFn({ web3, context, networkId }, tokenId, address, raw)
 
+  const loadFunctionalityNames = (organization) =>
+    loadFunctionalityNamesFn({ web3, context }, organization)
+
+  const loadFunctionality = (name, organization) =>
+    loadFunctionalityFn({ web3, context, networkId }, name, organization)
+
   const values = {
     ...methods,
     ...state,
     loadContent,
+    loadFunctionalityNames,
+    loadFunctionality,
   }
 
   return <Web3Context.Provider value={values}>{children}</Web3Context.Provider>

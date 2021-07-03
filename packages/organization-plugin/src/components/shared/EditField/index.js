@@ -11,16 +11,20 @@ const EditField = ({ label, description, ...props }) => {
   return (
     <article>
       <div className={style.header}>
-        <Typography weight="bold" variant="body1">
-          {label}
-        </Typography>
+        {label && (
+          <Typography weight="bold" variant="body1">
+            {label}
+          </Typography>
+        )}
 
         <TextField className={style.inputContainer} {...field} />
       </div>
 
-      <Tooltip className={style.tooltip}>
-        <Typography variant="body2">{description}</Typography>
-      </Tooltip>
+      {description && (
+        <Tooltip className={style.tooltip}>
+          <Typography variant="body2">{description}</Typography>
+        </Tooltip>
+      )}
     </article>
   )
 }

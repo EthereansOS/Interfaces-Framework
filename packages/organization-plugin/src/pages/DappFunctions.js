@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
+import FunctionList from '../components/FunctionList'
 
 const DappFunctions = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationDapp')
-
   const { organizationHeader, organization } = useOrganizationContext()
 
   useEffect(() => {
@@ -17,11 +15,13 @@ const DappFunctions = ({ setTemplateState }) => {
       mainSubMenu: 'organizationSubMenuDapp',
       beforeMenu: organizationHeader,
     }))
-  }, [setTemplateState, organization, organizationHeader])
+  }, [setTemplateState, organizationHeader])
 
-  return organizationOverview.map(({ Component, key }) => (
-    <Component key={key} organization={organization} />
-  ))
+  return (
+    <>
+      <FunctionList organization={organization} />
+    </>
+  )
 }
 
 DappFunctions.propTypes = {
