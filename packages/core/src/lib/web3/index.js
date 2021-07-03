@@ -9,5 +9,8 @@ export { default as getElementImage } from './getElementImage'
 export { default as fromDecimals } from './fromDecimals'
 export { default as toDecimals } from './toDecimals'
 export { default as getEthereumPrice } from './getEthereumPrice'
+export { default as loadContent } from './loadContent'
+export { default as loadFunctionality } from './loadFunctionality'
+export { default as loadFunctionalityNames } from './loadFunctionalityNames'
 
 export * from './contracts'

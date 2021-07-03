@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Editor from '@monaco-editor/react'
 import { Typography, Button } from '@dfohub/design-system'
 import T from 'prop-types'
-import { useInit, useWeb3 } from '@dfohub/core'
+import { useEthosContext, useWeb3 } from '@dfohub/core'
 import { Formik, Form } from 'formik'
 
 import { OrganizationPropType } from '../../propTypes'
@@ -13,7 +13,7 @@ import style from './card-footer.module.scss'
 
 const CardFooter = ({ selectedFnName, name, footerType, fn, organization }) => {
   const { web3 } = useWeb3()
-  const { context } = useInit()
+  const context = useEthosContext()
   const [queryResponse, setQueryResponse] = useState()
 
   const initialValues = fn.inputParameters.reduce((acc, el, i) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
-  useInit,
+  useEthosContext,
   useWeb3,
   WEB3_CONNECTED,
   newContract,
@@ -14,7 +14,7 @@ const CONTRACT_STATUS_INIT = 'CONTRACT_STATUS_INIT'
 
 const useItemContracts = () => {
   const { connectionStatus, web3, networkId } = useWeb3()
-  const { context } = useInit()
+  const context = useEthosContext()
   const [status, setStatus] = useState(CONTRACT_STATUS_NEW)
   const [contracts, setContracts] = useState({})
 

@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import { useInit } from '@dfohub/core'
+import { useEthosContext } from '@dfohub/core'
 
 import { useItemContext } from '../ItemContext'
 
 const useCategories = () => {
-  const { context } = useInit()
+  const context = useEthosContext()
   const { categories, setCategories } = useItemContext()
 
   useEffect(() => {

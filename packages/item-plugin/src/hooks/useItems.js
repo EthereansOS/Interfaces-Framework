@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import { useInit, useWeb3 } from '@dfohub/core'
+import { useEthosContext, useWeb3 } from '@dfohub/core'
 import { WEB3_CONNECTED } from '@dfohub/core'
 
 import loadItems from '../lib/loadItems'
@@ -8,7 +8,7 @@ import { useItemContext } from '../ItemContext'
 const useItems = () => {
   const { connectionStatus, web3, web3ForLogs, networkId, walletAddress } =
     useWeb3()
-  const { context } = useInit()
+  const context = useEthosContext()
 
   const {
     items,
