@@ -1,58 +1,50 @@
 import getSendingOptions from './getSendingOptions'
 
+const sleep = (timeout) => new Promise((res) => setTimeout(res, timeout))
+const MAX_TRANSACTION_CHECKS_RETRY = 100
+
+const handleTransactionError = function handleTransactionError(e, reject) {
+  e !== undefined &&
+    e !== null &&
+    (e.message || e).indexOf('not mined within') === -1 &&
+    reject(e)
+}
+
 const sendBlockchainTransaction = function sendBlockchainTransaction(
   { web3, context },
   value,
   transaction
 ) {
   return new Promise(async function (resolve, reject) {
-    const handleTransactionError = function handleTransactionError(e) {
-      e !== undefined &&
-        e !== null &&
-        (e.message || e).indexOf('not mined within') === -1 &&
-        reject(e)
-    }
     try {
-      ;(transaction = transaction.send
+      const transactionPromise = transaction.send
         ? transaction.send(
             await getSendingOptions({ web3 }, transaction, value),
-            handleTransactionError
+            (e) => handleTransactionError(e, reject)
           )
-        : transaction)
-        .on('transactionHash', (transactionHash) => {
-          // TODO implement publish to transaction/start
-          // $.publish('transaction/start')
-          const stop = function () {
-            // TODO implement unsubscribe to transaction/stop
-            // $.unsubscribe('transaction/stop', stop)
-            handleTransactionError('stopped')
+        : transaction
+
+      let time = MAX_TRANSACTION_CHECKS_RETRY
+
+      transactionPromise.on('transactionHash', async (transactionHash) => {
+        while (time--) {
+          const receipt = await web3.eth.getTransactionReceipt(transactionHash)
+          if (
+            !receipt ||
+            !receipt.blockNumber ||
+            (await web3.eth.getBlockNumber()) <
+              receipt.blockNumber + (context.transactionConfirmations || 0)
+          ) {
+            await sleep(context.transactionConfirmationsTimeoutMillis)
+          } else {
+            const res = await transactionPromise
+            return resolve(res)
           }
-          // TODO implement subscribe to transaction/stop
-          // $.subscribe('transaction/stop', stop)
-          const timeout = async function () {
-            const receipt = await web3.eth.getTransactionReceipt(
-              transactionHash
-            )
-            if (
-              !receipt ||
-              !receipt.blockNumber ||
-              (await web3.eth.getBlockNumber()) <
-                receipt.blockNumber + (context.transactionConfirmations || 0)
-            ) {
-              return setTimeout(
-                timeout,
-                context.transactionConfirmationsTimeoutMillis
-              )
-            }
-            // TODO implement unsubscribe to transaction/stop
-            // $.unsubscribe('transaction/stop', stop)
-            return transaction.then(resolve)
-          }
-          setTimeout(timeout)
-        })
-        .catch(handleTransactionError)
+        }
+        reject('expired')
+      })
     } catch (e) {
-      return handleTransactionError(e)
+      return handleTransactionError(e, reject)
     }
   })
 }

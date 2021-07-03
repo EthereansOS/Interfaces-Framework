@@ -23,7 +23,6 @@ const Layer = ({ title, code }) => {
         language="html"
         theme="vs-dark"
         value={code.toString()}
-        className={style.editor}
       />
     </article>
   )

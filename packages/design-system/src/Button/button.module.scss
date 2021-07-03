@@ -21,6 +21,12 @@
     background-image: var(--button-background-image-secondary);
   }
 
+  &.tertiary {
+    color: var(--button-color-tertiary);
+    background-color: var(--button-background-color-tertiary);
+    background-image: var(--button-background-image-tertiary);
+  }
+
   &.small {
     padding: var(--unit) calc(var(--unit) * 4);
     font-size: 12px;

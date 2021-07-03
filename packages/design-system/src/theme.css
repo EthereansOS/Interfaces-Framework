@@ -5,6 +5,7 @@
   --color-default: #a8a8a8;
   --color-primary: #8653f6;
   --color-secondary: rgb(255, 0, 122);
+  --color-tertiary: #545454;
   --color-text: #fefefe;
   --color-background-light: #464646;
   --color-background: #333333;
@@ -21,12 +22,15 @@
   --button-color: var(--color-text);
   --button-color-primary: var(--color-text);
   --button-color-secondary: var(--color-text);
+  --button-color-tertiary: var(--color-text);
   --button-background-color: var(--color-default);
   --button-background-color-primary: var(--color-primary);
   --button-background-color-secondary: var(--color-secondary);
+  --button-background-color-tertiary: var(--color-tertiary);
   --button-background-image: none;
   --button-background-image-primary: none;
   --button-background-image-secondary: none;
+  --button-background-image-tertiary: none;
 
   --text-input-text-color: #fefefe;
   --text-input-placeholder-color: #a8a8a8;

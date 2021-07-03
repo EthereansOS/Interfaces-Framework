@@ -14,7 +14,8 @@ body {
 
   --color-default: #a8a8a8;
   --color-primary: #8653f6;
-  --color-secondary: #FF007A;
+  --color-tertiary: #545454;
+  --color-secondary: #ff007a;
   --color-text: #fefefe;
   --color-background-light: #464646;
   --color-background: #333333;

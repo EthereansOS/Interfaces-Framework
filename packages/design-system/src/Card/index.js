@@ -30,4 +30,5 @@ Card.propTypes = {
   children: T.node,
   Footer: T.node,
   className: T.string,
+  contentClassName: T.string,
 }
