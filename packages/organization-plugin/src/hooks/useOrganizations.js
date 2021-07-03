@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { WEB3_CONNECTED, useInit, useWeb3 } from '@dfohub/core'
-import pLimit from 'p-limit'
+import { WEB3_CONNECTED, useEthosContext, useWeb3 } from '@dfohub/core'
+import PQueue from 'p-queue'
 
 import loadDFOList from '../lib/loadDFOList'
 import initDFO from '../lib/initDFO'
@@ -8,10 +8,10 @@ import loadDFO from '../lib/loadDFO'
 import getInfo from '../lib/getInfo'
 import loadOrganizationListInfo from '../lib/loadOrganizationListInfo'
 
-const limit = pLimit(20)
+const queue = new PQueue({ concurrency: 20 })
 
 const useOrganizations = () => {
-  const { context } = useInit()
+  const context = useEthosContext()
 
   const {
     connectionStatus,
@@ -112,10 +112,8 @@ const useOrganizations = () => {
         },
       }))
 
-      return Promise.all(
-        organizations.map((organization) =>
-          limit(() => fetchDetails(organization))
-        )
+      organizations.forEach((organization) =>
+        queue.add(() => fetchDetails(organization))
       )
     },
     [

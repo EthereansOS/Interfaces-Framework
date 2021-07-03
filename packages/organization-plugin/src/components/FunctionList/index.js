@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useWeb3 } from '@dfohub/core'
+import {
+  useWeb3,
+  useEthosContext,
+  loadFunctionalityNames,
+  loadFunctionality,
+} from '@dfohub/core'
 import { Card, Typography, Button, Link } from '@dfohub/design-system'
 import pLimit from 'p-limit'
 
@@ -10,7 +15,8 @@ import style from './function-list.module.scss'
 
 const limit = pLimit(10)
 function FunctionList({ organization }) {
-  const { loadFunctionalityNames, loadFunctionality } = useWeb3()
+  const { web3, networkId } = useWeb3()
+  const context = useEthosContext()
 
   const [funcNames, setFuncNames] = useState([])
   const [funcsByName, setFuncsByName] = useState({})
@@ -20,13 +26,20 @@ function FunctionList({ organization }) {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const names = await loadFunctionalityNames(organization)
+        const names = await loadFunctionalityNames(
+          { web3, context },
+          organization
+        )
         setFuncNames(names)
 
         Promise.all(
           names.map((funcName) =>
             limit(async () => {
-              const func = await loadFunctionality(funcName, organization)
+              const func = await loadFunctionality(
+                { web3, context, networkId },
+                funcName,
+                organization
+              )
               setFuncsByName((fns) => ({ ...fns, [funcName]: func }))
             })
           )

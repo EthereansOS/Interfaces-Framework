@@ -1,17 +1,21 @@
-import { useWeb3 } from '@dfohub/core'
+import { useWeb3, loadContent, useEthosContext } from '@dfohub/core'
 import { useEffect, useState } from 'react'
 
 const errMessage = 'An error occured while fetching the code'
 
 const useFetchFrontendCode = (organizationIndex, organizationLink) => {
-  const { loadContent } = useWeb3()
+  const { web3, networkId } = useWeb3()
+  const context = useEthosContext()
   const [distributedCode, setDistributedCode] = useState('')
   const [decentralizedCode, setDecentralizedCode] = useState('')
 
   useEffect(() => {
     const fetchDecCode = async () => {
       try {
-        const decCode = await loadContent(organizationIndex)
+        const decCode = await loadContent(
+          { web3, context, networkId },
+          organizationIndex
+        )
         setDecentralizedCode(decCode)
       } catch (e) {
         console.log(e)
@@ -22,7 +26,7 @@ const useFetchFrontendCode = (organizationIndex, organizationLink) => {
     if (organizationIndex) {
       fetchDecCode()
     }
-  }, [loadContent, organizationIndex])
+  }, [organizationIndex])
 
   useEffect(() => {
     const fetchDistrCode = async () => {
