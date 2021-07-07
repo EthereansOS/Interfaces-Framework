@@ -7,7 +7,8 @@
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "test": "lerna run test",
-    "clean": "lerna clean"
+    "clean": "lerna clean",
+    "docs": "docsify serve ./docs -p 3001"
   },
   "dependencies": {
     "@commitlint/cli": "^11.0.0",
@@ -34,5 +35,8 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "devDependencies": {
+    "docsify-cli": "4.4.3"
   }
 }
