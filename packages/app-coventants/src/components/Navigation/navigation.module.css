@@ -1,0 +1,16 @@
+.root {
+  flex-basis: 20%;
+}
+
+.item {
+  display: flex;
+  padding-bottom: calc(var(--unit) * 2);
+}
+
+.indicator {
+  height: 30px;
+}
+
+p {
+  align-self: center;
+}

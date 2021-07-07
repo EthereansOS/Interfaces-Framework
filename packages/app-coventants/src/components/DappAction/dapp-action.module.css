@@ -1,0 +1,10 @@
+.root {
+  text-align: center;
+  flex-basis: 100%;
+}
+
+.disclaimer {
+  font-size: 10px;
+  margin-top: calc(var(--unit) * 4);
+  padding: 0 calc(var(--unit) * 10);
+}

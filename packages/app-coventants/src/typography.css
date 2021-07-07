@@ -1,0 +1,56 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+span {
+  color: var(--color-text);
+}
+h1 {
+  font-size: 32px;
+  line-height: 130%;
+  margin-bottom: calc(var(--unit) * 4);
+}
+h2 {
+  font-size: 28px;
+  margin-top: calc(var(--unit) * 10);
+  margin-bottom: calc(var(--unit) * 6);
+  font-weight: normal;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 20px;
+}
+h5 {
+  font-size: 18px;
+}
+h6 {
+  font-size: 16px;
+}
+a {
+  text-decoration: none;
+}
+
+.body1 {
+  font-size: 18px;
+  line-height: 130%;
+}
+
+.body2 {
+  font-size: 14px;
+  line-height: 120%;
+}

@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Typography, ShinyText, Link } from '@dfohub/design-system'
 
 import style from './home.module.css'
+
 const Buidl = () => {
   return (
     <div className={style.info}>
