@@ -1,0 +1,22 @@
+.root {
+  width: 70%;
+}
+
+.bazar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.content {
+  flex-basis: 55%;
+}
+
+.image {
+  max-height: 400px;
+  height: 100%;
+}
+
+.title {
+  margin-bottom: calc(var(--unit) * 4)
+}

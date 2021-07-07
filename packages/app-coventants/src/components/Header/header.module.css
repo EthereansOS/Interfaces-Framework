@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+  justify-content: flex-start;
+  padding: calc(var(--unit) * 4);
+}
+
+img {
+  height: 40px;
+  margin-right: calc(var(--unit) * 2);
+}
+
+h3 {
+  align-self: center;
+}

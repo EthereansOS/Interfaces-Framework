@@ -1,0 +1,50 @@
+.root {
+  width: 70%;
+}
+
+.covenants {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.links {
+  text-align: center;
+  padding: calc(var(--unit) * 4);
+}
+
+.image {
+  height: 80px;
+}
+
+.title {
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.text {
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.supported {
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.swap a {
+  display: block;
+  color: white;
+  text-decoration: underline;
+}
+
+.content {
+  flex-basis: 50%;
+}
+
+.content a {
+  margin-right: calc(var(--unit) * 4);  
+  color: var(--color-default);
+  text-decoration: underline;
+}
+
+.governance {
+  margin-bottom: calc(var(--unit) * 4);  
+}

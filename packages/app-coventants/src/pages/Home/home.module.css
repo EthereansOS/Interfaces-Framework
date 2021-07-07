@@ -1,0 +1,20 @@
+.root {
+  width: 70%;
+}
+
+.image {
+  height: 300px;
+}
+
+.title {
+  margin-bottom: calc(var(--unit) * 3) 0;
+}
+
+.text {
+  padding: 0 calc(var(--unit) * 15);
+  margin: calc(var(--unit) * 3) 0;
+}
+
+.text:last-child {
+  margin-bottom: calc(var(--unit) * 10);
+}
