@@ -66,6 +66,12 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./src/setupTests.js"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
     ]
   }
 }

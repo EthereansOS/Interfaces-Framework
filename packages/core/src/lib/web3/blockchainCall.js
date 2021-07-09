@@ -1,6 +1,15 @@
 import getSendingOptions from './getSendingOptions'
 import sendBlockchainTransaction from './sendBlockchainTransaction'
 
+/**
+ * Exec a blockchainCall
+ * @param {Object} adapters - The adapters injected required by the function.
+ * @param {web3} adapters.web3 - The web3 instance.
+ * @param {EthosContext} adapters.context - The application context.
+ * @param {function} value
+ * @param {function} oldCall
+ * @return {Promise<*|Promise<unknown>>}
+ */
 async function blockchainCall({ web3, context }, value, oldCall) {
   const args = []
   const call = value !== undefined && isNaN(value) ? value : oldCall

@@ -17,19 +17,15 @@ async function getNextFunctionalityVersion(
           data.replaces
         )
       )[0]
-      const metadata = await (
-        await fetch(
-          await blockchainCall(
-            { web3, context },
-            newContract(
-              { web3 },
-              context.IFunctionalityAbi,
-              functionalityLocation
-            ).methods.getMetadataLink
-          )
-        )
-      ).json()
-      version = 1 + metadata.version
+
+      const metadataLink = await blockchainCall(
+        { web3, context },
+        newContract({ web3 }, context.IFunctionalityAbi, functionalityLocation)
+          .methods.getMetadataLink
+      )
+
+      const metadata = await (await fetch(metadataLink)).json()
+      version = Number(metadata.version) + 1
     } catch (e) {}
   }
   return version
