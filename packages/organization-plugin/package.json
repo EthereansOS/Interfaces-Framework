@@ -77,7 +77,8 @@
     "eth-ens-namehash": "2.0.8",
     "ethereum-blockies-base64": "1.0.2",
     "p-queue": "7.1.0",
-    "regenerator-runtime": "0.13.7"
+    "regenerator-runtime": "0.13.7",
+    "web3-utils": "^1.4.0"
   },
   "jest": {
     "setupFilesAfterEnv": [

@@ -51,6 +51,7 @@ function DecentralizedApplication({ organization }) {
 
   return (
     <Card
+      className={style.root}
       footerClassName={CardFooter === CodeFooter ? style.codeFooter : undefined}
       Footer={CardFooter && <CardFooter organization={organization} />}>
       <Typography

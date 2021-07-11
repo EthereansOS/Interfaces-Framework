@@ -18,3 +18,8 @@
   width: 100%;
   padding: calc(var(--unit) * 6) calc(var(--unit) * 25);
 }
+
+.header {
+  margin-bottom: calc(var(--unit) * 4);
+  padding: calc(var(--unit) * 8) calc(var(--unit) * 8) 0 calc(var(--unit) * 8);
+}

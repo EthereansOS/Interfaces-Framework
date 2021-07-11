@@ -1,15 +1,16 @@
 import React from 'react'
-import Typography from '@dfohub/design-system/src/Typography'
-import Token from '@dfohub/design-system/src/Token'
-import TextField from '@dfohub/design-system/src/TextField'
-import Select from '@dfohub/design-system/src/Select'
-import Button from '@dfohub/design-system/src/Button'
-import { TOKENS } from '@dfohub/core/src/lib/tokens/tokens'
+import {
+  Typography,
+  Token,
+  TextField,
+  Select,
+  Button,
+} from '@dfohub/design-system'
 import { useFormik } from 'formik'
 import T from 'prop-types'
 
 import { validationSwapSchema as validationSchema } from './formSchema'
-import style from './wallet.module.scss'
+import style from './balance.module.scss'
 
 const Swap = ({ onSwap, token }) => {
   const formik = useFormik({
@@ -29,7 +30,7 @@ const Swap = ({ onSwap, token }) => {
     <div className={style.swap}>
       <Typography variant="body1" fontFamily="primary">
         <form onSubmit={formik.handleSubmit}>
-          <Typography variant="p">Propose to swap:</Typography>
+          <Typography variant="body1">Propose to swap:</Typography>
           <div className={style.amount}>
             <TextField
               type="number"
@@ -41,12 +42,12 @@ const Swap = ({ onSwap, token }) => {
               className={style.amountInput}
               onChange={formik.handleChange}
             />
-            <Token address={token.address} showSymbol />
+            <Token symbol={token.symbol} />
           </div>
-          <Typography variant="p">For:</Typography>
+          <Typography variant="body1">For:</Typography>
           <Select
             name="token"
-            options={TOKENS}
+            options={[]} // TODO we gotta fetch the tokens for the select
             onSelect={formik.setFieldValue}
             value={formik.values.token}
             valueKey="token"

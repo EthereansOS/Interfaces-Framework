@@ -1,0 +1,18 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--unit) * 1);
+  justify-items: center;
+}
+
+.balance {
+  background-color: var(--color-background-dark);
+}
+
+.cardHeader {
+  h2,
+  h5,
+  a {
+    display: inline-block;
+  }
+}

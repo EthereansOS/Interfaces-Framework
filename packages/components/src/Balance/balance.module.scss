@@ -1,9 +1,8 @@
 .root {
-  max-width: 240px;
+  max-width: 280px;
 }
 
 .token,
-.actions,
 .amount {
   display: flex;
 }
@@ -19,8 +18,11 @@
 }
 
 .actions {
-  justify-content: space-between;
   margin-top: calc(var(--unit) * 3);
+
+  > button:first-of-type {
+    margin-right: var(--unit);
+  }
 }
 
 .transfer,
