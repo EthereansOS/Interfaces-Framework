@@ -72,17 +72,39 @@ const useOrganizations = () => {
           }
         }
 
-        updatedOrganization = await loadOrganizationListInfo(
-          {
-            web3,
-            dfoHub: state.dfoHub,
-            dfoHubENSResolver: state.dfoHubENSResolver,
-            context,
-            wethAddress,
-            uniswapV2Router,
-          },
-          updatedOrganization
-        )
+        if (organization.key === 'DFO') {
+          // here we take the full info for the dfo org
+          // since it contains info necessary for the refreshbalances function
+          // of every other organization
+          updatedOrganization = await getInfo(
+            {
+              web3,
+              context,
+              dfoHub: state.dfoHub,
+              dfoHubENSResolver: state.dfoHubENSResolver,
+              walletAddress,
+              uniswapV2Router,
+              wethAddress,
+            },
+            updatedOrganization
+          )
+          setState((s) => ({
+            ...s,
+            dfoHub: updatedOrganization,
+          }))
+        } else {
+          updatedOrganization = await loadOrganizationListInfo(
+            {
+              web3,
+              dfoHub: state.dfoHub,
+              dfoHubENSResolver: state.dfoHubENSResolver,
+              context,
+              wethAddress,
+              uniswapV2Router,
+            },
+            updatedOrganization
+          )
+        }
 
         setState((s) => ({
           ...s,
@@ -118,12 +140,15 @@ const useOrganizations = () => {
       )
     },
     [
-      context,
-      state.dfoHub,
-      state.dfoHubENSResolver,
-      networkId,
       web3,
       web3ForLogs,
+      context,
+      networkId,
+      state.dfoHub,
+      state.dfoHubENSResolver,
+      walletAddress,
+      uniswapV2Router,
+      wethAddress,
     ]
   )
 
@@ -224,7 +249,15 @@ const useOrganizations = () => {
         },
       }))
     },
-    [state.dfoHub, web3, state.dfoEvent, context, state.dfoHubENSResolver]
+    [
+      state.dfoHub,
+      state.dfoHubENSResolver,
+      web3,
+      context,
+      walletAddress,
+      uniswapV2Router,
+      wethAddress,
+    ]
   )
 
   useEffect(() => {

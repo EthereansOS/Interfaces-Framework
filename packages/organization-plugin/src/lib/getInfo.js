@@ -15,7 +15,6 @@ async function getInfo(
     walletAddress,
     uniswapV2Router,
     wethAddress,
-    list,
   },
   element
 ) {
@@ -97,25 +96,25 @@ async function getInfo(
   )
 
   try {
-    newElement.metadata = await window.AJAXRequest(
-      // TODO this is undefined, convert it to fetch
-      formatLink(
-        { context },
-        (newElement.metadataLink = web3.eth.abi.decodeParameter(
-          'string',
-          await blockchainCall(
-            { web3, context },
-            newElement.dFO.methods.read,
-            'getMetadataLink',
-            '0x'
-          )
-        ))
+    newElement.metadataLink = web3.eth.abi.decodeParameter(
+      'string',
+      await blockchainCall(
+        { web3, context },
+        newElement.dFO.methods.read,
+        'getMetadataLink',
+        '0x'
       )
     )
+
+    newElement.metadata = await (
+      await fetch(formatLink({ context }, newElement.metadataLink))
+    ).json()
     Object.entries(newElement.metadata).forEach(
       (it) => (element[it[0]] = it[1] || element[it[0]])
     )
-  } catch (e) {}
+  } catch (e) {
+    console.log('error fetching metadata', e)
+  }
 
   newElement.decimals = await blockchainCall(
     { web3, context },
@@ -141,17 +140,21 @@ async function getInfo(
   newElement.minimumBlockNumberForEmergencySurvey = '0'
   newElement.emergencySurveyStaking = '0'
 
-  await refreshBalances(
-    {
-      web3,
-      context,
-      dfoHub: newElement.key === 'DFO' ? newElement : dfoHub,
-      walletAddress,
-      uniswapV2Router,
-      wethAddress,
-    },
-    newElement
-  )
+  try {
+    await refreshBalances(
+      {
+        web3,
+        context,
+        dfoHub,
+        walletAddress,
+        uniswapV2Router,
+        wethAddress,
+      },
+      newElement
+    )
+  } catch (e) {
+    console.log('error refreshingBalances', e)
+  }
 
   try {
     newElement.minimumBlockNumberForEmergencySurvey =

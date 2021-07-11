@@ -3,6 +3,7 @@ import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
 import VotingToken from '../components/VotingToken'
+import DexLiquidity from '../components/DexLiquidity'
 
 const DeFiToken = ({ setTemplateState }) => {
   const { organizationHeader, organization } = useOrganizationContext()
@@ -18,7 +19,12 @@ const DeFiToken = ({ setTemplateState }) => {
 
   if (!organization) return null
 
-  return <VotingToken organization={organization} />
+  return (
+    <>
+      <VotingToken organization={organization} />
+      <DexLiquidity organization={organization} />
+    </>
+  )
 }
 
 DeFiToken.propTypes = {

@@ -95,7 +95,7 @@ const VotingToken = ({ organization }) => {
           )}
         </Typography>
         <Typography variant="body1">
-          DFO Wallet Supply:{' '}
+          DFO Wallet Supply:
           {organization.balanceOf && organization.symbol && (
             <Link href={etherscanHolderLink} external>
               {fromDecimals(

@@ -133,8 +133,6 @@ async function refreshBalances(
     (element.walletBUIDLDollar = formatMoney(element.walletBUIDLDollar))
   //element.walletDAIDollar && (element.walletDAIDollar = formatMoney(element.walletDAIDollar));
 
-  // FIXME the walletAddress is alway empty
-  // need to call ethereum.enable()
   element.myBalanceOf = walletAddress
     ? await blockchainCall(
         { web3, context },
