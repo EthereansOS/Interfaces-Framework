@@ -10,6 +10,7 @@ export { default as web3Utils } from 'web3-utils'
 export { default as useEthosContext } from './hooks/useEthosContext'
 export { default as ethosEvents } from './lib/ethosEvents'
 export { default as tokenPercentage } from './lib/tokenPercentage'
+export { default as formatString } from './lib/formatString'
 
 export {
   CONNECTED as WEB3_CONNECTED,

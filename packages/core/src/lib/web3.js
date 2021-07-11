@@ -64,23 +64,6 @@ function initWeb3(context, setState) {
     })
   }
 
-  // FIXME move to organization plugin
-  // async function refreshBalances(element, silent) {
-  //   return refreshBalancesFn(
-  //     {
-  //       web3,
-  //       context,
-  //       // dfoHub,
-  //       walletAddress,
-  //       wethAddress,
-  //       getState,
-  //       uniswapV2Router,
-  //     },
-  //     element,
-  //     silent
-  //   )
-  // }
-
   async function connect(afterInitListFn) {
     const result = await onEthereumUpdate(true, afterInitListFn)
     return result

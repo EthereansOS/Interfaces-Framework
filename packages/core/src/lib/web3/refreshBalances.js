@@ -5,17 +5,7 @@ import formatMoney from './formatMoney'
 import fromDecimals from './fromDecimals'
 
 async function refreshBalances(
-  {
-    web3,
-    context,
-    dfoHub,
-    uniswapV2Router,
-    wethAddress,
-    walletAddress,
-    getState,
-    updateElement,
-  },
-  // view, // this is removed because the update is done using react
+  { web3, context, dfoHub, uniswapV2Router, wethAddress, walletAddress },
   element,
   silent
 ) {
@@ -154,30 +144,30 @@ async function refreshBalances(
     : '0'
 
   // FIXME the walletAddress is always empty, and the blockchaincall is called always with the same value
-  if (!silent) {
-    // Get the last version of the list
-    const list = getState().list || []
+  // if (!silent) {
+  //   // Get the last version of the list
+  //   const list = getState().list || []
 
-    Object.keys(list).map(async function (key, i) {
-      if (element.key === key) {
-        return
-      }
-      const e = { ...list[key] }
-      if (!e.token) {
-        return
-      }
-      const newBalance = walletAddress
-        ? await blockchainCall(
-            { web3, context },
-            e.token.methods.balanceOf,
-            walletAddress
-          )
-        : '0'
+  //   Object.keys(list).map(async function (key, i) {
+  //     if (element.key === key) {
+  //       return
+  //     }
+  //     const e = { ...list[key] }
+  //     if (!e.token) {
+  //       return
+  //     }
+  //     const newBalance = walletAddress
+  //       ? await blockchainCall(
+  //           { web3, context },
+  //           e.token.methods.balanceOf,
+  //           walletAddress
+  //         )
+  //       : '0'
 
-      // TODO This is a function that should be defined to
-      // updateElement({ ...e, myBalanceOf: newBalance })
-    })
-  }
+  //     // TODO This is a function that should be defined to
+  //     // updateElement({ ...e, myBalanceOf: newBalance })
+  //   })
+  // }
 }
 
 export default refreshBalances

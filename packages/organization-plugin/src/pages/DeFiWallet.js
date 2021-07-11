@@ -16,11 +16,7 @@ const DeFiWallet = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return (
-    <>
-      <BalanceList organization={organization} />
-    </>
-  )
+  return <BalanceList organization={organization} />
 }
 
 DeFiWallet.propTypes = {

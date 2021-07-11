@@ -21,6 +21,7 @@ const useOrganizations = () => {
     proxyChangedTopic,
     wethAddress,
     uniswapV2Router,
+    walletAddress,
   } = useWeb3()
 
   const [state, setState] = useState({
@@ -204,6 +205,9 @@ const useOrganizations = () => {
           context,
           dfoHub: state.dfoHub,
           dfoHubENSResolver: state.dfoHubENSResolver,
+          walletAddress,
+          uniswapV2Router,
+          wethAddress,
         },
         organization
       )

@@ -1,3 +1,4 @@
+import { formatString } from '@dfohub/core'
 import web3Utils from 'web3-utils'
 
 import getNetworkElement from './getNetworkElement'
@@ -9,13 +10,17 @@ import { newContract } from './contracts'
 async function loadLogoWork({ context }, token) {
   token.logoURI =
     token.logoURI ||
-    context.trustwalletImgURLTemplate.format(
+    formatString(
+      context.trustwalletImgURLTemplate,
       web3Utils.toChecksumAddress(token.address)
     )
   token.logoURI = formatLink({ context }, token.logoURI)
   try {
-    // TODO why is this here?
-    await (await fetch(token.logoURI)).json()
+    // Used to check if resource response is 404
+    const res = await fetch(token.logoURI)
+    if (!res.ok) {
+      throw res
+    }
   } catch (e) {
     token.logoURI = 'assets/img/default-logo.png'
   }

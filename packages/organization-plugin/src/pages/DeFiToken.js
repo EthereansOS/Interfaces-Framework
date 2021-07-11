@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
+import VotingToken from '../components/VotingToken'
 
 const DeFiToken = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationDeFi')
   const { organizationHeader, organization } = useOrganizationContext()
   useEffect(() => {
     setTemplateState((s) => ({
@@ -17,9 +16,9 @@ const DeFiToken = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return organizationOverview.map(({ Component, key }) => (
-    <Component key={key} organization={organization} />
-  ))
+  if (!organization) return null
+
+  return <VotingToken organization={organization} />
 }
 
 DeFiToken.propTypes = {
