@@ -1,9 +1,22 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from 'react'
 
-import { TOKENS } from '../../../core/src/lib/tokens/tokens'
-
 import Select from '.'
+
+const options = [
+  {
+    symbol: 'ETH',
+    image: 'assets/images/tokens/eth.png',
+    label: 'Ethereum',
+    value: 'ethereum',
+  },
+  {
+    symbol: 'TOK',
+    image: 'assets/images/tokens/generic.png',
+    label: 'Token',
+    value: 'token',
+  },
+]
 
 export default {
   title: 'Example/Select',
@@ -22,5 +35,5 @@ export const Default = Template.bind({})
 
 Default.args = {
   onSelect: (e) => console.log('selected', e.value),
-  options: TOKENS,
+  options,
 }

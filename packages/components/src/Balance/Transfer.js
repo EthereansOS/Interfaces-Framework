@@ -1,13 +1,10 @@
 import React from 'react'
-import Typography from '@dfohub/design-system/src/Typography'
-import Token from '@dfohub/design-system/src/Token'
-import TextField from '@dfohub/design-system/src/TextField'
-import Button from '@dfohub/design-system/src/Button'
+import { Typography, Token, TextField, Button } from '@dfohub/design-system'
 import { useFormik } from 'formik'
 import T from 'prop-types'
 
 import { validationTransferSchema as validationSchema } from './formSchema'
-import style from './wallet.module.scss'
+import style from './balance.module.scss'
 
 const Transfer = ({ onTransfer, token }) => {
   const formik = useFormik({
@@ -39,7 +36,7 @@ const Transfer = ({ onTransfer, token }) => {
               className={style.amountInput}
               onChange={formik.handleChange}
             />
-            <Token address={token.address} showSymbol />
+            <Token symbol={token.symbol} />
           </div>
           <Typography variant="p">To:</Typography>
           <TextField

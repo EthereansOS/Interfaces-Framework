@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
+import BalanceList from '../components/BalanceList'
 
 const DeFiWallet = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationDeFi')
   const { organizationHeader, organization } = useOrganizationContext()
   useEffect(() => {
     setTemplateState((s) => ({
@@ -17,9 +16,11 @@ const DeFiWallet = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return organizationOverview.map(({ Component, key }) => (
-    <Component key={key} organization={organization} />
-  ))
+  return (
+    <>
+      <BalanceList organization={organization} />
+    </>
+  )
 }
 
 DeFiWallet.propTypes = {

@@ -94,6 +94,7 @@ async function getInfo(environment, element) {
 
   try {
     newElement.metadata = await window.AJAXRequest(
+      // TODO this is undefined, convert it to fetch
       formatLink(
         { context },
         (newElement.metadataLink = web3.eth.abi.decodeParameter(

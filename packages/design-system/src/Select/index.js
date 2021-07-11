@@ -1,21 +1,34 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classNames from 'classnames'
 import SelectLibrary from 'react-select'
 import T from 'prop-types'
+
+import Label from './label'
 
 const Select = ({
   containerClassName,
   selectClassName,
   onSelect,
-  options,
+  options = [],
   value,
   valueKey,
+  showIcon,
   ...props
 }) => {
   const handleChange = (value) => {
     onSelect(valueKey, value)
   }
 
+  const formattedOptions = useMemo(
+    () =>
+      options.map((option) => ({
+        ...option,
+        label: <Label text={option.label} image={option.image} />,
+      })),
+    [options]
+  )
+
+  // TODO All this should be done using the CSS
   const colourStyles = {
     option: (styles, { isDisabled, isFocused, isSelected }) => {
       const hover = '#292929'
@@ -46,7 +59,7 @@ const Select = ({
         value={options.find((o) => o.value === value)}
         className={classNames(selectClassName)}
         onChange={(e) => handleChange(e.value)}
-        options={options}
+        options={formattedOptions}
         styles={colourStyles}
       />
     </div>
@@ -60,6 +73,7 @@ Select.propTypes = {
   options: T.arrayOf(T.object).isRequired,
   value: T.any.isRequired,
   valueKey: T.string.isRequired,
+  showIcon: T.bool,
 }
 
 export default Select

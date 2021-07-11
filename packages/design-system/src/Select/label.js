@@ -6,18 +6,18 @@ import Typography from '../Typography'
 
 import style from './select.module.scss'
 
-const Label = ({ tokenName, tokenImage }) => (
+const Label = ({ text, image }) => (
   <div className={classNames(style.label)}>
-    <img src={tokenImage} alt={tokenName} className={classNames(style.image)} />
+    <img src={image} alt={text} className={classNames(style.image)} />
     <Typography fontFamily="primary" variant="p" color="primary">
-      {tokenName}
+      {text}
     </Typography>
   </div>
 )
 
 Label.propTypes = {
-  tokenName: T.string.isRequired,
-  tokenImage: T.any.isRequired,
+  text: T.string.isRequired,
+  image: T.any.isRequired,
 }
 
 export default Label

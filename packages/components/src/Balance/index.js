@@ -1,20 +1,17 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
-import Card from '@dfohub/design-system/src/Card'
-import Typography from '@dfohub/design-system/src/Typography'
-import Token from '@dfohub/design-system/src/Token'
-import Button from '@dfohub/design-system/src/Button'
+import { Token, Button, Typography, Card } from '@dfohub/design-system'
 import T from 'prop-types'
-import { VOID_ETHEREUM_ADDRESS } from '@dfohub/core/src/lib/constants'
 
-import Swap from './swap'
-import Transfer from './transfer'
-import style from './wallet.module.scss'
+import Swap from './Swap'
+import Transfer from './Transfer'
+import style from './balance.module.scss'
 
-const Wallet = ({
+const Balance = ({
   className,
-  isEdit = false,
+  showActions = false,
   token,
+  tokenAmount,
   tokenPrice,
   onSwap,
   onTransfer,
@@ -22,38 +19,43 @@ const Wallet = ({
   const [isSwap, setIsSwap] = useState(false)
   const [isTransfer, setIsTransfer] = useState(false)
 
+  if (!tokenAmount || tokenAmount === '0') return null
+
   return (
     <Card className={classNames(style.root, className)}>
       <div className={style.token}>
-        <Token address={token.address} showIcon showSymbol />
-        {/* TODO: extend / make component with other type of tokens */}
-        {token.address === VOID_ETHEREUM_ADDRESS && tokenPrice !== 0 && (
+        <Token symbol={token.symbol} logo={token.logo} />
+        {!!tokenPrice && (
           <Typography variant="body1" fontFamily="primary">
             (${tokenPrice})
           </Typography>
         )}
       </div>
-      <Typography variant="h5" weight="bold" fontFamily="primary">
-        {token.amount}
-      </Typography>
-      {isEdit && (
+      {!!tokenAmount && (
+        <Typography variant="h5" weight="bold" fontFamily="primary">
+          {tokenAmount}
+        </Typography>
+      )}
+      {showActions && (
         <div className={style.actions}>
           <Button
-            text="SWAP"
+            text="Swap"
             size="small"
             color={isSwap ? 'secondary' : 'primary'}
             onClick={() => {
               setIsTransfer(false)
               setIsSwap(true)
-            }}></Button>
+            }}
+          />
           <Button
-            text="TRANSFER"
+            text="Transfer"
             size="small"
             color={isTransfer ? 'secondary' : 'primary'}
             onClick={() => {
               setIsSwap(false)
               setIsTransfer(true)
-            }}></Button>
+            }}
+          />
         </div>
       )}
       {isSwap && <Swap onSwap={onSwap} token={token} />}
@@ -62,13 +64,17 @@ const Wallet = ({
   )
 }
 
-Wallet.propTypes = {
+Balance.propTypes = {
   className: T.string,
-  isEdit: T.bool.isRequired,
-  token: T.any.isRequired,
-  tokenPrice: T.number,
+  showActions: T.bool,
+  token: T.shape({
+    symbol: T.string,
+    logo: T.string,
+  }).isRequired,
+  tokenPrice: T.oneOfType([T.string, T.number]),
+  tokenAmount: T.string,
   onSwap: T.func,
   onTransfer: T.func,
 }
 
-export default Wallet
+export default Balance

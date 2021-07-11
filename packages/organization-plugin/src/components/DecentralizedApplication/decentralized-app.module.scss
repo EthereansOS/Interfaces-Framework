@@ -9,9 +9,10 @@
   flex: 1;
 }
 
-h5 {
+.root > h5 {
   margin-bottom: calc(var(--unit) * 3);
 }
+
 .chip {
   margin: var(--unit);
 }

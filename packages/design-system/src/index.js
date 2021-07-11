@@ -16,6 +16,8 @@ import Tooltip from './Tooltip'
 import Typography from './Typography'
 import LinearProgress from './LinearProgress'
 import CircularProgress from './CircularProgress'
+import Token from './Token'
+import Select from './Select'
 
 export {
   Button,
@@ -32,4 +34,6 @@ export {
   Typography,
   LinearProgress,
   CircularProgress,
+  Token,
+  Select,
 }

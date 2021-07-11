@@ -2,7 +2,7 @@
 import React from 'react'
 import { VOID_ETHEREUM_ADDRESS } from '@dfohub/core/src/lib/constants'
 
-import Wallet from '.'
+import Balance from '.'
 
 const TOKEN = {
   address: VOID_ETHEREUM_ADDRESS,
@@ -10,11 +10,11 @@ const TOKEN = {
 }
 
 export default {
-  title: 'Components/Wallet',
-  component: Wallet,
+  title: 'Components/Balance',
+  component: Balance,
 }
 
-const Template = (args) => <Wallet {...args} />
+const Template = (args) => <Balance {...args} />
 
 export const Default = Template.bind({})
 
