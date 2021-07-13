@@ -15,11 +15,11 @@ The project is a monorepo based on [lerna](https://lerna.js.org/).
 All the packages contained in this monorepo are inside the `packages` folder.
 They are:
 
-- [app](./packages/app/README.md): the actual React application
-- [core](./packages/core/README.md): the core logic which allows injecting plugins and other external functionalities in the app.
-- [design-system](./packages/design-system/README.md): the base component library used inside the app
-- [components](./packages/components/README.md): a widget library used inside the app
-- [sample-plugin](./packages/sample-plugin/README.md): an example of a plugin which add some pages to the app
+- [app](#): the actual React application
+- [core](core): the core logic which allows injecting plugins and other external functionalities in the app.
+- [design-system](design): the base component library used inside the app
+- [components](components): a widget library used inside the app
+- [sample-plugin](plugins): an example of a plugin which add some pages to the app
 
 ## How to build the application?
 
