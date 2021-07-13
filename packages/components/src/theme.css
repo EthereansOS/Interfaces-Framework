@@ -18,4 +18,8 @@
   'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif';
   --font-family-secondary: 'Courier New', 'Lucida Console', 'Courier', 'Times',
     'Arial';
+
+
+  --edit-field-background-color: #fff;
+  --edit-field-color: #000;
 }

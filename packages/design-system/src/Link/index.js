@@ -31,6 +31,8 @@ const Link = ({ children, className, external, href, to, ...props }) => {
 export default Link
 
 Link.propTypes = {
+  className: T.string,
+  children: T.oneOfType([T.arrayOf(T.node), T.node]),
   href: T.string,
   external: T.bool,
   to: T.string,

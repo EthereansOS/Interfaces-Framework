@@ -8,7 +8,9 @@ import style from './select.module.scss'
 
 const Label = ({ text, image }) => (
   <div className={classNames(style.label)}>
-    <img src={image} alt={text} className={classNames(style.image)} />
+    {image && (
+      <img src={image} alt={text} className={classNames(style.image)} />
+    )}
     <Typography fontFamily="primary" variant="p" color="primary">
       {text}
     </Typography>
@@ -17,7 +19,7 @@ const Label = ({ text, image }) => (
 
 Label.propTypes = {
   text: T.string.isRequired,
-  image: T.any.isRequired,
+  image: T.any,
 }
 
 export default Label

@@ -38,6 +38,7 @@ function Table({ columns: cols, rows, tableClassName }) {
 }
 
 Table.propTypes = {
+  tableClassName: T.string,
   rows: T.arrayOf(
     T.shape({
       id: T.oneOfType([T.string, T.number]),

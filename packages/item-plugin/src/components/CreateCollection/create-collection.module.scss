@@ -1,0 +1,9 @@
+.card {
+  background-color: var(--card-background-primary-light);
+  width: 450px;
+}
+
+.cardSpacer {
+  margin-top: calc(var(--unit) * 4);
+  margin-bottom: calc(var(--unit) * 4);
+}

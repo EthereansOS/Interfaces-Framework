@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputContainer {
+  display: none;
+}
+
+.tooltip {
+  width: 100%;
+}
+
+.tooltip p {
+  color: var(--tooltip-color);
+}

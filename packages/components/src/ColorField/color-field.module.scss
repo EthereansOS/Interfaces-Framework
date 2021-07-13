@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputContainer {
+  background-color: var(--edit-field-background-color);
+  color: var(--edit-field-color);
+  position: relative;
+}
+
+.picker {
+  min-width: 50px;
+  min-height: 30px;
+  border: 1px solid var(--edit-field-color);
+  padding: 3px;
+  background-color: var(--edit-field-background-color);
+}
+
+.innerPicker {
+  min-width: 44px;
+  min-height: 24px;
+}
+
+.pickerComponent {
+  position: absolute;
+}
+
+.tooltip {
+  width: 100%;
+}
+
+.tooltip p {
+  color: var(--tooltip-color);
+}

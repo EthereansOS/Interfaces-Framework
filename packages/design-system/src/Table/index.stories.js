@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 
 import Table from '.'
@@ -13,6 +14,7 @@ export const SampleTable = () => {
 
   return <Table columns={cols} rows={rows} />
 }
+
 export const TableRenderCell = () => {
   const cols = [
     {

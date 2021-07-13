@@ -166,15 +166,15 @@ async function refreshBalances(
       if (!e.token) {
         return
       }
-      const newBalance = walletAddress
-        ? await blockchainCall(
-            { web3, context },
-            e.token.methods.balanceOf,
-            walletAddress
-          )
-        : '0'
 
       // TODO This is a function that should be defined to
+      // const newBalance = walletAddress
+      //   ? await blockchainCall(
+      //       { web3, context },
+      //       e.token.methods.balanceOf,
+      //       walletAddress
+      //     )
+      //   : '0'
       // updateElement({ ...e, myBalanceOf: newBalance })
     })
   }

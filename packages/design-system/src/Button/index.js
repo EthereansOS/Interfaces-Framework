@@ -6,10 +6,16 @@ import { sizePropType } from '../propTypes'
 
 import style from './button.module.scss'
 
-const Button = ({ text, className, color, size, ...props }) => (
+const Button = ({ text, className, color, size, fullWidth, ...props }) => (
   <button
     {...props}
-    className={classNames(style.root, style[color], style[size], className)}>
+    className={classNames(
+      style.root,
+      style[color],
+      style[size],
+      style[fullWidth ? 'fullWidth' : ''],
+      className
+    )}>
     {text}
   </button>
 )
@@ -17,6 +23,8 @@ const Button = ({ text, className, color, size, ...props }) => (
 Button.propTypes = {
   className: T.string,
   text: T.string.isRequired,
+  type: T.oneOf(['submit', 'button']),
+  fullWidth: T.bool,
   color: T.oneOf(['primary', 'secondary', 'tertiary']),
   size: sizePropType,
 }
@@ -24,6 +32,7 @@ Button.propTypes = {
 Button.defaultProps = {
   color: 'primary',
   size: 'medium',
+  type: 'button',
 }
 
 export default Button

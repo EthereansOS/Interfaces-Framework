@@ -41,6 +41,10 @@
     padding: calc(var(--unit) * 4) calc(var(--unit) * 5);
     font-size: 18px;
   }
+
+  &.fullWidth {
+    width: 100%;
+  }
 }
 
 .root:disabled {

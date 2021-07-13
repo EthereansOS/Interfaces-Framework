@@ -31,3 +31,14 @@
     margin: 0 calc(var(--unit) * 4) calc(var(--unit) * 8);
   }
 }
+
+
+.cardButtons {
+  background-color: var(--card-background-primary-light);
+  width: 350px;
+}
+
+.cardSpacer {
+  margin-top: calc(var(--unit) * 4);
+  margin-bottom: calc(var(--unit) * 4);
+}

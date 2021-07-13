@@ -48,6 +48,7 @@ ConnectWidget.propTypes = {
   onClickConnect: T.func.isRequired,
   title: T.string,
   className: T.string,
+  rotateLogo: T.bool,
 }
 
 export default ConnectWidget

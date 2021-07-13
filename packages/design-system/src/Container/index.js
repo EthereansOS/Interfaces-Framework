@@ -10,6 +10,7 @@ const Container = ({ children, className }) => (
 
 Container.propTypes = {
   className: T.string,
+  children: T.oneOfType([T.arrayOf(T.node), T.node]),
 }
 
 export default Container

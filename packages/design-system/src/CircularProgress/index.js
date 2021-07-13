@@ -19,6 +19,7 @@ export default CircularProgress
 CircularProgress.propTypes = {
   color: T.string,
   size: sizePropType,
+  className: T.string,
 }
 
 CircularProgress.defaultProps = {
