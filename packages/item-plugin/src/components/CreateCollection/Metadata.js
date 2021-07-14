@@ -8,7 +8,6 @@ import {
 } from '@dfohub/components'
 import { Button, Select, Typography } from '@dfohub/design-system'
 import * as Yup from 'yup'
-import style from '@dfohub/components/src/Balance/balance.module.scss'
 import T from 'prop-types'
 
 const MetadataSchema = Yup.object().shape({
@@ -130,7 +129,6 @@ const Metadata = ({ onNext, onBack, values }) => {
                 setFieldValue(id, value)
               }}
               value={values.metadataType}
-              containerClassName={style.select}
             />
             {values.metadataType === 'basic' && <MetadataBasic />}
             {values.metadataType === 'custom' && <MetadataCustom />}

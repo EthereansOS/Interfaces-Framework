@@ -118,7 +118,7 @@ The props expect an async function that inject the `setReady` and the `setValue`
 </InitContextProvider>
 ```
 
-Duting the application iniztialization the component shows the content of the `Loading` property and if it fails shows the `Error` property content.
+Duting the application initialization the component shows the content of the `Loading` property and if it fails shows the `Error` property content.
 
 ```js
     <InitContextProvider
