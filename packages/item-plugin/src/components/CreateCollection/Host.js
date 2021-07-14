@@ -2,7 +2,6 @@ import React from 'react'
 import { Formik, Form, EditField } from '@dfohub/components'
 import { Button, Select, Typography } from '@dfohub/design-system'
 import * as Yup from 'yup'
-import style from '@dfohub/components/src/Balance/balance.module.scss'
 import T from 'prop-types'
 
 const HostSchema = Yup.object().shape({
@@ -44,12 +43,9 @@ const Host = ({ onNext, onBack, values }) => {
               id="host"
               options={hostOptions} // TODO we gotta fetch the tokens for the select
               onSelect={(id, value) => {
-                console.log('PASSO D Q')
-                console.log(value)
                 setFieldValue(id, value)
               }}
               value={values.host}
-              containerClassName={style.select}
             />
             {values.host === 'wallet' && (
               <EditField id="hostAddress" name="hostAddress" label="Address" />
