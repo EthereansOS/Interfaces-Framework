@@ -16,7 +16,7 @@ const columns = [
         to={`organizations/${props.row.walletAddress}`}>
         <img
           style={{ width: 35, marginRight: 25 }}
-          src={props.value}
+          src={props.row.brandUri?.[0] || props.value}
           alt="logo"
         />
         <Typography variant="subtitle1" weight="bold">
