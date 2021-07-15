@@ -15,8 +15,8 @@ body {
   --color-light: #9c9c9c;
   --color-primary: #8653f6;
   --color-secondary: rgb(255, 0, 122);
+  --color-tertiary: #0180EC;
   --color-text: #6e6e6e;
-  --color-text-dark: #212121;
   --color-background-light: #ffff;
   --color-background: #333333;
   --color-background-dark: #292929;
@@ -30,15 +30,18 @@ body {
   --button-color: var(--color-text);
   --button-color-primary: #fff;
   --button-color-secondary: var(--color-text);
+  --button-color-tertiary: #fff;
   --button-background-color: var(--color-default);
   --button-background-color-primary: var(--color-primary);
   --button-background-color-secondary: var(--color-secondary);
+  --button-background-color-tertiary: var(--color-tertiary);
   --button-background-image-primary: linear-gradient(
-    to right,
-    rgb(144, 72, 253) 30%,
-    rgb(75, 203, 201) 90%
+          to right,
+          rgb(144, 72, 253) 30%,
+          rgb(75, 203, 201) 90%
   );
 
+  --text-input-text-color: #000;
   --text-input-background-color: #ffffff;
   --text-input-border-color: #191919;
   --text-input-border-width: 2px;

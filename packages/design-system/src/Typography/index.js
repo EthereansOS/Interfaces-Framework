@@ -47,6 +47,7 @@ const Typography = (props) => {
 
 Typography.propTypes = {
   className: T.string,
+  align: T.oneOf(['left', 'center', 'right']),
   children: T.oneOfType([T.arrayOf(T.node), T.node]),
   variant: T.oneOf([
     'h1',

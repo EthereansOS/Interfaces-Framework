@@ -1,6 +1,8 @@
 import { loadMetadatas } from '@dfohub/core'
 
 import Create from './pages/Create'
+import CreateCollection from './pages/CreateCollection'
+import CreateItem from './pages/CreateItem'
 import Explore from './pages/Explore'
 import Wrap from './pages/Wrap'
 import Transfer from './pages/Transfer'
@@ -52,6 +54,21 @@ const initPlugin = ({ addElement }) => {
     requireConnection: true,
   })
 
+  addElement('router', {
+    index: 40,
+    path: '/create/collection',
+    Component: CreateCollection,
+    exact: true,
+    requireConnection: true,
+  })
+  addElement('router', {
+    index: 40,
+    path: '/create/item',
+    Component: CreateItem,
+    exact: true,
+    requireConnection: true,
+  })
+
   addElement('appMenu', {
     name: 'explore',
     label: 'Explore',
@@ -98,6 +115,19 @@ const initPlugin = ({ addElement }) => {
   addElement('web3/afterInit', {
     fn: loadMetadatas,
     index: 30,
+  })
+  // Item create buttons
+  addElement('itemCreateButtons', {
+    id: 'createCollection',
+    index: 10,
+    text: 'Crete a New collection',
+    to: '/create/collection',
+  })
+  addElement('itemCreateButtons', {
+    id: 'createItem',
+    index: 20,
+    text: 'Crete a New ITEM',
+    to: '/create/item',
   })
 }
 

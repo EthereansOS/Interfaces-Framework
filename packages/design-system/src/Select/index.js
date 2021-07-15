@@ -6,17 +6,18 @@ import T from 'prop-types'
 import Label from './label'
 
 const Select = ({
+  id,
   containerClassName,
   selectClassName,
   onSelect,
   options = [],
   value,
-  valueKey,
   showIcon,
   ...props
 }) => {
+  // TODO verify and properly name the `id` field
   const handleChange = (value) => {
-    onSelect(valueKey, value)
+    onSelect(id, value.id)
   }
 
   const formattedOptions = useMemo(
@@ -56,9 +57,11 @@ const Select = ({
     <div className={classNames(containerClassName)}>
       <SelectLibrary
         {...props}
-        value={options.find((o) => o.value === value)}
+        value={options.find((o) => o.id === value)}
         className={classNames(selectClassName)}
-        onChange={(e) => handleChange(e.value)}
+        onChange={(value) => {
+          handleChange(value)
+        }}
         options={formattedOptions}
         styles={colourStyles}
       />
@@ -69,10 +72,10 @@ const Select = ({
 Select.propTypes = {
   containerClassName: T.string,
   selectClassName: T.string,
+  id: T.string.isRequired,
   onSelect: T.func.isRequired,
   options: T.arrayOf(T.object).isRequired,
   value: T.any.isRequired,
-  valueKey: T.string.isRequired,
   showIcon: T.bool,
 }
 

@@ -18,3 +18,4 @@ This component implements a button.
 | variant   | string                                    |          | default | variant                                        |
 | color     | One of ['primary', 'secondary'] or string |          | default | color of the button                            |
 | size      | One of ['small', 'medium', 'large']       |          | medium  | size of the button                             |
+| fullWidth | boolean                                   |          | false   | full width button if set to true               |

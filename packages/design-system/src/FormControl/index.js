@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import T from 'prop-types'
 
 import Typography from '../Typography'
 
@@ -17,3 +18,9 @@ const FormControl = ({ control, label, className }) => {
 }
 
 export default FormControl
+
+FormControl.propTypes = {
+  className: T.string,
+  label: T.string,
+  control: T.node,
+}
