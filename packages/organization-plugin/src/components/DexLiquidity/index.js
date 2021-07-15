@@ -28,7 +28,6 @@ const DexLiquidity = ({ organization }) => {
     if (organization?.token?.options?.address) {
       fetch()
     }
-    console.log('ADDR', organization?.token?.options?.address)
   }, [
     context,
     networkId,
