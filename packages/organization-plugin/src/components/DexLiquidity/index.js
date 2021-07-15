@@ -36,7 +36,8 @@ const DexLiquidity = ({ organization }) => {
     web3ForLogs,
   ])
 
-  // TODO keep finishing work
+  // TODO finish dex liquidity
+  // find some org with content on the production website
   return (
     <Card
       contentClassName={style.root}
@@ -44,7 +45,13 @@ const DexLiquidity = ({ organization }) => {
         <Typography color="primary" variant="h2">
           Dex liquidity
         </Typography>
-      }></Card>
+      }>
+      {uniswapPairs.length === 0 && (
+        <Typography className={style.emptyText} variant="body1">
+          No Uniswap V2 pair found
+        </Typography>
+      )}
+    </Card>
   )
 }
 

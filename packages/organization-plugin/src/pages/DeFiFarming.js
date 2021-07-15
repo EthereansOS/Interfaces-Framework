@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
+import FarmingContracts from '../components/FarmingContracts'
+import Inflation from '../components/Inflation'
 
 const DeFiFarming = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationDeFi')
   const { organizationHeader, organization } = useOrganizationContext()
   useEffect(() => {
     setTemplateState((s) => ({
@@ -17,9 +17,12 @@ const DeFiFarming = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return organizationOverview.map(({ Component, key }) => (
-    <Component key={key} organization={organization} />
-  ))
+  return (
+    <>
+      <FarmingContracts />
+      <Inflation />
+    </>
+  )
 }
 
 DeFiFarming.propTypes = {
