@@ -4,10 +4,13 @@ import DappFunctions from './pages/DappFunctions'
 import DeFiWallet from './pages/DeFiWallet'
 import DeFiFarming from './pages/DeFiFarming'
 import DeFiToken from './pages/DeFiToken'
-import Governance from './pages/Governance'
+import GovernanceRulesPage from './pages/GovernanceRules'
+import GovernanceProposals from './pages/GovernanceProposals'
+import GovernanceNewProposal from './pages/GovernanceNewProposal'
 import OrganizationInfo from './components/OrganizationInfo'
 import DecentralizedApplication from './components/DecentralizedApplication'
 import RulesAndFunds from './components/RulesAndFunds'
+import GovernanceRules from './components/GovernanceRules'
 import List from './pages/List'
 import { OrganizationContextProvider } from './OrganizationContext'
 import EditMetadata from './pages/EditMetadata'
@@ -159,18 +162,64 @@ const initPlugin = ({ addElement }) => {
   addElement('organizationMenu', {
     name: 'governance',
     label: 'Governance',
-    link: '/organizations/{{address}}/governance',
+    link: '/organizations/{{address}}/governance/rules',
     index: 35,
+  })
+  addElement('organizationSubMenuGovernance', {
+    name: 'rules',
+    label: 'Rules',
+    link: '/organizations/{{address}}/governance/rules',
+    index: 10,
+  })
+  addElement('organizationSubMenuGovernance', {
+    name: 'proposals',
+    label: 'Proposals',
+    link: '/organizations/{{address}}/governance/proposals',
+    index: 20,
+  })
+  addElement('organizationSubMenuGovernance', {
+    name: 'newProposals',
+    label: 'New Proposal',
+    link: '/organizations/{{address}}/governance/new-proposals',
+    index: 30,
   })
 
   addElement('router', {
     index: 20,
-    path: '/organizations/:address/governance',
-    Component: Governance,
+    path: '/organizations/:address/governance/rules',
+    Component: GovernanceRulesPage,
     exact: true,
     requireConnection: true,
     templateProps: {
-      selected: 'governance',
+      selected: 'governance/rules',
+      showMenu: true,
+      showSubMenu: true,
+      showBeforeMenu: true,
+    },
+  })
+
+  addElement('router', {
+    index: 25,
+    path: '/organizations/:address/governance/proposals',
+    Component: GovernanceProposals,
+    exact: true,
+    requireConnection: true,
+    templateProps: {
+      selected: 'governance/proposals',
+      showMenu: true,
+      showSubMenu: true,
+      showBeforeMenu: true,
+    },
+  })
+
+  addElement('router', {
+    index: 30,
+    path: '/organizations/:address/governance/new-proposals',
+    Component: GovernanceNewProposal,
+    exact: true,
+    requireConnection: true,
+    templateProps: {
+      selected: 'governance/newProposals',
       showMenu: true,
       showSubMenu: true,
       showBeforeMenu: true,
@@ -193,6 +242,12 @@ const initPlugin = ({ addElement }) => {
     key: 'rulesAndFunds',
     index: 30,
     Component: RulesAndFunds,
+  })
+
+  addElement('organizationGovernanceRules', {
+    key: 'governanceRules',
+    index: 10,
+    Component: GovernanceRules,
   })
 
   addElement('router', {

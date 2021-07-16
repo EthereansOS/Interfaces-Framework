@@ -1,0 +1,29 @@
+.changeFooter {
+  padding: calc(var(--unit) * 10);
+  margin-top: calc(var(--unit) * 8);
+}
+.formContentContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: calc(var(--unit) * 5);
+}
+.descriptionContainer {
+  margin-left: 20%;
+  margin-right: calc(var(--unit) * 10);
+  line-height: 1.5;
+  max-width: calc(var(--unit) * 43);
+}
+.fieldContainer {
+  display: flex;
+  align-items: center;
+  label {
+    margin-right: calc(var(--unit) * 2.5);
+  }
+}
+.fieldError {
+  margin-top: var(--unit);
+}
+.submitContainer {
+  text-align: center;
+  padding-top: calc(var(--unit) * 6);
+}
