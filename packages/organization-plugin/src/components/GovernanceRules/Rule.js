@@ -25,9 +25,10 @@ function Rule({
         {title}:{' '}
         {percentage && (
           <span>
-            <strong>{percentage}% </strong> (
+            <strong>{percentage} </strong>
           </span>
         )}
+        {percentage && '('}
         <strong>{value}</strong> {unit}
         {percentage && ')'}
         {isEditMode && (
