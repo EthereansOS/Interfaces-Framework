@@ -4,15 +4,15 @@ import T from 'prop-types'
 
 import { useOrganizationContext } from '../OrganizationContext'
 
-const Governance = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationGovernance')
+const GovernanceRules = ({ setTemplateState }) => {
+  const organizationOverview = usePlaceholder('organizationGovernanceRules')
   const { organizationHeader, organization } = useOrganizationContext()
   useEffect(() => {
     setTemplateState((s) => ({
       ...s,
-      headerTitle: 'Organization governance',
+      headerTitle: 'Organization Governance Rules',
       mainMenu: 'organizationMenu',
-      mainSubMenu: null,
+      mainSubMenu: 'organizationSubMenuGovernance',
       beforeMenu: organizationHeader,
     }))
   }, [setTemplateState, organization, organizationHeader])
@@ -22,8 +22,8 @@ const Governance = ({ setTemplateState }) => {
   ))
 }
 
-Governance.propTypes = {
+GovernanceRules.propTypes = {
   setTemplateState: T.func.isRequired,
 }
 
-export default Governance
+export default GovernanceRules
