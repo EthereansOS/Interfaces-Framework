@@ -11,7 +11,8 @@ import style from './governance-rules-footer.module.scss'
 function GovernanceRulesFooter({ selectedRule, onSetProposal }) {
   const { isEditMode } = useOrganizationContext()
   const onSubmit = async (values, { setSubmitting }) => {
-    await onSetProposal(selectedRule.id, values[selectedRule.id])
+    onSetProposal &&
+      (await onSetProposal(selectedRule.id, values[selectedRule.id]))
     setSubmitting(false)
   }
 
