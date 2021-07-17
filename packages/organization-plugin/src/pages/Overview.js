@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react'
 import { usePlaceholder } from '@dfohub/core'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import T from 'prop-types'
 
 import useOrganization from '../hooks/useOrganization'
 
 const Overview = ({ setTemplateState }) => {
-  const { replace } = useHistory()
   const organizationOverview = usePlaceholder('organizationOverview')
   const params = useParams()
 
-  const { organization, organizationNotFound, organizationHeader } =
-    useOrganization(params.address)
+  const { organization, organizationHeader } = useOrganization(params.address)
 
   useEffect(() => {
     setTemplateState((s) => ({
@@ -22,11 +20,6 @@ const Overview = ({ setTemplateState }) => {
       beforeMenu: organizationHeader,
     }))
   }, [setTemplateState, organization, organizationHeader])
-
-  if (organizationNotFound) {
-    replace('/list')
-    return false
-  }
 
   if (!organization) {
     return false

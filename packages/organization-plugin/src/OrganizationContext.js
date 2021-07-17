@@ -13,7 +13,8 @@ import useOrganizations from './hooks/useOrganizations'
 const OrganizationContext = React.createContext('dfo-organization')
 
 export const OrganizationContextProvider = ({ children }) => {
-  const { organizations, loadOrganizationDetail } = useOrganizations()
+  const { organizations, loadOrganizationDetail, loadOrganizationListDetails } =
+    useOrganizations()
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [organizationHeader, setOrganizationHeader] = useState(null)
@@ -26,7 +27,8 @@ export const OrganizationContextProvider = ({ children }) => {
   const organization = useMemo(
     () =>
       Object.values(organizations || {}).find(
-        (organization) => organization.walletAddress === organizationAddress
+        (organization) =>
+          organization?.dFO?.options?.address === organizationAddress
       ),
     [organizations, organizationAddress]
   )
@@ -44,7 +46,6 @@ export const OrganizationContextProvider = ({ children }) => {
     }
 
     if (!organization) {
-      setNotFound(true)
       return
     }
 
@@ -76,6 +77,8 @@ export const OrganizationContextProvider = ({ children }) => {
     setOrganizationAddress,
     unsetOrganization,
     organizationNotFound,
+    loadOrganizationDetail,
+    loadOrganizationListDetails,
   }
 
   return (

@@ -28,5 +28,6 @@ yarn-error.log*
 
 lerna-debug.log
 
+packages/*/coverage
 packages/*/stats.html
 package-lock.json

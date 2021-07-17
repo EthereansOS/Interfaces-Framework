@@ -54,7 +54,7 @@ const useOrganizations = () => {
   // To build the list we need details that can't be fetched altogether
   // so here we extract further details for each list items
   // be careful adding stuff here
-  const loadOrganizationListDetails = useCallback(
+  const loadOrganizationSubListDetails = useCallback(
     async (organizations) => {
       if (!organizations.length) return
 
@@ -126,8 +126,26 @@ const useOrganizations = () => {
     ]
   )
 
+  const loadOrganizationListDetails = useCallback(async () => {
+    if (state.list)
+      return loadOrganizationSubListDetails(
+        Object.values(state.list)
+          .filter((element) => !element.listDetailsLoaded && !element.updating)
+          // Uncomment this to load the details from the full list
+          .slice(0, 20)
+      )
+  }, [
+    state.dfoHub,
+    web3,
+    web3ForLogs,
+    networkId,
+    state.dfoEvent,
+    state.list,
+    loadOrganizationSubListDetails,
+    context,
+  ])
+
   const loadOrganizationList = useCallback(async () => {
-    console.log('loadOrganizationList')
     const list = await loadDFOList({
       dfoHub: state.dfoHub,
       web3,
@@ -167,22 +185,7 @@ const useOrganizations = () => {
         ...newItems,
       },
     }))
-
-    return loadOrganizationListDetails(
-      Object.values(newItems)
-        .filter((element) => !element.listDetailsLoaded && !element.updating)
-        // Uncomment this to load the details from the full list
-        .slice(0, 20)
-    )
-  }, [
-    state.dfoHub,
-    web3,
-    web3ForLogs,
-    networkId,
-    state.dfoEvent,
-    loadOrganizationListDetails,
-    context,
-  ])
+  }, [state.dfoHub, web3, web3ForLogs, networkId, state.dfoEvent, context])
 
   const loadOrganizationDetail = useCallback(
     async (organization) => {
@@ -232,6 +235,9 @@ const useOrganizations = () => {
   return {
     organizations: state.list || [],
     loadOrganizationDetail,
+    loadOrganizationListDetails,
+    isDFOInit: state.isDFOInit,
+    listLoaded: state.listLoaded,
   }
 }
 

@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
 import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
+import { useParams } from 'react-router-dom'
 
-import { useOrganizationContext } from '../OrganizationContext'
+import useOrganization from '../hooks/useOrganization'
 
 const GovernanceNewProposal = ({ setTemplateState }) => {
   const organizationOverview = usePlaceholder(
     'organizationGovernanceNewProposal'
   )
-  const { organizationHeader, organization } = useOrganizationContext()
+  const params = useParams()
+  const { organization, organizationHeader } = useOrganization(params.address)
+
   useEffect(() => {
     setTemplateState((s) => ({
       ...s,

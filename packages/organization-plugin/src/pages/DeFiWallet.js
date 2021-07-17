@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import T from 'prop-types'
+import { useParams } from 'react-router-dom'
 
-import { useOrganizationContext } from '../OrganizationContext'
 import BalanceList from '../components/BalanceList'
+import useOrganization from '../hooks/useOrganization'
 
 const DeFiWallet = ({ setTemplateState }) => {
-  const { organizationHeader, organization } = useOrganizationContext()
+  const params = useParams()
+  const { organization, organizationHeader } = useOrganization(params.address)
+
   useEffect(() => {
     setTemplateState((s) => ({
       ...s,
