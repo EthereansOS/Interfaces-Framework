@@ -1,29 +1,32 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import T from 'prop-types'
 import { Table, Typography, Link } from '@dfohub/design-system'
 
 import ListControls from '../components/ListControls'
 import { useOrganizationContext } from '../OrganizationContext'
 import useLocalStorage from '../hooks/useLocalStorage'
+import usePrevious from '../hooks/usePrevious'
 
 const columns = [
   {
     field: 'icon',
     headerName: 'Name',
-    renderCell: (props) => (
-      <Link
-        style={{ display: 'flex', alignItems: 'center' }}
-        to={`organizations/${props.row.walletAddress}`}>
-        <img
-          style={{ width: 35, marginRight: 25 }}
-          src={props.value}
-          alt="logo"
-        />
-        <Typography variant="subtitle1" weight="bold">
-          {props.row.name}
-        </Typography>
-      </Link>
-    ),
+    renderCell: (props) => {
+      return (
+        <Link
+          style={{ display: 'flex', alignItems: 'center' }}
+          to={`organizations/${props.row.address}`}>
+          <img
+            style={{ width: 35, marginRight: 25 }}
+            src={props.value}
+            alt="logo"
+          />
+          <Typography variant="subtitle1" weight="bold">
+            {props.row.name}
+          </Typography>
+        </Link>
+      )
+    },
     flex: 2,
   },
   { field: 'functionalitiesAmount', headerName: 'Functions' },
@@ -93,10 +96,25 @@ export const sortByMetadata = (list) => {
 }
 
 const List = ({ setTemplateState }) => {
-  const { organizations, unsetOrganization } = useOrganizationContext()
+  const [organizationsLength, setOrganizationLength] = useState(0)
+
+  const previousOrganizationsLength = usePrevious(organizationsLength)
+  const { organizations, unsetOrganization, loadOrganizationListDetails } =
+    useOrganizationContext()
+
   const [filters, setFilters] = useLocalStorage('dfoListFilters', {
     sortBy: 'circSupply',
   })
+
+  useEffect(() => {
+    if (
+      organizations &&
+      previousOrganizationsLength !== Object.keys(organizations).length
+    ) {
+      setOrganizationLength(Object.keys(organizations).length)
+      loadOrganizationListDetails()
+    }
+  }, [loadOrganizationListDetails, organizations])
 
   useEffect(() => {
     unsetOrganization()
@@ -112,12 +130,16 @@ const List = ({ setTemplateState }) => {
   }, [setTemplateState])
 
   const list = useMemo(() => {
-    const orgsArray = Object.keys(organizations).map((key) => ({
-      ...organizations[key],
-      ens: organizations[key].ensComplete,
-      address: organizations[key].dFO.options.address,
-      id: organizations[key].startBlock,
-    }))
+    const orgsArray = Object.keys(organizations)
+      .slice(0, 10)
+      .map((key) => {
+        return {
+          ...organizations[key],
+          ens: organizations[key].ensComplete,
+          address: organizations[key].dFO.options.address,
+          id: organizations[key].startBlock,
+        }
+      })
 
     let orgs = orgsArray
 
