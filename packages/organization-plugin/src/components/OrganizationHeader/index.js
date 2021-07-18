@@ -12,11 +12,17 @@ const OrganizationHeader = ({ organization }) => {
   const { isEditMode, setEditMode, setViewMode } = useOrganizationContext()
   const { walletAddress, walletAvatar } = useWeb3()
 
+  const metadata = organization?.metadata || {}
+
   return (
     <header className={style.root}>
       <Container className={style.content}>
         <section className={style.leftContainer}>
-          <img src={organization.icon} className={style.logo} alt="logo" />
+          <img
+            src={metadata?.brandUri?.[0] || organization?.icon}
+            className={style.logo}
+            alt="logo"
+          />
           <Typography variant="h4" className={style.title}>
             {organization?.name}
           </Typography>
@@ -32,7 +38,6 @@ const OrganizationHeader = ({ organization }) => {
             <br />
             <b>
               Balance:{' '}
-              {/* TODO enable the refreshBalance function to have myBalanceOf */}
               {fromDecimals(organization.myBalanceOf, organization.decimals)}{' '}
               {organization.symbol}
             </b>

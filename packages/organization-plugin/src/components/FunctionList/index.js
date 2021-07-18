@@ -13,7 +13,7 @@ import {
   Link,
   LinearProgress,
 } from '@dfohub/design-system'
-import pLimit from 'p-limit'
+import PQueue from 'p-queue'
 import { useParams } from 'react-router-dom'
 
 import { OrganizationPropType } from '../../propTypes'
@@ -22,7 +22,8 @@ import { useOrganizationContext } from '../../OrganizationContext'
 import CardFooter from './CardFooter'
 import style from './function-list.module.scss'
 
-const limit = pLimit(10)
+const queue = new PQueue({ concurrency: 20 })
+
 function FunctionList({ organization }) {
   const { web3, networkId } = useWeb3()
   const context = useEthosContext()
@@ -45,17 +46,15 @@ function FunctionList({ organization }) {
         )
         setFuncNames(names)
 
-        Promise.all(
-          names.map((funcName) =>
-            limit(async () => {
-              const func = await loadFunctionality(
-                { web3, context, networkId },
-                funcName,
-                organization
-              )
-              setFuncsByName((fns) => ({ ...fns, [funcName]: func }))
-            })
-          )
+        names.forEach((funcName) =>
+          queue.add(async () => {
+            const func = await loadFunctionality(
+              { web3, context, networkId },
+              funcName,
+              organization
+            )
+            setFuncsByName((fns) => ({ ...fns, [funcName]: func }))
+          })
         )
       } catch (e) {
         console.log('Error fetching functionalities', e)

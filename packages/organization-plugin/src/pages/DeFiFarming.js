@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
 
+import FarmingContracts from '../components/FarmingContracts'
+import Inflation from '../components/Inflation'
 import useOrganization from '../hooks/useOrganization'
 
 const DeFiFarming = ({ setTemplateState }) => {
-  const organizationOverview = usePlaceholder('organizationDeFi')
   const params = useParams()
   const { organization, organizationHeader } = useOrganization(params.address)
 
@@ -20,9 +20,12 @@ const DeFiFarming = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return organizationOverview.map(({ Component, key }) => (
-    <Component key={key} organization={organization} />
-  ))
+  return (
+    <>
+      <FarmingContracts />
+      <Inflation />
+    </>
+  )
 }
 
 DeFiFarming.propTypes = {

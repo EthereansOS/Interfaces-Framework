@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   blockchainCall,
   fromDecimals,
@@ -12,6 +12,7 @@ import {
   VOID_ETHEREUM_ADDRESS,
   newContract,
   formatMoney,
+  web3Utils,
 } from '@dfohub/core'
 import { Balance } from '@dfohub/components'
 import {
@@ -21,7 +22,6 @@ import {
   Link,
   CircularProgress,
 } from '@dfohub/design-system'
-import web3Utils from 'web3-utils'
 
 import { OrganizationPropType } from '../../propTypes'
 import loadOffChainWallets from '../../../../core/src/lib/web3/loadOffchainWallets'
@@ -38,6 +38,8 @@ export const BalanceList = ({ organization }) => {
     cumulativeAmountDollar: 0,
     tokenAmounts: [],
   })
+  // this is used to stop the below for of loop if the component is unmounted
+  const unmounted = useRef(false)
 
   useEffect(() => {
     const fetchWallets = async () => {
@@ -123,6 +125,7 @@ export const BalanceList = ({ organization }) => {
           const involvedAddresses = logs
             .map((it) => web3Utils.toChecksumAddress(it.address))
             .filter(onlyUnique)
+
           for (const involvedAddress of involvedAddresses) {
             const tokenIndex = tokens.findIndex(
               (token) =>
@@ -169,6 +172,9 @@ export const BalanceList = ({ organization }) => {
             } catch (e) {}
 
             cumulativeAmountDollar += tokenAmount.amountDollars
+            if (unmounted.current) {
+              break
+            }
             setAmounts({ cumulativeAmountDollar, tokenAmounts })
           }
         }
@@ -192,6 +198,12 @@ export const BalanceList = ({ organization }) => {
     networkId,
     wethAddress,
   ])
+
+  useEffect(() => {
+    return () => {
+      unmounted.current = true
+    }
+  }, [])
 
   if (!organization) return <CircularProgress />
 

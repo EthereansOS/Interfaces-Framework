@@ -1,9 +1,13 @@
 import makeBlockie from 'ethereum-blockies-base64'
-import { newContract, formatLink, blockchainCall } from '@dfohub/core'
-// import refreshBalances from './refreshBalances'
+import {
+  newContract,
+  formatLink,
+  blockchainCall,
+  refreshBalances,
+} from '@dfohub/core'
 
-async function getInfo(environment, element) {
-  const {
+async function getInfo(
+  {
     web3,
     context,
     dfoHub,
@@ -11,10 +15,9 @@ async function getInfo(environment, element) {
     walletAddress,
     uniswapV2Router,
     wethAddress,
-    getState,
-    updateElement,
-  } = environment
-
+  },
+  element
+) {
   let votingTokenAddress
   let stateHolderAddress
   let functionalitiesManagerAddress
@@ -46,20 +49,20 @@ async function getInfo(environment, element) {
 
   if (!votingTokenAddress) {
     votingTokenAddress = await blockchainCall(
-      environment,
+      { web3, context },
       newElement.dFO.methods.getToken
     )
     stateHolderAddress = await blockchainCall(
-      environment,
+      { web3, context },
       newElement.dFO.methods.getStateHolderAddress
     )
     functionalitiesManagerAddress = await blockchainCall(
-      environment,
+      { web3, context },
       newElement.dFO.methods.getMVDFunctionalitiesManagerAddress
     )
     try {
       newElement.walletAddress = await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.getMVDWalletAddress
       )
     } catch (e) {}
@@ -68,7 +71,7 @@ async function getInfo(environment, element) {
   if (!newElement.doubleProxyAddress) {
     try {
       newElement.doubleProxyAddress = await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.getDoubleProxyAddress
       )
     } catch (e) {}
@@ -80,41 +83,41 @@ async function getInfo(environment, element) {
     votingTokenAddress
   )
   newElement.name = await blockchainCall(
-    environment,
+    { web3, context },
     newElement.token.methods.name
   )
   newElement.symbol = await blockchainCall(
-    environment,
+    { web3, context },
     newElement.token.methods.symbol
   )
   newElement.totalSupply = await blockchainCall(
-    environment,
+    { web3, context },
     newElement.token.methods.totalSupply
   )
 
   try {
-    newElement.metadata = await window.AJAXRequest(
-      // TODO this is undefined, convert it to fetch
-      formatLink(
-        { context },
-        (newElement.metadataLink = web3.eth.abi.decodeParameter(
-          'string',
-          await blockchainCall(
-            environment,
-            newElement.dFO.methods.read,
-            'getMetadataLink',
-            '0x'
-          )
-        ))
+    newElement.metadataLink = web3.eth.abi.decodeParameter(
+      'string',
+      await blockchainCall(
+        { web3, context },
+        newElement.dFO.methods.read,
+        'getMetadataLink',
+        '0x'
       )
     )
+
+    newElement.metadata = await (
+      await fetch(formatLink({ context }, newElement.metadataLink))
+    ).json()
     Object.entries(newElement.metadata).forEach(
       (it) => (element[it[0]] = it[1] || element[it[0]])
     )
-  } catch (e) {}
+  } catch (e) {
+    console.log('error fetching metadata', e)
+  }
 
   newElement.decimals = await blockchainCall(
-    environment,
+    { web3, context },
     newElement.token.methods.decimals
   )
   newElement.stateHolder = newContract(
@@ -129,7 +132,7 @@ async function getInfo(environment, element) {
   )
   newElement.functionalitiesAmount = parseInt(
     await blockchainCall(
-      environment,
+      { web3, context },
       newElement.functionalitiesManager.methods.getFunctionalitiesAmount
     )
   )
@@ -137,26 +140,28 @@ async function getInfo(environment, element) {
   newElement.minimumBlockNumberForEmergencySurvey = '0'
   newElement.emergencySurveyStaking = '0'
 
-  // await refreshBalances(
-  //   {
-  //     web3,
-  //     context,
-  //     dfoHub: newElement.key === 'DFO' ? newElement : getState().list.DFO,
-  //     walletAddress,
-  //     uniswapV2Router,
-  //     wethAddress,
-  //     getState,
-  //     updateElement,
-  //   },
-  //   newElement
-  // )
+  try {
+    await refreshBalances(
+      {
+        web3,
+        context,
+        dfoHub,
+        walletAddress,
+        uniswapV2Router,
+        wethAddress,
+      },
+      newElement
+    )
+  } catch (e) {
+    console.log('error refreshingBalances', e)
+  }
 
   try {
     newElement.minimumBlockNumberForEmergencySurvey =
       web3.eth.abi.decodeParameter(
         'uint256',
         await blockchainCall(
-          environment,
+          { web3, context },
           newElement.dFO.methods.read,
           'getMinimumBlockNumberForEmergencySurvey',
           '0x'
@@ -176,7 +181,7 @@ async function getInfo(environment, element) {
     newElement.quorum = web3.eth.abi.decodeParameter(
       'uint256',
       await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.read,
         'getQuorum',
         '0x'
@@ -189,7 +194,7 @@ async function getInfo(environment, element) {
     newElement.surveySingleReward = web3.eth.abi.decodeParameter(
       'uint256',
       await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.read,
         'getSurveySingleReward',
         '0x'
@@ -202,7 +207,7 @@ async function getInfo(environment, element) {
     newElement.minimumStaking = web3.eth.abi.decodeParameter(
       'uint256',
       await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.read,
         'getMinimumStaking',
         '0x'
@@ -216,7 +221,7 @@ async function getInfo(environment, element) {
     newElement.link = web3.eth.abi.decodeParameter(
       'string',
       await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.read,
         'getLink',
         '0x'
@@ -227,7 +232,7 @@ async function getInfo(environment, element) {
     newElement.index = web3.eth.abi.decodeParameter(
       'uint256',
       await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.read,
         'getIndex',
         '0x'
@@ -237,7 +242,7 @@ async function getInfo(environment, element) {
   try {
     newElement !== dfoHub &&
       (newElement.ens = await blockchainCall(
-        environment,
+        { web3, context },
         dfoHubENSResolver.methods.subdomain,
         newElement.dFO.options.originalAddress
       ))
@@ -247,7 +252,7 @@ async function getInfo(environment, element) {
     newElement.votesHardCap = web3.eth.abi.decodeParameter(
       'uint256',
       await blockchainCall(
-        environment,
+        { web3, context },
         newElement.dFO.methods.read,
         'getVotesHardCap',
         '0x'

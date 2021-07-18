@@ -5,17 +5,7 @@ import formatMoney from './formatMoney'
 import fromDecimals from './fromDecimals'
 
 async function refreshBalances(
-  {
-    web3,
-    context,
-    dfoHub,
-    uniswapV2Router,
-    wethAddress,
-    walletAddress,
-    getState,
-    updateElement,
-  },
-  // view, // this is removed because the update is done using react
+  { web3, context, dfoHub, uniswapV2Router, wethAddress, walletAddress },
   element,
   silent
 ) {
@@ -143,8 +133,6 @@ async function refreshBalances(
     (element.walletBUIDLDollar = formatMoney(element.walletBUIDLDollar))
   //element.walletDAIDollar && (element.walletDAIDollar = formatMoney(element.walletDAIDollar));
 
-  // FIXME the walletAddress is alway empty
-  // need to call ethereum.enable()
   element.myBalanceOf = walletAddress
     ? await blockchainCall(
         { web3, context },
@@ -154,30 +142,30 @@ async function refreshBalances(
     : '0'
 
   // FIXME the walletAddress is always empty, and the blockchaincall is called always with the same value
-  if (!silent) {
-    // Get the last version of the list
-    const list = getState().list || []
+  // if (!silent) {
+  //   // Get the last version of the list
+  //   const list = getState().list || []
 
-    Object.keys(list).map(async function (key, i) {
-      if (element.key === key) {
-        return
-      }
-      const e = { ...list[key] }
-      if (!e.token) {
-        return
-      }
+  //   Object.keys(list).map(async function (key, i) {
+  //     if (element.key === key) {
+  //       return
+  //     }
+  //     const e = { ...list[key] }
+  //     if (!e.token) {
+  //       return
+  //     }
+  //     const newBalance = walletAddress
+  //       ? await blockchainCall(
+  //           { web3, context },
+  //           e.token.methods.balanceOf,
+  //           walletAddress
+  //         )
+  //       : '0'
 
-      // TODO This is a function that should be defined to
-      // const newBalance = walletAddress
-      //   ? await blockchainCall(
-      //       { web3, context },
-      //       e.token.methods.balanceOf,
-      //       walletAddress
-      //     )
-      //   : '0'
-      // updateElement({ ...e, myBalanceOf: newBalance })
-    })
-  }
+  //     // TODO This is a function that should be defined to
+  //     // updateElement({ ...e, myBalanceOf: newBalance })
+  //   })
+  // }
 }
 
 export default refreshBalances

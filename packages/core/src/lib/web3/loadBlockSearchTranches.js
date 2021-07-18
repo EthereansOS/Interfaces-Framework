@@ -8,7 +8,7 @@ async function loadBlockSearchTranches({ web3, context, networkId }) {
     )
   )
   var endBlock = parseInt(numberToString(await web3.eth.getBlockNumber()))
-  var limit = context.blockSearchLimit
+  var limit = context.blockSearchLimit || 50000
   var toBlock = endBlock
   var fromBlock = endBlock - limit
   fromBlock = fromBlock < startBlock ? startBlock : fromBlock

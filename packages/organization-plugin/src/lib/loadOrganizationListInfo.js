@@ -5,6 +5,7 @@ import {
   fromDecimals,
   getEthereumPrice,
   toDecimals,
+  formatLink,
 } from '@dfohub/core'
 
 async function loadOrganizationListInfo(environment, organization) {
@@ -116,6 +117,28 @@ async function loadOrganizationListInfo(environment, organization) {
     newElement.token.methods.balanceOf,
     newElement.walletAddress
   )
+
+  try {
+    newElement.metadataLink = web3.eth.abi.decodeParameter(
+      'string',
+      await blockchainCall(
+        { web3, context },
+        newElement.dFO.methods.read,
+        'getMetadataLink',
+        '0x'
+      )
+    )
+
+    newElement.metadata = await (
+      await fetch(formatLink({ context }, newElement.metadataLink))
+    ).json()
+
+    Object.entries(newElement.metadata).forEach(
+      (it) => (organization[it[0]] = it[1] || organization[it[0]])
+    )
+  } catch (e) {
+    console.log('error fetching metadata', e)
+  }
 
   try {
     newElement.communityTokensDollar = fromDecimals(

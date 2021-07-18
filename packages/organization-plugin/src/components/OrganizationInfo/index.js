@@ -9,7 +9,6 @@ import {
 } from '@dfohub/design-system'
 
 import Section from '../shared/Section'
-import useOrganizationMetadata from '../../hooks/useOrganizationMetadata'
 import { OrganizationPropType } from '../../propTypes'
 import { useOrganizationContext } from '../../OrganizationContext'
 import OrganizationEdit from '../OrganizationEdit'
@@ -17,9 +16,10 @@ import OrganizationEdit from '../OrganizationEdit'
 import style from './organization-info.module.scss'
 
 function OrganizationInfo({ organization }) {
-  const { metadata } = useOrganizationMetadata(organization?.metadataLink)
   const { isEditMode } = useOrganizationContext()
   const [organizationEditVisible, setOrganizationEditVisible] = useState(false)
+
+  const metadata = organization?.metadata || {}
 
   const openEditModal = () => {
     setOrganizationEditVisible(true)
@@ -41,7 +41,11 @@ function OrganizationInfo({ organization }) {
       </div>
 
       <div className={style.content}>
-        <img src={organization?.icon} className={style.logo} alt="org logo" />
+        <img
+          src={metadata?.brandUri?.[0] || organization?.icon}
+          className={style.logo}
+          alt="org logo"
+        />
         <div className={style.bioWrapper}>
           <Typography variant="h5">bio</Typography>
           <Typography variant="body2">{metadata?.shortDescription}</Typography>
