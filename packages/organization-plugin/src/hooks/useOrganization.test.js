@@ -5,11 +5,11 @@ const web3 = {
   list: [
     {
       id: 1,
-      walletAddress: '123',
+      address: '123',
     },
     {
       id: 2,
-      walletAddress: 'abc',
+      address: 'abc',
     },
   ],
 }

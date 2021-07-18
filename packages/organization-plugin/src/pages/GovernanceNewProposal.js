@@ -1,29 +1,34 @@
 import React, { useEffect } from 'react'
+import { usePlaceholder } from '@dfohub/core'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
 
-import StateList from '../components/StateList'
 import useOrganization from '../hooks/useOrganization'
 
-const DappState = ({ setTemplateState }) => {
+const GovernanceNewProposal = ({ setTemplateState }) => {
+  const organizationOverview = usePlaceholder(
+    'organizationGovernanceNewProposal'
+  )
   const params = useParams()
   const { organization, organizationHeader } = useOrganization(params.address)
 
   useEffect(() => {
     setTemplateState((s) => ({
       ...s,
-      headerTitle: 'Organization Dapp State',
+      headerTitle: 'Organization Governance Rules',
       mainMenu: 'organizationMenu',
-      mainSubMenu: 'organizationSubMenuDapp',
+      mainSubMenu: 'organizationSubMenuGovernance',
       beforeMenu: organizationHeader,
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return <StateList organization={organization} />
+  return organizationOverview.map(({ Component, key }) => (
+    <Component key={key} organization={organization} />
+  ))
 }
 
-DappState.propTypes = {
+GovernanceNewProposal.propTypes = {
   setTemplateState: T.func.isRequired,
 }
 
-export default DappState
+export default GovernanceNewProposal

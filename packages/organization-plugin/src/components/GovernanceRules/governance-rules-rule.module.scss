@@ -1,0 +1,21 @@
+.contentText {
+  line-height: 2.5;
+}
+
+.editButton {
+  float: right;
+    margin: var(--unit) 0 0 0;
+}
+
+.infoCard {
+  background-color: var(--color-default);
+  padding: calc(var(--unit) * 2.5);
+  margin: calc(var(--unit) * 2.5) 0;
+  border-radius: calc(var(--unit) * 2.5);
+  width: 50%;
+  min-width: calc(var(--unit) * 34);
+}
+.infoCardContent {
+  padding: 0;
+  line-height: 1.3;
+}

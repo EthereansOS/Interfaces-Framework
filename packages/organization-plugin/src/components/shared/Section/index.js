@@ -4,10 +4,10 @@ import { Typography } from '@dfohub/design-system'
 
 import style from './section.module.scss'
 
-const Section = ({ category, children, column, className }) => (
+const Section = ({ category, children, column, className, badge }) => (
   <div className={className}>
     <Typography variant="h5" className={style.title}>
-      {category}
+      {category} {badge}
     </Typography>
     <div
       className={style.categoryWrapper}
@@ -20,6 +20,7 @@ const Section = ({ category, children, column, className }) => (
 export default Section
 
 Section.propTypes = {
+  badge: T.node,
   children: T.node,
   category: T.string,
   column: T.bool,
