@@ -18,7 +18,7 @@ const columns = [
           to={`organizations/${props.row.address}`}>
           <img
             style={{ width: 35, marginRight: 25 }}
-            src={props.row.brandUri?.[0] || props.value}
+            src={props.row.metadata?.brandUri?.[0] || props.value}
             alt="logo"
           />
           <Typography variant="subtitle1" weight="bold">
@@ -130,16 +130,14 @@ const List = ({ setTemplateState }) => {
   }, [setTemplateState])
 
   const list = useMemo(() => {
-    const orgsArray = Object.keys(organizations)
-      .slice(0, 10)
-      .map((key) => {
-        return {
-          ...organizations[key],
-          ens: organizations[key].ensComplete,
-          address: organizations[key].dFO.options.address,
-          id: organizations[key].startBlock,
-        }
-      })
+    const orgsArray = Object.keys(organizations).map((key) => {
+      return {
+        ...organizations[key],
+        ens: organizations[key].ensComplete,
+        address: organizations[key].dFO.options.address,
+        id: organizations[key].startBlock,
+      }
+    })
 
     let orgs = orgsArray
 

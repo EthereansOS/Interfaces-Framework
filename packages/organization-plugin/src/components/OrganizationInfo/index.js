@@ -42,7 +42,7 @@ function OrganizationInfo({ organization }) {
 
       <div className={style.content}>
         <img
-          src={organization?.brandUri?.[0] || organization?.icon}
+          src={metadata?.brandUri?.[0] || organization?.icon}
           className={style.logo}
           alt="org logo"
         />

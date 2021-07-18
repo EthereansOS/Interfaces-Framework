@@ -12,12 +12,14 @@ const OrganizationHeader = ({ organization }) => {
   const { isEditMode, setEditMode, setViewMode } = useOrganizationContext()
   const { walletAddress, walletAvatar } = useWeb3()
 
+  const metadata = organization?.metadata || {}
+
   return (
     <header className={style.root}>
       <Container className={style.content}>
         <section className={style.leftContainer}>
           <img
-            src={organization?.brandUri?.[0] || organization?.icon}
+            src={metadata?.brandUri?.[0] || organization?.icon}
             className={style.logo}
             alt="logo"
           />
