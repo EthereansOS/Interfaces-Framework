@@ -18,21 +18,20 @@ const VotingToken = ({ organization }) => {
   const context = useEthosContext()
   const { networkId } = useWeb3()
   const [logo, setLogo] = useState()
+  const tokenOptionsAddress = organization?.token?.options?.address
+
   const etherscanTokenLink =
     getNetworkElement({ context, networkId }, 'etherscanURL') +
     'token/' +
-    organization.token.options.address
+    tokenOptionsAddress
   const etherscanHolderLink =
     getNetworkElement({ context, networkId }, 'etherscanURL') +
     'token/tokenholderchart/' +
-    organization.token.options.address
+    tokenOptionsAddress
 
   useEffect(() => {
     const fetchLogo = async () => {
-      const res = await loadLogo(
-        { context },
-        organization.token.options.address
-      )
+      const res = await loadLogo({ context }, tokenOptionsAddress)
       setLogo(res)
     }
 
@@ -107,15 +106,13 @@ const VotingToken = ({ organization }) => {
         </Typography>
       </article>
       <article className={style.linksContainer}>
-        <Link
-          href={`${context.uniSwapInfoURL}${organization.token.options.address}`}
-          external>
+        <Link href={`${context.uniSwapInfoURL}${tokenOptionsAddress}`} external>
           <Chip size="small" label="🦄 Info" />
         </Link>
         <Link
           href={formatString(
             context.uniSwapSwapURLTemplate,
-            organization.token.options.address
+            tokenOptionsAddress
           )}
           external>
           <Chip size="small" label="🦄 Swap" />
@@ -123,7 +120,7 @@ const VotingToken = ({ organization }) => {
         <Link
           href={formatString(
             context.penSwapSwapURLTemplate,
-            organization.token.options.address
+            tokenOptionsAddress
           )}
           external>
           <Chip size="small" label="🐧 Swap" />
@@ -132,7 +129,7 @@ const VotingToken = ({ organization }) => {
           href={`${getNetworkElement(
             { context, networkId },
             'etherscanURL'
-          )}token/${organization.token.options.address}`}
+          )}token/${tokenOptionsAddress}`}
           external>
           <Chip size="small" label="💎 Info" />
         </Link>
@@ -140,7 +137,7 @@ const VotingToken = ({ organization }) => {
           href={`${getNetworkElement(
             { context, networkId },
             'etherscanURL'
-          )}address/${organization.token.options.address}#code`}
+          )}address/${tokenOptionsAddress}#code`}
           external>
           <Chip size="small" label="💎 Contract" />
         </Link>

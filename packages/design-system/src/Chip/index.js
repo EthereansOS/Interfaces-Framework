@@ -18,7 +18,7 @@ const Chip = ({ label, size, color, className, children }) => {
 export default Chip
 
 Chip.propTypes = {
-  label: T.string.isRequired,
+  label: T.string,
   color: T.string,
   size: sizePropType,
   className: T.string,
