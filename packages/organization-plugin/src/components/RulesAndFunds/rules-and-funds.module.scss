@@ -7,6 +7,10 @@
   grid-template-columns: repeat(3, 1fr);
   row-gap: calc(var(--unit) * 5);
   flex: 1;
+
+  h5 {
+    margin-bottom: var(--unit);
+  }
 }
 .content strong {
   font-weight: bold;

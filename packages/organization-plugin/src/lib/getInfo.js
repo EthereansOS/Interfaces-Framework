@@ -145,7 +145,10 @@ async function getInfo(
       {
         web3,
         context,
-        dfoHub,
+        // we have the following ternary because the external "dfoHub"
+        // doesn't yet contain the walletAddress for example
+        // since it's updated after this function is executed
+        dfoHub: newElement.key === 'DFO' ? newElement : dfoHub,
         walletAddress,
         uniswapV2Router,
         wethAddress,

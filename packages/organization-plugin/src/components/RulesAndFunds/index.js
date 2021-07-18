@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Typography, Chip, Link } from '@dfohub/design-system'
-import { tokenPercentage } from '@dfohub/core'
+import {
+  blockchainCall,
+  tokenPercentage,
+  useEthosContext,
+  useWeb3,
+} from '@dfohub/core'
+import { useLocation } from 'react-router-dom'
 
 import Section from '../shared/Section'
 import { OrganizationPropType } from '../../propTypes'
@@ -8,6 +14,27 @@ import { OrganizationPropType } from '../../propTypes'
 import style from './rules-and-funds.module.scss'
 
 function RulesAndFunds({ organization }) {
+  const { web3 } = useWeb3()
+  const context = useEthosContext()
+  const [blocks, setBlocks] = useState()
+  const location = useLocation()
+
+  useEffect(() => {
+    const fetchBlocks = async () => {
+      const blocksCall = await blockchainCall(
+        { web3, context },
+        organization.dFO.methods.read,
+        'getMinimumBlockNumberForSurvey',
+        '0x'
+      )
+      console.log(blocksCall)
+
+      setBlocks(web3.eth.abi.decodeParameters(['uint256'], blocksCall)[0])
+    }
+
+    fetchBlocks()
+  }, [context, organization.dFO.methods.read, web3])
+
   return (
     <Card>
       <Typography
@@ -20,9 +47,8 @@ function RulesAndFunds({ organization }) {
 
       <div className={style.content}>
         <Section category="🏰 Regular Proposals:">
-          {/* TODO */}
           <Typography variant="body2">
-            Length: <strong>NA</strong> Blocks
+            Length: <strong>{blocks || 'NA'}</strong> Blocks
           </Typography>
         </Section>
         <Section category="🧮 Assets:" className={style.assets} column>
@@ -42,13 +68,13 @@ function RulesAndFunds({ organization }) {
             <br />
             <strong>{organization?.walletDAI}</strong> DAI
           </Typography>
-          <Link to="/defi/wallet">
+          <Link to={`${location?.pathname}/defi/wallet`}>
             <Chip className={style.chip} size="small" label="View all" />
           </Link>
         </Section>
         <Section category="🖨 Fixed Inflation:">
           {/* TODO */}
-          <Link to="/defi/farming">
+          <Link to={`${location?.pathname}/defi/farming`}>
             <Chip className={style.chip} size="small" label="More" />
           </Link>
         </Section>
@@ -61,14 +87,14 @@ function RulesAndFunds({ organization }) {
               </strong>{' '}
               Blocks
             </Typography>
-            <Link to="/governance/rules">
+            <Link to={`${location?.pathname}/governance/rules`}>
               <Chip className={style.chip} size="small" label="View all" />
             </Link>
           </div>
         </Section>
         <Section category="🦄 Liquidity Mining:">
           {/* TODO */}
-          <Link to="/defi/farming">
+          <Link to={`${location?.pathname}/defi/farming`}>
             <Chip className={style.chip} size="small" label="More" />
           </Link>
         </Section>
