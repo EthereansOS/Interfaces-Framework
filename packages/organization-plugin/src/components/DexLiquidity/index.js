@@ -36,8 +36,8 @@ const DexLiquidity = ({ organization }) => {
     web3ForLogs,
   ])
 
-  // TODO finish dex liquidity
-  // find some org with content on the production website
+  // TODO finish dex liquidity find some org with content
+  // on the production website to understand what to do
   return (
     <Card
       contentClassName={style.root}
