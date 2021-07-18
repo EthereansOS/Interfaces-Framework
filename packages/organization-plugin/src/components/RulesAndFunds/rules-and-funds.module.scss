@@ -9,7 +9,7 @@
   flex: 1;
 
   h5 {
-    margin-bottom: var(--unit);
+    margin-bottom: calc(var(--unit) * 2);
   }
 }
 .content strong {
