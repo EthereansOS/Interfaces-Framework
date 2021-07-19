@@ -72,7 +72,7 @@ async function loadDFO(
     // This codes assumes that the dfo is always found
     return await loadDFO(
       { web3, web3ForLogs, context, networkId, proxyChangedTopic },
-      web3.eth.abi.decodeParameter('address', logs[0].topics[1]),
+      web3.eth.abi.decodeParameter('address', logs?.[0]?.topics?.[1]),
       allAddresses
     )
   }

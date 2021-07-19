@@ -145,7 +145,10 @@ async function getInfo(
       {
         web3,
         context,
-        dfoHub,
+        // we have the following ternary because the external "dfoHub"
+        // doesn't yet contain the walletAddress for example
+        // since it's updated after this function is executed
+        dfoHub: newElement.key === 'DFO' ? newElement : dfoHub,
         walletAddress,
         uniswapV2Router,
         wethAddress,
@@ -263,6 +266,15 @@ async function getInfo(
   newElement.ensComplete = newElement.ens + '.dfohub.eth'
   newElement.ensComplete.indexOf('.') === 0 &&
     (newElement.ensComplete = newElement.ensComplete.substring(1))
+
+  const blocksCall = await blockchainCall(
+    { web3, context },
+    newElement.dFO.methods.read,
+    'getMinimumBlockNumberForSurvey',
+    '0x'
+  )
+
+  newElement.blocks = web3.eth.abi.decodeParameters(['uint256'], blocksCall)[0]
 
   return newElement
 }

@@ -1,56 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import T from 'prop-types'
 import { Table, Typography, Link } from '@dfohub/design-system'
+import { formatLink, useEthosContext } from '@dfohub/core'
 
 import ListControls from '../components/ListControls'
 import { useOrganizationContext } from '../OrganizationContext'
 import useLocalStorage from '../hooks/useLocalStorage'
 import usePrevious from '../hooks/usePrevious'
-
-const columns = [
-  {
-    field: 'icon',
-    headerName: 'Name',
-    renderCell: (props) => {
-      return (
-        <Link
-          style={{ display: 'flex', alignItems: 'center' }}
-          to={`organizations/${props.row.address}`}>
-          <img
-            style={{ width: 35, marginRight: 25 }}
-            src={props.row.metadata?.brandUri?.[0] || props.value}
-            alt="logo"
-          />
-          <Typography variant="subtitle1" weight="bold">
-            {props.row.name}
-          </Typography>
-        </Link>
-      )
-    },
-    flex: 2,
-  },
-  { field: 'functionalitiesAmount', headerName: 'Functions' },
-  { field: 'startBlock', headerName: 'Start Block' },
-  {
-    field: 'ens',
-    headerName: 'ENS',
-    renderCell: ({ value }) => (
-      <Link external href={`//${value}`}>
-        {value}
-      </Link>
-    ),
-  },
-  { field: 'symbol', headerName: 'Token' },
-  {
-    field: 'address',
-    headerName: 'Address',
-    renderCell: ({ value }) => (
-      <Link external href={`https://ropsten.etherscan.io/address/${value}`}>
-        {value}
-      </Link>
-    ),
-  },
-]
 
 export const sortByMarketCap = (list, field) => {
   const sortFunction = (first, second) => {
@@ -97,7 +53,7 @@ export const sortByMetadata = (list) => {
 
 const List = ({ setTemplateState }) => {
   const [organizationsLength, setOrganizationLength] = useState(0)
-
+  const context = useEthosContext()
   const previousOrganizationsLength = usePrevious(organizationsLength)
   const { organizations, unsetOrganization, loadOrganizationListDetails } =
     useOrganizationContext()
@@ -128,6 +84,58 @@ const List = ({ setTemplateState }) => {
       mainSubMenu: null,
     }))
   }, [setTemplateState])
+
+  const columns = useMemo(
+    () => [
+      {
+        field: 'icon',
+        headerName: 'Name',
+        renderCell: (props) => {
+          return (
+            <Link
+              style={{ display: 'flex', alignItems: 'center' }}
+              to={`organizations/${props.row.address}`}>
+              <img
+                style={{ width: 35, marginRight: 25 }}
+                src={
+                  props.row.metadata?.brandUri
+                    ? formatLink({ context }, props.row.metadata?.brandUri)
+                    : props.value
+                }
+                alt="logo"
+              />
+              <Typography variant="subtitle1" weight="bold">
+                {props.row.name}
+              </Typography>
+            </Link>
+          )
+        },
+        flex: 2,
+      },
+      { field: 'functionalitiesAmount', headerName: 'Functions' },
+      { field: 'startBlock', headerName: 'Start Block' },
+      {
+        field: 'ens',
+        headerName: 'ENS',
+        renderCell: ({ value }) => (
+          <Link external href={`//${value}`}>
+            {value}
+          </Link>
+        ),
+      },
+      { field: 'symbol', headerName: 'Token' },
+      {
+        field: 'address',
+        headerName: 'Address',
+        renderCell: ({ value }) => (
+          <Link external href={`https://ropsten.etherscan.io/address/${value}`}>
+            {value}
+          </Link>
+        ),
+      },
+    ],
+    [context]
+  )
 
   const list = useMemo(() => {
     const orgsArray = Object.keys(organizations).map((key) => {

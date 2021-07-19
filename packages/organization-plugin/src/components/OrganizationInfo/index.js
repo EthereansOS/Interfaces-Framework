@@ -7,6 +7,7 @@ import {
   Button,
   Modal,
 } from '@dfohub/design-system'
+import { formatLink, useEthosContext } from '@dfohub/core'
 
 import Section from '../shared/Section'
 import { OrganizationPropType } from '../../propTypes'
@@ -18,7 +19,7 @@ import style from './organization-info.module.scss'
 function OrganizationInfo({ organization }) {
   const { isEditMode } = useOrganizationContext()
   const [organizationEditVisible, setOrganizationEditVisible] = useState(false)
-
+  const context = useEthosContext()
   const metadata = organization?.metadata || {}
 
   const openEditModal = () => {
@@ -42,7 +43,11 @@ function OrganizationInfo({ organization }) {
 
       <div className={style.content}>
         <img
-          src={metadata?.brandUri?.[0] || organization?.icon}
+          src={
+            metadata?.brandUri
+              ? formatLink({ context }, metadata?.brandUri)
+              : organization?.icon
+          }
           className={style.logo}
           alt="org logo"
         />
@@ -96,7 +101,10 @@ function OrganizationInfo({ organization }) {
       </div>
 
       <Modal visible={organizationEditVisible}>
-        <OrganizationEdit onClose={closeEditModal} />
+        <OrganizationEdit
+          onClose={closeEditModal}
+          organization={organization}
+        />
       </Modal>
     </Card>
   )

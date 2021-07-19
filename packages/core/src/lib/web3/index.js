@@ -23,5 +23,6 @@ export { default as hasEthereumAddress } from './hasEthereumAddress'
 export { default as mint } from './mint'
 export { default as split } from './split'
 export { default as toSubArrays } from './toSubArrays'
+export { default as uploadToIPFS } from './uploadToIPFS'
 
 export * from './contracts'

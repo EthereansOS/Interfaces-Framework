@@ -275,6 +275,7 @@ const useOrganizations = () => {
     loadOrganizationListDetails,
     isDFOInit: state.isDFOInit,
     listLoaded: state.listLoaded,
+    dfoHub: state.dfoHub,
   }
 }
 

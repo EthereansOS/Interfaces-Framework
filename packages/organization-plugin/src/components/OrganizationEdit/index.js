@@ -1,112 +1,136 @@
 import React from 'react'
 import { Button, TextField, Typography, Tooltip } from '@dfohub/design-system'
 import T from 'prop-types'
-import { Formik, Form } from 'formik'
+import { Formik, Form, Field } from 'formik'
+import { useEthosContext, useWeb3 } from '@dfohub/core'
 
 import EditField from '../shared/EditField'
+import { OrganizationPropType } from '../../propTypes'
+import proposeNewMetadataLink from '../../lib/proposeNewMetadataLink'
 
 import style from './organization-edit.module.scss'
 
 const initialValues = {
-  bio: '',
-  dfoName: '',
-  dfoLogo: '',
-  tokenLogo: '',
-  chatLink: '',
-  repoLink: '',
-  explainerLink: '',
-  roadmapLink: '',
-  externalLink: '',
-  externalEnsLink: '',
+  shortDescription: '',
+  name: '',
+  brandUri: '',
+  logoUri: '',
+  discussionUri: '',
+  repoUri: '',
+  wpUri: '',
+  roadmapUri: '',
+  externalDNS: '',
+  externalENS: '',
 }
 
-function OrganizationEdit({ onClose }) {
+function OrganizationEdit({ onClose, organization }) {
+  const { web3, networkId, ipfsHttpClient, walletAddress, ethosEvents } =
+    useWeb3()
+  const context = useEthosContext()
+
   return (
     <section className={style.root}>
       <Button onClick={onClose} text="Back" />
       <Typography color="primary">Propose Metadata Change</Typography>
 
       <Formik
-        initialValues={initialValues}
-        onSubmit={(values, { setSubmitting }) => {
-          // TODO
-          console.log(values)
+        initialValues={organization?.metadata || initialValues}
+        enableReinitialize
+        onSubmit={async (values, { setSubmitting }) => {
+          await proposeNewMetadataLink(
+            {
+              web3,
+              context,
+              networkId,
+              ipfsHttpClient,
+              walletAddress,
+              ethosEvents,
+            },
+            organization,
+            values
+          )
           setSubmitting(false)
         }}>
         {({ isSubmitting }) => (
           <Form>
-            <Typography weight="bold" variant="body1">
-              BIO:
-            </Typography>
-            <TextField
-              name="bio"
-              className={style.inputContainer}
-              isMultiline
-            />
-            <Tooltip className={style.tooltip}>
-              <Typography variant="body2">
-                A brief description of the organization
-              </Typography>
-            </Tooltip>
+            <Field name="shortDescription">
+              {({ field }) => (
+                <>
+                  <Typography weight="bold" variant="body1">
+                    BIO:
+                  </Typography>
+                  <TextField
+                    className={style.inputContainer}
+                    isMultiline
+                    {...field}
+                  />
+                  <Tooltip className={style.tooltip}>
+                    <Typography variant="body2">
+                      A brief description of the organization
+                    </Typography>
+                  </Tooltip>
+                </>
+              )}
+            </Field>
 
             <EditField
-              name="dfoName"
+              name="name"
               label="DFO Name:"
               value="test"
               description="The name of the organization"
             />
 
             <EditField
-              name="dfoLogo"
+              name="brandUri"
               label="DFO Logo:"
               value="test"
               description="IPFS link to the logo of the organization (must be a .png 320 x 320 pixels)"
             />
 
             <EditField
-              name="tokenLogo"
+              name="logoUri"
               label="Token Logo:"
               value="test"
               description="IPFS link to the logo of the organization (must be a .png 320 x 320 pixels)"
             />
 
             <EditField
-              name="chatLink"
+              name="discussionUri"
               label="Chat Link:"
               value="test"
               description="A link to the official community of the organization (ex. Riot, Discord, Telegram)"
             />
 
             <EditField
-              name="repoLink"
+              name="repoUri"
               label="Repo Link:"
               value="test"
               description="A link to the official R&D repository"
             />
 
             <EditField
-              name="explainerLink"
+              name="wpUri"
               label="Explainer link:"
               value="test"
               description="A link to an external source that explain the plan of the organization"
             />
 
             <EditField
-              name="roadmapLink"
+              name="roadmapUri"
               label="Roadmap link:"
               value="test"
               description="A link to an external source that provide the roadmap of the project"
             />
 
             <EditField
-              name="externalLink"
+              name="externalDNS"
               label="External link:"
               value="test"
               description="A link to an external webpage to use the application (if any)"
             />
 
             <EditField
-              name="externalEnsLink"
+              name="externalENS"
               label="External ENS link:"
               value="test"
               description="A link to an external ENS webpage to use the application (if any)"
@@ -129,4 +153,5 @@ export default OrganizationEdit
 
 OrganizationEdit.propTypes = {
   onClose: T.func.isRequired,
+  organization: OrganizationPropType,
 }

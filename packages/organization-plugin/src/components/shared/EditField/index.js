@@ -9,7 +9,7 @@ const EditField = ({ label, description, ...props }) => {
   const [field, meta, helpers] = useField(props)
 
   return (
-    <article>
+    <article className={style.root}>
       <div className={style.header}>
         {label && (
           <Typography weight="bold" variant="body1">

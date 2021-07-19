@@ -23,7 +23,7 @@ async function loadTokenInfos({ web3, context }, addresses, wethAddress) {
   const tokens = []
   for (let address of addresses) {
     address = web3Utils.toChecksumAddress(address)
-    const token = newContract(context.votingTokenAbi, address)
+    const token = newContract({ web3 }, context.votingTokenAbi, address)
     tokens.push(
       loadedTokens[address] ||
         (loadedTokens[address] = {
