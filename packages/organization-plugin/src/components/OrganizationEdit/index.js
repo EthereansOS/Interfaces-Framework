@@ -1,10 +1,12 @@
 import React from 'react'
 import { Button, TextField, Typography, Tooltip } from '@dfohub/design-system'
 import T from 'prop-types'
-import { Formik, Form } from 'formik'
+import { Formik, Form, Field } from 'formik'
+import { useEthosContext, useWeb3 } from '@dfohub/core'
 
 import EditField from '../shared/EditField'
 import { OrganizationPropType } from '../../propTypes'
+import proposeNewMetadataLink from '../../lib/proposeNewMetadataLink'
 
 import style from './organization-edit.module.scss'
 
@@ -13,16 +15,18 @@ const initialValues = {
   name: '',
   brandUri: '',
   logoUri: '',
-  discussionUri: 'https://discord.com/invite/66tafq3',
-  repoUri: 'https://github.com/b-u-i-d-l/dfo-hub',
-  wpUri: 'https://www.dfohub.com/protocol',
-  roadmapUri: 'https://www.dfohub.com/protocol',
-  externalDNS: 'dfohub.com',
-  externalENS: 'dfohub.eth',
+  discussionUri: '',
+  repoUri: '',
+  wpUri: '',
+  roadmapUri: '',
+  externalDNS: '',
+  externalENS: '',
 }
 
 function OrganizationEdit({ onClose, organization }) {
-  console.log('ASD', organization?.metadata)
+  const { web3, networkId, ipfsHttpClient, walletAddress, ethosEvents } =
+    useWeb3()
+  const context = useEthosContext()
 
   return (
     <section className={style.root}>
@@ -32,26 +36,42 @@ function OrganizationEdit({ onClose, organization }) {
       <Formik
         initialValues={organization?.metadata || initialValues}
         enableReinitialize
-        onSubmit={(values, { setSubmitting }) => {
-          // TODO
-          console.log(values)
+        onSubmit={async (values, { setSubmitting }) => {
+          await proposeNewMetadataLink(
+            {
+              web3,
+              context,
+              networkId,
+              ipfsHttpClient,
+              walletAddress,
+              ethosEvents,
+            },
+            organization,
+            values
+          )
           setSubmitting(false)
         }}>
         {({ isSubmitting }) => (
           <Form>
-            <Typography weight="bold" variant="body1">
-              BIO:
-            </Typography>
-            <TextField
-              name="shortDescription"
-              className={style.inputContainer}
-              isMultiline
-            />
-            <Tooltip className={style.tooltip}>
-              <Typography variant="body2">
-                A brief description of the organization
-              </Typography>
-            </Tooltip>
+            <Field name="shortDescription">
+              {({ field }) => (
+                <>
+                  <Typography weight="bold" variant="body1">
+                    BIO:
+                  </Typography>
+                  <TextField
+                    className={style.inputContainer}
+                    isMultiline
+                    {...field}
+                  />
+                  <Tooltip className={style.tooltip}>
+                    <Typography variant="body2">
+                      A brief description of the organization
+                    </Typography>
+                  </Tooltip>
+                </>
+              )}
+            </Field>
 
             <EditField
               name="name"
