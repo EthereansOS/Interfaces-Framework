@@ -1,7 +1,12 @@
 import React from 'react'
 import { Button, Typography, Container } from '@dfohub/design-system'
 import { Link } from 'react-router-dom'
-import { useWeb3, fromDecimals } from '@dfohub/core'
+import {
+  useWeb3,
+  fromDecimals,
+  formatLink,
+  useEthosContext,
+} from '@dfohub/core'
 
 import { useOrganizationContext } from '../../OrganizationContext'
 import { OrganizationPropType } from '../../propTypes'
@@ -11,6 +16,7 @@ import style from './organizationHeader.module.scss'
 const OrganizationHeader = ({ organization }) => {
   const { isEditMode, setEditMode, setViewMode } = useOrganizationContext()
   const { walletAddress, walletAvatar } = useWeb3()
+  const context = useEthosContext()
 
   const metadata = organization?.metadata || {}
 
@@ -19,7 +25,11 @@ const OrganizationHeader = ({ organization }) => {
       <Container className={style.content}>
         <section className={style.leftContainer}>
           <img
-            src={metadata?.brandUri?.[0] || organization?.icon}
+            src={
+              metadata?.brandUri
+                ? formatLink({ context }, metadata?.brandUri)
+                : organization?.icon
+            }
             className={style.logo}
             alt="logo"
           />
