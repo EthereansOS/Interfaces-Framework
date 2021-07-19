@@ -1,11 +1,12 @@
 async function uploadToIPFS({ context, ipfsHttpClient }, files) {
-  var single =
+  const single =
     !(files instanceof Array) &&
     (!(files instanceof FileList) || files.length === 0)
   files = single ? [files] : files
-  var list = []
-  for (var i = 0; i < files.length; i++) {
-    var file = files.item ? files.item(i) : files[i]
+
+  const list = []
+  for (let i = 0; i < files.length; i++) {
+    let file = files.item ? files.item(i) : files[i]
     if (!(file instanceof File) && !(file instanceof Blob)) {
       file = new Blob([JSON.stringify(file, null, 4)], {
         type: 'application/json',
@@ -13,10 +14,13 @@ async function uploadToIPFS({ context, ipfsHttpClient }, files) {
     }
     list.push(file)
   }
-  var hashes = []
-  for await (var upload of ipfsHttpClient.add(list)) {
+
+  const hashes = []
+  for (const item of list) {
+    const upload = await ipfsHttpClient.add(item)
     hashes.push(context.ipfsUrlTemplates[0] + upload.path)
   }
+
   return single ? hashes[0] : hashes
 }
 

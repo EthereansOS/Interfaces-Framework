@@ -23,13 +23,14 @@ export const newContract = ({ web3 }, abi, address = VOID_ETHEREUM_ADDRESS) => {
 }
 
 export async function createContract({ web3, context }, abi, data) {
-  var args = []
+  const args = []
   if (arguments.length > 3) {
     for (var i = 3; i < arguments.length; i++) {
       args.push(arguments[i])
     }
   }
-  var from = await getAddress({ web3 })
+
+  const from = await getAddress({ web3 })
   data = newContract({ web3 }, abi).deploy({
     data,
     arguments: args,
@@ -44,15 +45,17 @@ export async function createContract({ web3, context }, abi, data) {
   //   window.getNextContractAddress &&
   //   window.getNextContractAddress(from, nonce === 0 ? undefined : nonce)
   try {
+    const sendTransactionParams = {
+      from,
+      data: data.encodeABI(),
+      gasLimit: await data.estimateGas({ from }),
+    }
+
     contractAddress = (
       await sendBlockchainTransaction(
         { web3, context },
         undefined,
-        web3.eth.sendTransaction({
-          from,
-          data: data.encodeABI(),
-          gasLimit: await data.estimateGas({ from }),
-        })
+        web3.eth.sendTransaction(sendTransactionParams)
       )
     ).contractAddress
   } catch (e) {

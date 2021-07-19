@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { Card, Typography } from '@dfohub/design-system'
-import { tokenPercentage, fromDecimals } from '@dfohub/core'
+import { tokenPercentage, fromDecimals, useEthosContext } from '@dfohub/core'
 import T from 'prop-types'
 
 import Section from '../shared/Section'
@@ -10,18 +10,40 @@ import Rule from './Rule'
 import GovernanceRulesFooter from './GovernanceRulesFooter'
 import style from './governance-rules.module.scss'
 
-const getProposals = (organization) => [
+const getProposals = (organization, context) => [
   {
-    id: 'st-length',
+    id: 'proposalLength',
+    type: 'st',
     title: 'Length',
     value: organization.blocks,
     percentage: null,
     unit: 'Blocks',
     description: 'The duration of a Proposal',
     inputLabel: 'Proposal Length',
+    getTemplate: (proposalLength) =>
+      JSON.parse(
+        JSON.stringify(context.simpleValueProposalTemplate)
+          .split('getValue()')
+          .join('getMinimumBlockNumberForSurvey()')
+          .split('type')
+          .join('uint256')
+          .split('value')
+          .join(proposalLength)
+      ),
+    getProposalInitialValues: () => ({
+      functionalityName: 'getMinimumBlockNumberForSurvey',
+      functionalitySubmitable: false,
+      functionalityMethodSignature: 'getMinimumBlockNumberForSurvey()',
+      functionalityReplace: 'getMinimumBlockNumberForSurvey',
+      functionalityOutputParameters: '["uint256"]',
+    }),
+    lines: undefined,
+    descriptions: ['Survey Length'],
+    updates: ['Survey Length updated to %(proposalLength)s blocks'],
   },
   {
     id: 'st-quorum',
+    type: 'st',
     title: 'Quorum',
     value: fromDecimals(organization.quorum, organization.decimals),
     percentage: tokenPercentage(organization.quorum, organization.totalSupply),
@@ -32,6 +54,7 @@ const getProposals = (organization) => [
   },
   {
     id: 'st-generation-stake',
+    type: 'st',
     title: 'Generation Stake',
     value: fromDecimals(organization.minimumStaking, organization.decimals),
     percentage: tokenPercentage(
@@ -45,6 +68,7 @@ const getProposals = (organization) => [
   },
   {
     id: 'st-hard-cap',
+    type: 'st',
     title: 'Hard Cap',
     value: fromDecimals(organization.votesHardCap, organization.decimals),
     percentage: tokenPercentage(
@@ -58,6 +82,7 @@ const getProposals = (organization) => [
   },
   {
     id: 'st-proposal-reward',
+    type: 'st',
     title: 'Proposal Reward',
     value: fromDecimals(organization.surveySingleReward, organization.decimals),
     percentage: null,
@@ -68,6 +93,7 @@ const getProposals = (organization) => [
   },
   {
     id: 'em-length',
+    type: 'em',
     title: 'Length',
     value: organization.minimumBlockNumberForEmergencySurvey,
     percentage: null,
@@ -77,6 +103,7 @@ const getProposals = (organization) => [
   },
   {
     id: 'em-penalty-fee',
+    type: 'em',
     title: 'Penalty fee',
     value: fromDecimals(
       organization.emergencySurveyStaking,
@@ -94,12 +121,13 @@ const getProposals = (organization) => [
 ]
 
 function GovernanceRules({ organization, onSetProposal }) {
+  const context = useEthosContext()
   const [isInfoMode, setIsInfoMode] = useState(false)
   const [selectedRule, setSelectedFooterRule] = useState(null)
 
   const proposals = useMemo(
-    () => (organization ? getProposals(organization) : []),
-    [organization]
+    () => (organization ? getProposals(organization, context) : []),
+    [organization, context]
   )
 
   const toggleInfoMode = (e) => {
@@ -120,6 +148,7 @@ function GovernanceRules({ organization, onSetProposal }) {
       footerClassName={style.codeFooter}
       Footer={
         <GovernanceRulesFooter
+          organization={organization}
           selectedRule={selectedRule}
           onSetProposal={onSetProposal}
         />
@@ -143,7 +172,7 @@ function GovernanceRules({ organization, onSetProposal }) {
           <div className={style.sectionContent}>
             {proposals.map(
               (rule) =>
-                rule.id.startsWith('st-') && (
+                rule.type === 'st' && (
                   <Rule
                     key={rule.id}
                     id={rule.id}
@@ -170,7 +199,7 @@ function GovernanceRules({ organization, onSetProposal }) {
           <div className={style.sectionContent}>
             {proposals.map(
               (rule) =>
-                rule.id.startsWith('em-') && (
+                rule.type === 'em' && (
                   <Rule
                     key={rule.id}
                     id={rule.id}

@@ -1,0 +1,70 @@
+.root {
+  padding: calc(var(--unit) * 4);
+  max-width: 500px;
+  margin: 10px auto;
+  background-color: var(--color-background-black);
+}
+
+.root h1 {
+  margin-top: calc(var(--unit) * 2);
+  margin-bottom: calc(var(--unit) * 8);
+  text-align: center;
+}
+
+.root input,
+.root textarea,
+.inputContainer {
+  background-color: var(--color-background-extra-dark);
+}
+
+.root .sectionSeparator {
+  width: 100%;
+  margin-bottom: calc(var(--unit) * 4);
+  padding-bottom: calc(var(--unit) * 4);
+  border-bottom: 1px solid var(--color-text);
+}
+
+.root .spacer {
+  width: 100%;
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.inputContainer {
+  margin-top: calc(var(--unit) * 4);
+}
+
+.root textarea {
+  width: 100%;
+  min-height: 60px;
+}
+
+.root form {
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.root .validation {
+  background-color: var(--color-background-black);
+  align-items: center;
+  display: flex;
+  margin: var(--unit);
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.root .validation > input {
+  margin-right: calc(var(--unit) * 2);
+}
+
+.root .buttonGroups {
+  background-color: var(--color-background-black);
+  align-items: center;
+  display: flex;
+  margin: var(--unit);
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.tooltip p {
+  color: var(--tooltip-color);
+}

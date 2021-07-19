@@ -9,6 +9,18 @@ import {
 
 import GovernanceRules from '.'
 
+const organization = {
+  decimals: 2,
+  symbol: 'TTT',
+  blocks: 20,
+  quorum: 10,
+  totalSupply: 90,
+  minimumStaking: 60,
+  votesHardCap: 6,
+  surveySingleReward: 17,
+  minimumBlockNumberForEmergencySurvey: 21,
+  emergencySurveyStaking: 38,
+}
 const item = {
   title: 'Example/GovernanceRules',
   component: GovernanceRules,
@@ -28,14 +40,19 @@ const ActiveEditMode = () => {
   useEffect(() => {
     setEditMode()
   })
-  return <GovernanceRules onSetProposal={onSetProposal} />
+  return (
+    <GovernanceRules
+      onSetProposal={onSetProposal}
+      organization={organization}
+    />
+  )
 }
 
 export const SampleGovernanceRulesViewMode = () => {
   return (
     <HashRouter>
       <OrganizationContextProvider>
-        <GovernanceRules />
+        <GovernanceRules organization={organization} />
       </OrganizationContextProvider>
     </HashRouter>
   )

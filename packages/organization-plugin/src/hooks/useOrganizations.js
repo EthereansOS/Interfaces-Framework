@@ -160,16 +160,7 @@ const useOrganizations = () => {
           // Uncomment this to load the details from the full list
           .slice(0, 20)
       )
-  }, [
-    state.dfoHub,
-    web3,
-    web3ForLogs,
-    networkId,
-    state.dfoEvent,
-    state.list,
-    loadOrganizationSubListDetails,
-    context,
-  ])
+  }, [state.list, loadOrganizationSubListDetails])
 
   const loadOrganizationList = useCallback(async () => {
     const list = await loadDFOList({
