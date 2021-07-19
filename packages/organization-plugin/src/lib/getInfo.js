@@ -267,6 +267,15 @@ async function getInfo(
   newElement.ensComplete.indexOf('.') === 0 &&
     (newElement.ensComplete = newElement.ensComplete.substring(1))
 
+  const blocksCall = await blockchainCall(
+    { web3, context },
+    newElement.dFO.methods.read,
+    'getMinimumBlockNumberForSurvey',
+    '0x'
+  )
+
+  newElement.blocks = web3.eth.abi.decodeParameters(['uint256'], blocksCall)[0]
+
   return newElement
 }
 

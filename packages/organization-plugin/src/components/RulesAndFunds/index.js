@@ -21,24 +21,8 @@ function RulesAndFunds({ organization }) {
   const location = useLocation()
   const { dfoHub } = useOrganizations()
 
-  const [blocks, setBlocks] = useState()
   const [inflationStatus, setInflationStatus] = useState()
   const [liquidityStatus, setLiquidityStatus] = useState()
-
-  useEffect(() => {
-    const fetchBlocks = async () => {
-      const blocksCall = await blockchainCall(
-        { web3, context },
-        organization.dFO.methods.read,
-        'getMinimumBlockNumberForSurvey',
-        '0x'
-      )
-
-      setBlocks(web3.eth.abi.decodeParameters(['uint256'], blocksCall)[0])
-    }
-
-    fetchBlocks()
-  }, [context, organization.dFO.methods.read, web3])
 
   useEffect(() => {
     const fetchInflationAndLiquidityStatus = async () => {
@@ -108,7 +92,7 @@ function RulesAndFunds({ organization }) {
       <div className={style.content}>
         <Section category="🏰 Regular Proposals:">
           <Typography variant="body2">
-            Length: <strong>{blocks || 'NA'}</strong> Blocks
+            Length: <strong>{organization?.blocks || 'NA'}</strong> Blocks
           </Typography>
         </Section>
         <Section category="🧮 Assets:" className={style.assets} column>
