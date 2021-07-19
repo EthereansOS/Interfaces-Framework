@@ -1,7 +1,5 @@
 import web3Utils from 'web3-utils'
 
-import { VOID_ETHEREUM_ADDRESS } from '../constants'
-
 import { newContract } from './contracts'
 import blockchainCall from './blockchainCall'
 

@@ -1,19 +1,78 @@
-import React from 'react'
-import { Typography, Button, TextField } from '@dfohub/design-system'
+import React, { useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
+import { Typography, Button, TextField, Modal } from '@dfohub/design-system'
 import T from 'prop-types'
+import { sprintf } from 'sprintf-js'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 
 import { useOrganizationContext } from '../../OrganizationContext'
+import ProposalConfirm from '../ProposalConfirm'
 
 import style from './governance-rules-footer.module.scss'
 
-function GovernanceRulesFooter({ selectedRule, onSetProposal }) {
+const getInitialContext = (
+  element,
+  template,
+  lines,
+  descriptions,
+  updates,
+  prefixedLines,
+  postFixedLines
+) => ({
+  element,
+  functionalityName: '',
+  functionalitySubmitable: true,
+  functionalityMethodSignature: 'callOneTime(address)',
+  functionalityInternal: false,
+  functionalityNeedsSender: false,
+  functionalityReplace: '',
+  emergency: false,
+  template,
+  lines,
+  descriptions,
+  updates,
+  prefixedLines,
+  postFixedLines,
+})
+
+function GovernanceRulesFooter({ selectedRule, organization }) {
+  let history = useHistory()
+  let params = useParams()
+
   const { isEditMode } = useOrganizationContext()
+  const [modalOpen, setModalOpen] = useState(false)
+  const [proposalContext, setProposalContext] = useState({})
+
+  const handleModalClose = () => {
+    setProposalContext({})
+    setModalOpen(false)
+  }
+
   const onSubmit = async (values, { setSubmitting }) => {
-    onSetProposal &&
-      (await onSetProposal(selectedRule.id, values[selectedRule.id]))
+    const template = selectedRule.getTemplate(values[selectedRule.id])
+    const ctx = {
+      ...getInitialContext(
+        organization,
+        template,
+        selectedRule.lines,
+        selectedRule.descriptions.map((value) =>
+          sprintf(value, { [selectedRule.id]: values[selectedRule.id] })
+        ),
+        selectedRule.updates.map((value) =>
+          sprintf(value, { [selectedRule.id]: values[selectedRule.id] })
+        )
+      ),
+      ...selectedRule.getProposalInitialValues(),
+    }
+
+    setProposalContext(ctx)
+    setModalOpen(true)
     setSubmitting(false)
+  }
+
+  const handleProposalSuccess = () => {
+    history.push(`/organizations/${params.address}/governance/proposals`)
   }
 
   return (
@@ -76,6 +135,16 @@ function GovernanceRulesFooter({ selectedRule, onSetProposal }) {
             </Form>
           )}
         </Formik>
+        {modalOpen && (
+          <Modal visible>
+            <ProposalConfirm
+              initialContext={proposalContext}
+              title={`Updating Proposal ${selectedRule.title}`}
+              onClose={handleModalClose}
+              onProposalSuccess={handleProposalSuccess}
+            />
+          </Modal>
+        )}
       </div>
     )
   )
@@ -85,5 +154,6 @@ export default GovernanceRulesFooter
 
 GovernanceRulesFooter.propTypes = {
   selectedRule: T.object,
+  organization: T.object.isRequired,
   onSetProposal: T.func,
 }
