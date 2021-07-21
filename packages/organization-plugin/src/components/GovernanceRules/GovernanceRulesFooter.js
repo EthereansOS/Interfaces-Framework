@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { Typography, Button, TextField, Modal } from '@dfohub/design-system'
 import T from 'prop-types'
+import { numberToString } from '@dfohub/core'
 import { sprintf } from 'sprintf-js'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -58,14 +59,18 @@ function GovernanceRulesFooter({ selectedRule, organization }) {
         organization,
         template,
         selectedRule.lines,
-        selectedRule.descriptions.map((value) =>
-          sprintf(value, { [selectedRule.id]: values[selectedRule.id] })
+        selectedRule.getDescriptions(values[selectedRule.id]).map((value) =>
+          sprintf(value, {
+            [selectedRule.id]: numberToString(values[selectedRule.id]),
+          })
         ),
-        selectedRule.updates.map((value) =>
-          sprintf(value, { [selectedRule.id]: values[selectedRule.id] })
+        selectedRule.getUpdates(values[selectedRule.id]).map((value) =>
+          sprintf(value, {
+            [selectedRule.id]: numberToString(values[selectedRule.id]),
+          })
         )
       ),
-      ...selectedRule.getProposalInitialValues(),
+      ...selectedRule.getProposalInitialValues(values[selectedRule.id]),
     }
 
     setProposalContext(ctx)
