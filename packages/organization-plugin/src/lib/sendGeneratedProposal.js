@@ -46,16 +46,15 @@ function sendGeneratedProposal(
     ],
   }
   const newCtx = ctx || {}
-  newCtx.sequentialOps &&
-    newCtx.sequentialOps.push(initialContext.sequentialOps[0])
+  // TODO is this neccessary?
   Object.keys(newCtx).map((key) => (initialContext[key] = newCtx[key]))
-  showProposalLoader(
-    { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
-    initialContext
-  )
+  // showProposalLoader(
+  //   { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
+  //   initialContext
+  // )
 
   // TODO verify how this return values is used
-  return { ...newCtx }
+  return initialContext
 }
 
 export default sendGeneratedProposal

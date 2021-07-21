@@ -1,8 +1,9 @@
 .root {
   padding: calc(var(--unit) * 4);
-  max-width: 500px;
-  margin: 10px auto;
+  max-width: 650px;
+  margin: calc(var(--unit) * 20) auto;
   background-color: var(--color-background-black);
+  word-break: break-all;
 }
 
 .root h1 {

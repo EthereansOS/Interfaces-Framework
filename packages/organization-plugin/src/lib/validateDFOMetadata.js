@@ -73,7 +73,7 @@ async function validateDFOMetadata(
           : typeof metadata.logoUri === 'string' &&
             metadata.logoUri.indexOf('ipfs') !== -1
           ? metadata.logoUri
-          : await uploadToIPFS(metadata.logoUri))
+          : await uploadToIPFS({ context, ipfsHttpClient }, metadata.logoUri))
   } catch (e) {
     //errors.push(e.message || e);
   }
@@ -92,7 +92,9 @@ async function validateDFOMetadata(
   if (errors.length > 0) {
     throw errors.join('\n')
   }
-  return noUpload ? metadata : await uploadToIPFS(metadata)
+  return noUpload
+    ? metadata
+    : await uploadToIPFS({ context, ipfsHttpClient }, metadata)
 }
 
 export default validateDFOMetadata

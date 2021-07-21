@@ -45,7 +45,7 @@ async function proposeNewMetadataLink(
           .split('value')
           .join('\\"' + metadataLink + '\\"')
       )
-  sendGeneratedProposal(
+  return sendGeneratedProposal(
     { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
     element,
     {

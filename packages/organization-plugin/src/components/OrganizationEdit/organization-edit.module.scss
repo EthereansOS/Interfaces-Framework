@@ -7,7 +7,7 @@
   text-align: center;
 }
 
-.root button:first-child {
+.backButton {
   position: fixed;
   left: 0;
   top: 0;
@@ -37,4 +37,8 @@
 
 .tooltip p {
   color: var(--tooltip-color);
+}
+
+.proposeButton {
+  align-self: center;
 }
