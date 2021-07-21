@@ -212,7 +212,7 @@ export const BalanceList = ({ organization }) => {
       headerClassName={style.cardHeader}
       contentClassName={style.root}
       Header={
-        <Typography variant="h2" color="primary">
+        <Typography variant="h2" color="primary" fontFamily="secondary">
           {organization.name} Balances{' '}
           <Typography variant="h5" color="primary">
             (Tracked: ${formatMoney(amounts.cumulativeAmountDollar)})

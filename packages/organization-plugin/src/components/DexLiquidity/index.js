@@ -42,7 +42,7 @@ const DexLiquidity = ({ organization }) => {
     <Card
       contentClassName={style.root}
       Header={
-        <Typography color="primary" variant="h2">
+        <Typography color="primary" variant="h2" fontFamily="secondary">
           Dex liquidity
         </Typography>
       }>

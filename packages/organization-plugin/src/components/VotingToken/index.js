@@ -49,7 +49,7 @@ const VotingToken = ({ organization }) => {
     <Card
       contentClassName={style.root}
       Header={
-        <Typography color="primary" variant="h2">
+        <Typography color="primary" variant="h2" fontFamily="secondary">
           Voting Token
         </Typography>
       }>

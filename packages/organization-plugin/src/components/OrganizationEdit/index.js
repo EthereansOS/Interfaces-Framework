@@ -1,12 +1,20 @@
-import React from 'react'
-import { Button, TextField, Typography, Tooltip } from '@dfohub/design-system'
+import React, { useState } from 'react'
+import {
+  Button,
+  TextField,
+  Typography,
+  Tooltip,
+  Modal,
+} from '@dfohub/design-system'
 import T from 'prop-types'
 import { Formik, Form, Field } from 'formik'
 import { useEthosContext, useWeb3 } from '@dfohub/core'
+import { useHistory, useParams } from 'react-router-dom'
 
 import EditField from '../shared/EditField'
 import { OrganizationPropType } from '../../propTypes'
 import proposeNewMetadataLink from '../../lib/proposeNewMetadataLink'
+import ProposalConfirm from '../ProposalConfirm'
 
 import style from './organization-edit.module.scss'
 
@@ -27,29 +35,49 @@ function OrganizationEdit({ onClose, organization }) {
   const { web3, networkId, ipfsHttpClient, walletAddress, ethosEvents } =
     useWeb3()
   const context = useEthosContext()
+  const [modalOpen, setModalOpen] = useState(false)
+  const [proposalContext, setProposalContext] = useState({})
+  let history = useHistory()
+  let params = useParams()
+
+  const handleModalClose = () => {
+    setProposalContext({})
+    setModalOpen(false)
+  }
+
+  const handleProposalSuccess = () => {
+    history.push(`/organizations/${params.address}/governance/proposals`)
+  }
 
   return (
     <section className={style.root}>
-      <Button onClick={onClose} text="Back" />
+      <Button className={style.backButton} onClick={onClose} text="Back" />
       <Typography color="primary">Propose Metadata Change</Typography>
 
       <Formik
         initialValues={organization?.metadata || initialValues}
         enableReinitialize
         onSubmit={async (values, { setSubmitting }) => {
-          await proposeNewMetadataLink(
-            {
-              web3,
-              context,
-              networkId,
-              ipfsHttpClient,
-              walletAddress,
-              ethosEvents,
-            },
-            organization,
-            values
-          )
-          setSubmitting(false)
+          try {
+            const ctx = await proposeNewMetadataLink(
+              {
+                web3,
+                context,
+                networkId,
+                ipfsHttpClient,
+                walletAddress,
+                ethosEvents,
+              },
+              organization,
+              values
+            )
+            setProposalContext(ctx)
+            setModalOpen(true)
+          } catch (e) {
+            console.log('error proposing metadata link', e)
+          } finally {
+            setSubmitting(false)
+          }
         }}>
         {({ isSubmitting }) => (
           <Form>
@@ -137,14 +165,26 @@ function OrganizationEdit({ onClose, organization }) {
             />
 
             <Button
+              className={style.proposeButton}
               type="submit"
-              size="large"
+              size="small"
               text="Propose"
               disabled={isSubmitting}
             />
           </Form>
         )}
       </Formik>
+
+      {modalOpen && (
+        <Modal visible>
+          <ProposalConfirm
+            initialContext={proposalContext}
+            title={proposalContext.title}
+            onClose={handleModalClose}
+            onProposalSuccess={handleProposalSuccess}
+          />
+        </Modal>
+      )}
     </section>
   )
 }

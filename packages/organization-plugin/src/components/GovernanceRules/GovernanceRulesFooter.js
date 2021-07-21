@@ -50,6 +50,8 @@ function GovernanceRulesFooter({ selectedRule, organization }) {
   }
 
   const onSubmit = async (values, { setSubmitting }) => {
+    if (values[selectedRule.id] === selectedRule.value) return
+
     const template = selectedRule.getTemplate(values[selectedRule.id])
     const ctx = {
       ...getInitialContext(
