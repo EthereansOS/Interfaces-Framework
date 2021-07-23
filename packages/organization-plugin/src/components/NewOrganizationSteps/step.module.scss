@@ -1,0 +1,30 @@
+.form {
+  max-width: 450px;
+  width: 100%;
+}
+
+.description {
+  max-width: 250px;
+}
+
+.form > * {
+  margin: calc(var(--unit) * 2);
+}
+
+.label {
+  padding: calc(var(--unit) * 2);
+  background-color: var(--color-primary);
+  text-align: center;
+  margin-top: calc(var(--unit) * 4);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 80px;
+}
+
+.contentStartAlign {
+  align-items: flex-start;
+}

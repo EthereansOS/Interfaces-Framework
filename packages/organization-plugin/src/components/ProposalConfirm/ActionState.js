@@ -1,11 +1,14 @@
+import React from 'react'
+import { CircularProgress } from '@dfohub/design-system'
+
 import { ACTION_STATE_DONE, ACTION_STATE_LOADING } from './constants'
 
 const ActionState = ({ state }) => {
   switch (state) {
     case ACTION_STATE_LOADING:
-      return 'Loader'
+      return <CircularProgress size="small" />
     case ACTION_STATE_DONE:
-      return 'Done'
+      return '✅ Done'
     default:
       return ''
   }

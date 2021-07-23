@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
+import { usePlaceholder } from '@dfohub/core'
 
-import StateList from '../components/StateList'
 import useOrganization from '../hooks/useOrganization'
 
 const DappState = ({ setTemplateState }) => {
   const params = useParams()
   const { organization, organizationHeader } = useOrganization(params.address)
+  const organizationDappState = usePlaceholder('organizationDappState')
 
   useEffect(() => {
     setTemplateState((s) => ({
@@ -19,7 +20,9 @@ const DappState = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return <StateList organization={organization} />
+  return organizationDappState.map(({ Component, key }) => (
+    <Component key={key} organization={organization} />
+  ))
 }
 
 DappState.propTypes = {
