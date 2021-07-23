@@ -1,0 +1,28 @@
+.root {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: calc(var(--unit) * 4);
+}
+
+.root {
+  p {
+    margin: calc(var(--unit) * 2);
+  }
+
+  a {
+    cursor: pointer;
+  }
+}
+
+.error {
+  background-color: var(--snackbar-error-color);
+}
+.warning {
+  background-color: var(--snackbar-warning-color);
+}
+.success {
+  background-color: var(--snackbar-success-color);
+}

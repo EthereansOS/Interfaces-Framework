@@ -18,6 +18,7 @@ import LinearProgress from './LinearProgress'
 import CircularProgress from './CircularProgress'
 import Token from './Token'
 import Select from './Select'
+import SnackBar from './SnackBar'
 
 export {
   Button,
@@ -36,4 +37,5 @@ export {
   CircularProgress,
   Token,
   Select,
+  SnackBar,
 }

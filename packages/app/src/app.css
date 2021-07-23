@@ -25,4 +25,11 @@ body {
 
   --tooltip-background-color: #383838;
   --tooltip-color: #888888;
+
+  --edit-field-background-color: var(--color-background-extra-dark);
+  --edit-field-color: #fff;
+
+  --snackbar-error-color: #ff0000;
+  --snackbar-success-color: #00ff00;
+  --snackbar-warning-color: #ff00ff;
 }

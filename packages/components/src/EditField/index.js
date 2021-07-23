@@ -26,7 +26,14 @@ Yup.addMethod(Yup.string, 'isValidUrl', function () {
   })
 })
 
-const EditField = ({ label, description, id, name, ...props }) => {
+const EditField = ({
+  label,
+  description,
+  id,
+  name,
+  RightInputComponent,
+  ...props
+}) => {
   const [field] = useField({ id, name })
 
   return (
@@ -38,7 +45,11 @@ const EditField = ({ label, description, id, name, ...props }) => {
           </Typography>
         )}
 
-        <TextField className={style.inputContainer} {...field} {...props} />
+        <div className={style.inputWrapper}>
+          <TextField className={style.inputContainer} {...field} {...props} />
+
+          {RightInputComponent && RightInputComponent}
+        </div>
       </div>
 
       {description && (
@@ -57,4 +68,5 @@ EditField.propTypes = {
   name: T.string,
   label: T.string,
   description: T.string,
+  RightInputComponent: T.node,
 }

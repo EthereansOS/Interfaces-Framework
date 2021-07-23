@@ -7,6 +7,8 @@
 .inputContainer {
   background-color: var(--edit-field-background-color);
   color: var(--edit-field-color);
+  margin-left: var(--unit);
+  margin-right: var(--unit);
 }
 
 .tooltip {
@@ -15,4 +17,9 @@
 
 .tooltip p {
   color: var(--tooltip-color);
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
 }

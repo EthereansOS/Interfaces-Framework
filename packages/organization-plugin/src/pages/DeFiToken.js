@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
+import { usePlaceholder } from '@dfohub/core'
 
 import useOrganization from '../hooks/useOrganization'
-import VotingToken from '../components/VotingToken'
-import DexLiquidity from '../components/DexLiquidity'
 
 const DeFiToken = ({ setTemplateState }) => {
   const params = useParams()
   const { organization, organizationHeader } = useOrganization(params.address)
+  const organizationDeFiToken = usePlaceholder('organizationDeFiToken')
 
   useEffect(() => {
     setTemplateState((s) => ({
@@ -22,12 +22,9 @@ const DeFiToken = ({ setTemplateState }) => {
 
   if (!organization) return null
 
-  return (
-    <>
-      <VotingToken organization={organization} />
-      <DexLiquidity organization={organization} />
-    </>
-  )
+  return organizationDeFiToken.map(({ Component, key }) => (
+    <Component key={key} organization={organization} />
+  ))
 }
 
 DeFiToken.propTypes = {

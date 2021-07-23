@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
+import { usePlaceholder } from '@dfohub/core'
 
-import BalanceList from '../components/BalanceList'
 import useOrganization from '../hooks/useOrganization'
 
 const DeFiWallet = ({ setTemplateState }) => {
   const params = useParams()
   const { organization, organizationHeader } = useOrganization(params.address)
+  const organizationDeFiWallet = usePlaceholder('organizationDeFiWallet')
 
   useEffect(() => {
     setTemplateState((s) => ({
@@ -19,7 +20,9 @@ const DeFiWallet = ({ setTemplateState }) => {
     }))
   }, [setTemplateState, organization, organizationHeader])
 
-  return <BalanceList organization={organization} />
+  return organizationDeFiWallet.map(({ Component, key }) => (
+    <Component key={key} organization={organization} />
+  ))
 }
 
 DeFiWallet.propTypes = {

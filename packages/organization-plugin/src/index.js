@@ -13,13 +13,60 @@ import RulesAndFunds from './components/RulesAndFunds'
 import GovernanceRules from './components/GovernanceRules'
 import List from './pages/List'
 import { OrganizationContextProvider } from './OrganizationContext'
-import EditMetadata from './pages/EditMetadata'
+import FunctionList from './components/FunctionList'
+import StateList from './components/StateList'
+import VotingToken from './components/VotingToken'
+import DexLiquidity from './components/DexLiquidity'
+import BalanceList from './components/BalanceList'
+import NewOrganization from './pages/NewOrganization'
+import NewSubdomain from './components/NewOrganizationSteps/NewSubdomain'
+import NewVotingToken from './components/NewOrganizationSteps/NewVotingToken'
+import NewGovernanceRules from './components/NewOrganizationSteps/NewGovernanceRules'
+import NewMetadata from './components/NewOrganizationSteps/NewMetadata'
 
 const initPlugin = ({ addElement }) => {
   addElement('globalContexts', {
     name: 'OrganizationContextProvider',
     Component: OrganizationContextProvider,
     index: 10,
+  })
+
+  addElement('router', {
+    index: 0,
+    path: '/organizations/new',
+    Component: NewOrganization,
+    exact: true,
+    requireConnection: true,
+    templateProps: {
+      selected: 'new',
+      showMenu: false,
+      showSubMenu: false,
+      showBeforeMenu: false,
+    },
+  })
+
+  addElement('organizationNewOrganization', {
+    key: 'subdomain',
+    index: 10,
+    Component: NewSubdomain,
+  })
+
+  addElement('organizationNewOrganization', {
+    key: 'newOrganization',
+    index: 20,
+    Component: NewVotingToken,
+  })
+
+  addElement('organizationNewOrganization', {
+    key: 'newOrganization',
+    index: 30,
+    Component: NewGovernanceRules,
+  })
+
+  addElement('organizationNewOrganization', {
+    key: 'newOrganization',
+    index: 40,
+    Component: NewMetadata,
   })
 
   addElement('organizationMenu', {
@@ -250,15 +297,34 @@ const initPlugin = ({ addElement }) => {
     Component: GovernanceRules,
   })
 
-  addElement('router', {
+  addElement('organizationDappFunctions', {
+    key: 'functionList',
+    index: 10,
+    Component: FunctionList,
+  })
+
+  addElement('organizationDappState', {
+    key: 'statelist',
+    index: 10,
+    Component: StateList,
+  })
+
+  addElement('organizationDeFiToken', {
+    key: 'votingToken',
+    index: 10,
+    Component: VotingToken,
+  })
+
+  addElement('organizationDeFiToken', {
+    key: 'dexLiquidity',
     index: 20,
-    path: '/organizations/:address/edit',
-    Component: EditMetadata,
-    exact: true,
-    requireConnection: true,
-    templateProps: {
-      showBeforeMenu: true,
-    },
+    Component: DexLiquidity,
+  })
+
+  addElement('organizationDeFiWallet', {
+    key: 'balanceList',
+    index: 20,
+    Component: BalanceList,
   })
 
   addElement('router', {
