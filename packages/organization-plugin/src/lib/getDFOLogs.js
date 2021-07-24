@@ -59,9 +59,7 @@ const formatDFOLogs = ({ dfoEvent, web3 }, logVar, event) => {
       )
       log.data && (log.data = [])
       log.raw && log.raw.data && (log.raw.data = [])
-      // TODO: fixme.
-      // WHY A MAP HERE? this seems it should be a simple 'for', check the original code.       // and then refactor
-      Object.keys(data).map((key) => {
+      Object.keys(data).forEach((key) => {
         if (isNaN(parseInt(key))) {
           return
         }

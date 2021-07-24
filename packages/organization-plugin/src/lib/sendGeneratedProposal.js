@@ -1,5 +1,4 @@
 import generateAndCompileContract from './generateAndCompileContract'
-import showProposalLoader from './showProposalLoader'
 
 function sendGeneratedProposal(
   { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },

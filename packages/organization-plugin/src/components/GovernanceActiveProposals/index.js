@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import T from 'prop-types'
 import { Typography } from '@dfohub/design-system'
+import { getNetworkElement, useWeb3 } from '@dfohub/core'
 
 import { OrganizationPropType } from '../../propTypes'
 import Proposal from '../Proposal'
@@ -11,6 +12,12 @@ function GovernanceActiveProposals({
   proposals,
   loaded,
 }) {
+  const web3Context = useWeb3()
+  const etherscanURL = useMemo(
+    () => getNetworkElement(web3Context, 'etherscanURL'),
+    [web3Context]
+  )
+
   const list = useMemo(() => {
     return (
       proposals?.filter(
@@ -33,6 +40,7 @@ function GovernanceActiveProposals({
             organization={organization}
             survey={proposal}
             loadProposalCode={loadProposalCode}
+            etherscanURL={etherscanURL}
           />
         ))}
     </>

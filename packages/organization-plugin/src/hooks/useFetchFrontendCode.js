@@ -26,7 +26,7 @@ const useFetchFrontendCode = (organizationIndex, organizationLink) => {
     if (organizationIndex) {
       fetchDecCode()
     }
-  }, [organizationIndex])
+  }, [organizationIndex, context, networkId, web3])
 
   useEffect(() => {
     const fetchDistrCode = async () => {
@@ -43,7 +43,7 @@ const useFetchFrontendCode = (organizationIndex, organizationLink) => {
     if (organizationLink) {
       fetchDistrCode()
     }
-  }, [loadContent, organizationLink])
+  }, [organizationLink])
 
   return { distributedCode, decentralizedCode }
 }

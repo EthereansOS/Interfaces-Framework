@@ -64,6 +64,7 @@ export const Web3ContextProvider = ({ children }) => {
     ...methods,
     ...state,
     ethosEvents,
+    context,
   }
 
   return <Web3Context.Provider value={values}>{children}</Web3Context.Provider>

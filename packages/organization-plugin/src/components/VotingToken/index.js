@@ -43,7 +43,7 @@ const VotingToken = ({ organization }) => {
     } else {
       fetchLogo()
     }
-  }, [context, organization])
+  }, [context, organization, tokenOptionsAddress])
 
   return (
     <Card

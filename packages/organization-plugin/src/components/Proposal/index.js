@@ -13,7 +13,9 @@ import ProposalTerminated from './ProposalTerminated'
 
 function Proposal(props) {
   const { survey } = props
-  const etherscanURL = 'https://ropsten.etherscan.io/'
+
+  const etherscanURL = props.etherscanURL
+
   const symbol = 'buidl'
   const descriptionMaxLength = 300
   const description = survey.description || ''
@@ -31,7 +33,6 @@ function Proposal(props) {
 
   const handleCode = (e) => {
     props.loadProposalCode(survey)
-    return
   }
 
   let percAccepted = (parseInt(survey.accepted) / survey.allVotes) * 100
@@ -39,7 +40,6 @@ function Proposal(props) {
   let percRefused = (parseInt(survey.refused) / survey.allVotes) * 100
   percRefused = (isNaN(percRefused) ? 0 : percRefused) + '%'
 
-  console.log(survey)
   return (
     <Card contentClassName={style.cardContent}>
       <Section
@@ -110,6 +110,7 @@ function Proposal(props) {
             etherscanURL={etherscanURL}
             symbol={symbol}
             handleCode={handleCode}
+            finalizeProposal={props.finalizeProposal}
           />
         )}
       </Section>
@@ -123,4 +124,6 @@ Proposal.propTypes = {
   organization: OrganizationPropType,
   survey: ProposalPropTypes,
   loadProposalCode: T.func.isRequired,
+  finalizeProposal: T.func.isRequired,
+  etherscanURL: T.string.isRequired,
 }
