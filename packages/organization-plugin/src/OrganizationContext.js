@@ -24,14 +24,14 @@ export const OrganizationContextProvider = ({ children }) => {
   const setEditMode = useCallback(() => setIsEditMode(true), [setIsEditMode])
   const setViewMode = useCallback(() => setIsEditMode(false), [setIsEditMode])
 
-  const organization = useMemo(
-    () =>
-      Object.values(organizations || {}).find(
-        (organization) =>
-          organization?.dFO?.options?.address === organizationAddress
-      ),
-    [organizations, organizationAddress]
-  )
+  const organization = useMemo(() => {
+    const org = Object.values(organizations || {}).find(
+      (organization) =>
+        organization?.dFO?.options?.address === organizationAddress
+    )
+
+    return org
+  }, [organizations, organizationAddress])
 
   useEffect(() => {
     if (!organization) {

@@ -23,6 +23,8 @@ import NewSubdomain from './components/NewOrganizationSteps/NewSubdomain'
 import NewVotingToken from './components/NewOrganizationSteps/NewVotingToken'
 import NewGovernanceRules from './components/NewOrganizationSteps/NewGovernanceRules'
 import NewMetadata from './components/NewOrganizationSteps/NewMetadata'
+import GovernanceActiveProposals from './components/GovernanceActiveProposals'
+import GovernanceHistoryProposals from './components/GovernanceHistoryProposals'
 
 const initPlugin = ({ addElement }) => {
   addElement('globalContexts', {
@@ -295,6 +297,18 @@ const initPlugin = ({ addElement }) => {
     key: 'governanceRules',
     index: 10,
     Component: GovernanceRules,
+  })
+
+  addElement('organizationGovernanceProposals', {
+    key: 'governanceActiveProposals',
+    index: 10,
+    Component: GovernanceActiveProposals,
+  })
+
+  addElement('organizationGovernanceProposals', {
+    key: 'governanceHistoryProposals',
+    index: 20,
+    Component: GovernanceHistoryProposals,
   })
 
   addElement('organizationDappFunctions', {
