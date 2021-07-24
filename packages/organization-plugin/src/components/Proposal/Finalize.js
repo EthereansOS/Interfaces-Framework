@@ -1,13 +1,15 @@
-import { Button, Link, Typography } from '@dfohub/design-system'
 import React from 'react'
+import T from 'prop-types'
+import { Button, Link, Typography } from '@dfohub/design-system'
 
 import { OrganizationPropType } from '../../propTypes'
 
 import { ProposalPropTypes } from './propTypes'
 
-function Finalize({ organization, key }) {
-  const handleFinalize = (e) => {
-    return
+function Finalize({ survey, key, finalizeProposal }) {
+  const handleFinalize = () => {
+    console.log('FInalize proposal', key)
+    return finalizeProposal(survey)
   }
 
   return (
@@ -36,5 +38,7 @@ export default Finalize
 
 Finalize.propTypes = {
   organization: OrganizationPropType,
+  survey: ProposalPropTypes,
   key: ProposalPropTypes.key,
+  finalizeProposal: T.func.isRequired,
 }

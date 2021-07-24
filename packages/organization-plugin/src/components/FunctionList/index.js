@@ -66,7 +66,7 @@ function FunctionList({ organization }) {
     if (organization?.functionalitiesManager) {
       fetchFunctions()
     }
-  }, [organization])
+  }, [organization, context, networkId, web3])
 
   return (
     <>

@@ -13,8 +13,12 @@ import useOrganizations from './hooks/useOrganizations'
 const OrganizationContext = React.createContext('dfo-organization')
 
 export const OrganizationContextProvider = ({ children }) => {
-  const { organizations, loadOrganizationDetail, loadOrganizationListDetails } =
-    useOrganizations()
+  const {
+    organizations,
+    loadOrganizationDetail,
+    loadOrganizationListDetails,
+    loadOrganizationSubListDetails,
+  } = useOrganizations()
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [organizationHeader, setOrganizationHeader] = useState(null)
@@ -27,9 +31,11 @@ export const OrganizationContextProvider = ({ children }) => {
   const organization = useMemo(() => {
     const org = Object.values(organizations || {}).find(
       (organization) =>
-        organization?.dFO?.options?.address === organizationAddress
+        organization?.dFO?.options?.address === organizationAddress ||
+        organization?.dFO?.options?.data?.includes(organizationAddress)
     )
 
+    console.log('Org found', org)
     return org
   }, [organizations, organizationAddress])
 
@@ -37,8 +43,12 @@ export const OrganizationContextProvider = ({ children }) => {
     if (!organization) {
       return false
     }
+
+    if (!organization.updating && !organization.listDetailsLoaded) {
+      loadOrganizationSubListDetails([organization])
+    }
     setOrganizationHeader(<OrganizationHeader organization={organization} />)
-  }, [organization])
+  }, [organization, loadOrganizationSubListDetails])
 
   useEffect(() => {
     if (!organizationAddress) {

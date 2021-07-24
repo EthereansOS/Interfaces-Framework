@@ -15,6 +15,7 @@ function ProposalRunning({
   etherscanURL,
   symbol,
   handleCode,
+  finalizeProposal,
 }) {
   const handleVote = (e) => {
     return
@@ -71,7 +72,13 @@ function ProposalRunning({
       <Link href={etherscanURL + 'address/' + survey.location} external>
         Contract
       </Link>
-      {survey.surveyEnd && !survey.terminated && <Finalize key={survey.key} />}
+      {survey.surveyEnd && !survey.terminated && (
+        <Finalize
+          key={survey.key}
+          survey={survey}
+          finalizeProposal={finalizeProposal}
+        />
+      )}
     </div>
   )
 }
@@ -81,6 +88,7 @@ export default ProposalRunning
 ProposalRunning.propTypes = {
   organization: OrganizationPropType,
   survey: ProposalPropTypes,
+  finalizeProposal: T.func.isRequired,
   percAccepted: T.string,
   percRefused: T.string,
   etherscanURL: T.string,

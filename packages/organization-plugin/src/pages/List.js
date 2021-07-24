@@ -70,7 +70,7 @@ const List = ({ setTemplateState }) => {
       setOrganizationLength(Object.keys(organizations).length)
       loadOrganizationListDetails()
     }
-  }, [loadOrganizationListDetails, organizations])
+  }, [loadOrganizationListDetails, organizations, previousOrganizationsLength])
 
   useEffect(() => {
     unsetOrganization()
@@ -91,6 +91,7 @@ const List = ({ setTemplateState }) => {
         field: 'icon',
         headerName: 'Name',
         renderCell: (props) => {
+          /* eslint-disable  react/prop-types */
           return (
             <Link
               style={{ display: 'flex', alignItems: 'center' }}

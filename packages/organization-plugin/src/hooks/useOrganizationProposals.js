@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import {
-  useEthosContext,
   useWeb3,
   blockchainCall,
   getLogs,
@@ -10,6 +9,7 @@ import PQueue from 'p-queue'
 
 import loadSurvey from '../lib/loadSurvey'
 import loadSurveyCode from '../lib/loadSurveyCode'
+import tryLoadDiff from '../lib/tryLoadDiff'
 
 const queue = new PQueue({ concurrency: 20 })
 
@@ -18,9 +18,7 @@ let MAX_ITERATION = 5
 let max = 20
 
 const useOrganizationProposals = (organization) => {
-  const context = useEthosContext()
-
-  const { networkId, web3, web3ForLogs, walletAddress } = useWeb3()
+  const web3Context = useWeb3()
 
   const [state, setState] = useState({
     listLoaded: false,
@@ -28,58 +26,67 @@ const useOrganizationProposals = (organization) => {
     proposals: [],
   })
 
-  const loadProposalCode = async (proposal) => {
-    if (proposal.codeLoaded) return
-
-    const survey = await loadSurveyCode(
-      {
-        context,
-        web3,
-        web3ForLogs,
-        networkId,
-        walletAddress,
-      },
-      organization,
-      proposal
-    )
-
+  const updateProposal = (updateKey, newData) =>
     setState((s) => ({
       ...s,
       proposals: s.proposals.map((itemProposal) =>
-        itemProposal.key === proposal.key
+        itemProposal.key === updateKey
           ? {
               ...itemProposal,
-              ...survey,
-              codeLoaded: true,
+              ...newData,
             }
           : itemProposal
       ),
     }))
+
+  const loadProposalCode = async (proposal) => {
+    if (proposal.codeLoaded) return
+
+    const survey = await loadSurveyCode(web3Context, organization, proposal)
+
+    updateProposal(proposal.key, {
+      ...survey,
+      codeLoaded: true,
+    })
+  }
+
+  const finalizeProposal = async (proposal) => {
+    await blockchainCall(web3Context, proposal.contract.methods.terminate)
+
+    await loadOrganizationProposalDetails([proposal], true)
+  }
+
+  const loadDiff = async (proposal) => {
+    if (proposal.codeLoaded) return
+
+    const survey = await tryLoadDiff(web3Context, organization, proposal)
+
+    updateProposal(proposal.key, {
+      ...survey,
+      diffLoaded: true,
+    })
   }
 
   // To build the list we need details that can't be fetched altogether
   // so here we extract further details for each list items
   // be careful adding stuff here
   const loadOrganizationProposalDetails = useCallback(
-    async (proposals) => {
+    async (proposals, forceLoad) => {
       if (!proposals.length) return
 
-      const currentBlock = parseInt(await web3.eth.getBlockNumber())
+      const currentBlock = parseInt(await web3Context.web3.eth.getBlockNumber())
       const fetchDetails = async (proposal) => {
-        var address = web3.eth.abi.decodeParameter('address', proposal.data)
+        var address = web3Context.web3.eth.abi.decodeParameter(
+          'address',
+          proposal.data
+        )
         if (!address || address === VOID_ETHEREUM_ADDRESS) {
           return
         }
         const key = proposal.blockNumber + '_' + proposal.id
 
         const survey = await loadSurvey(
-          {
-            context,
-            web3,
-            web3ForLogs,
-            networkId,
-            walletAddress,
-          },
+          web3Context,
           organization,
           {
             key,
@@ -90,19 +97,11 @@ const useOrganizationProposals = (organization) => {
           currentBlock
         )
 
-        setState((s) => ({
-          ...s,
-          proposals: s.proposals.map((proposal) =>
-            proposal.key === key
-              ? {
-                  ...proposal,
-                  ...survey,
-                  updating: false,
-                  detailsLoaded: true,
-                }
-              : proposal
-          ),
-        }))
+        updateProposal(key, {
+          ...survey,
+          updating: false,
+          detailsLoaded: true,
+        })
       }
 
       setState((s) => ({
@@ -121,10 +120,11 @@ const useOrganizationProposals = (organization) => {
 
       proposals.forEach(
         (proposal) =>
-          !proposal.detailsLoaded && queue.add(() => fetchDetails(proposal))
+          (!proposal.detailsLoaded || forceLoad) &&
+          queue.add(() => fetchDetails(proposal))
       )
     },
-    [web3, web3ForLogs, context, networkId, walletAddress, organization]
+    [web3Context, organization]
   )
 
   useEffect(() => {
@@ -144,23 +144,19 @@ const useOrganizationProposals = (organization) => {
       }
 
       try {
-        let fromBlock = currentBlock - context.blockLimit
+        let fromBlock = currentBlock - web3Context.context.blockLimit
         fromBlock =
           fromBlock < organization.startBlock
             ? organization.startBlock
             : fromBlock
 
-        const list = await getLogs(
-          { web3, web3ForLogs, context, networkId },
-          {
-            address: organization.dFO.options.allAddresses,
-            topics: [context.proposalTopic],
-            fromBlock: fromBlock,
-            toBlock: currentBlock,
-          }
-        )
+        const list = await getLogs(web3Context, {
+          address: organization.dFO.options.allAddresses,
+          topics: [web3Context.context.proposalTopic],
+          fromBlock: fromBlock,
+          toBlock: currentBlock,
+        })
 
-        console.log('Found', list.length, 'proposals')
         setState((s) => ({
           ...s,
           proposals: [
@@ -174,7 +170,6 @@ const useOrganizationProposals = (organization) => {
           ],
         }))
 
-        console.log('MAX:', max)
         if (max-- > 0) {
           console.log('Load From Block:', fromBlock)
           return loadProposals(organization, fromBlock)
@@ -183,7 +178,7 @@ const useOrganizationProposals = (organization) => {
         console.error(e)
       }
     },
-    [setState, context, networkId, web3, web3ForLogs]
+    [setState, web3Context]
   )
 
   const loadOrganizationProposal = useCallback(
@@ -191,30 +186,37 @@ const useOrganizationProposals = (organization) => {
       max = MAX_ITERATION
       setState((s) => ({ ...s, listLoading: true }))
 
-      context.proposalTopic = web3.utils.sha3('Proposal(address)')
-      context.proposalCheckedTopic = web3.utils.sha3('ProposalCheck(address)')
-      context.proposalSetTopic = web3.utils.sha3('ProposalSet(address,bool)')
-      context.blockLimit = 140000
+      web3Context.context.proposalTopic =
+        web3Context.web3.utils.sha3('Proposal(address)')
+      web3Context.context.proposalCheckedTopic = web3Context.web3.utils.sha3(
+        'ProposalCheck(address)'
+      )
+      web3Context.context.proposalSetTopic = web3Context.web3.utils.sha3(
+        'ProposalSet(address,bool)'
+      )
+      web3Context.context.blockLimit = 140000
 
       const myBalance = await blockchainCall(
-        { web3, context },
+        web3Context,
         organization.token.methods.balanceOf,
-        walletAddress
+        web3Context.walletAddress
       )
 
       setState((s) => ({ ...s, myBalance }))
 
-      const currentBlock = parseInt(await web3.eth.getBlockNumber())
+      const currentBlock = parseInt(await web3Context.web3.eth.getBlockNumber())
 
       await loadProposals(organization, currentBlock)
     },
-    [loadProposals, walletAddress, web3, context]
+    [loadProposals, web3Context]
   )
 
   return {
     proposals: state.proposals || [],
     loadOrganizationProposal,
     loadProposalCode,
+    loadDiff,
+    finalizeProposal,
     listLoading: state.listLoading,
     listLoaded: state.listLoaded,
     dfoHub: state.dfoHub,

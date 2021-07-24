@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder, usePrevious } from '@dfohub/core'
+import { usePlaceholder, usePrevious, useWeb3 } from '@dfohub/core'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
 
@@ -7,6 +7,7 @@ import useOrganization from '../hooks/useOrganization'
 import useOrganizationProposals from '../hooks/useOrganizationProposals'
 
 const GovernanceProposals = ({ setTemplateState }) => {
+  const web3Context = useWeb3()
   const organizationOverview = usePlaceholder('organizationGovernanceProposals')
   const params = useParams()
   const { organization, organizationHeader } = useOrganization(params.address)
@@ -59,6 +60,7 @@ const GovernanceProposals = ({ setTemplateState }) => {
       loaded={listLoaded}
       myBalance={myBalance}
       loadProposalCode={loadProposalCode}
+      web3Context={web3Context}
     />
   ))
 }

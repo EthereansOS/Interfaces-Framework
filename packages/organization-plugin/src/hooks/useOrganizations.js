@@ -30,7 +30,6 @@ const useOrganizations = () => {
 
   useEffect(() => {
     const run = async () => {
-      console.log('CONNECTED')
       const result = await initDFO({
         context,
         networkId,
@@ -264,6 +263,7 @@ const useOrganizations = () => {
     organizations: state.list || [],
     loadOrganizationDetail,
     loadOrganizationListDetails,
+    loadOrganizationSubListDetails,
     isDFOInit: state.isDFOInit,
     listLoaded: state.listLoaded,
     dfoHub: state.dfoHub,
