@@ -22,7 +22,7 @@ export default Section
 Section.propTypes = {
   badge: T.node,
   children: T.node,
-  category: T.string,
+  category: T.oneOfType([T.string, T.object]),
   column: T.bool,
   className: T.string,
 }

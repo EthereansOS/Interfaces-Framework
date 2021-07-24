@@ -1,0 +1,32 @@
+.cardContent {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: calc(var(--unit) * 5);
+  flex: 1;
+}
+
+.bioSection h5,
+.content {
+  margin-bottom: calc(var(--unit) * 3.5);
+}
+.bioSection h5 * {
+  color: var(--color-primary);
+}
+.content {
+  line-height: 1.3;
+}
+.contentDescription {
+  margin-top: calc(var(--unit) * 3.5);
+}
+.contentDescription b {
+  text-decoration: underline;
+}
+.contentDescription a {
+  width: 100%;
+  margin-top: 10px;
+  display: inline-block;
+  text-align: left;
+}
+.moreLink {
+  color: var(--color-tertiary);
+}
