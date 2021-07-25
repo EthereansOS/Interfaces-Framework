@@ -10,14 +10,11 @@ const DexLiquidity = ({ organization }) => {
   const context = useEthosContext()
   const { networkId, web3, web3ForLogs } = useWeb3()
   const uniswapPairs = useLoadUniswapPairs(
-    context,
-    networkId,
-    organization?.token?.options?.address,
-    web3,
-    web3ForLogs
+    { web3, context, networkId, web3ForLogs },
+    organization?.token?.options?.address
   )
 
-  // TODO finish dex liquidity find some org with content
+  // TODO need to find some org with content
   // on the production website to understand what to do
   return (
     <Card
