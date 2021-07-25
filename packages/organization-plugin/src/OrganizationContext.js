@@ -37,8 +37,6 @@ export const OrganizationContextProvider = ({ children }) => {
     setProposalData()
   }, [])
 
-  console.log('PROPOSAL DATA', proposalData)
-
   const organization = useMemo(() => {
     const org = Object.values(organizations || {}).find(
       (organization) =>

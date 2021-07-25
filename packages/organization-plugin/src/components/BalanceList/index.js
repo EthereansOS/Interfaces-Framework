@@ -1,18 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import {
-  blockchainCall,
   fromDecimals,
-  getEthereumPrice,
-  getLogs,
   getNetworkElement,
-  toDecimals,
   useEthosContext,
   useWeb3,
-  toSubArrays,
-  VOID_ETHEREUM_ADDRESS,
-  newContract,
   formatMoney,
-  web3Utils,
+  swap,
 } from '@dfohub/core'
 import { Balance } from '@dfohub/components'
 import {
@@ -24,188 +17,69 @@ import {
 } from '@dfohub/design-system'
 
 import { OrganizationPropType } from '../../propTypes'
-import loadOffChainWallets from '../../../../core/src/lib/web3/loadOffchainWallets'
 import { useOrganizationContext } from '../../OrganizationContext'
+import useFetchWallets from '../../hooks/useFetchWallets'
+import useFetchAmounts from '../../hooks/useFetchAmounts'
 
 import style from './balance-list.module.scss'
 
 export const BalanceList = ({ organization }) => {
-  const { web3, networkId, web3ForLogs, wethAddress } = useWeb3()
-  const context = useEthosContext()
-  const { isEditMode } = useOrganizationContext()
-  const [tokens, setTokens] = useState([])
-  const [amounts, setAmounts] = useState({
-    cumulativeAmountDollar: 0,
-    tokenAmounts: [],
-  })
-  // this is used to stop the below for of loop if the component is unmounted
-  const unmounted = useRef(false)
-
-  useEffect(() => {
-    const fetchWallets = async () => {
-      try {
-        const wallets = await loadOffChainWallets({ web3, context, networkId })
-        const walletsTokens = Object.values(wallets).flatMap((token) => token)
-        const tokens = [
-          {
-            address: VOID_ETHEREUM_ADDRESS,
-            name: 'Ethereum',
-            symbol: 'ETH',
-            decimals: '18',
-            logo: 'assets/img/eth-logo.png',
-          },
-          ...walletsTokens,
-        ]
-
-        setTokens(tokens)
-      } catch (e) {
-        console.log('Error fetching wallets', e)
-      }
-    }
-
-    fetchWallets()
-  }, [context, networkId, web3])
-
-  useEffect(() => {
-    const fetchAmounts = async () => {
-      const uniswapV2Router = newContract(
-        { web3 },
-        context.uniSwapV2RouterAbi,
-        context.uniSwapV2RouterAddress
-      )
-
-      const tokenAmounts = tokens.map((_, i) => {
-        return {
-          i,
-          amount: '0',
-          amountDollars: 0,
-        }
-      })
-
-      try {
-        let cumulativeAmountDollar = 0
-        const ethereumPrice = await getEthereumPrice({ context })
-
-        try {
-          tokenAmounts[0].amount = await web3.eth.getBalance(
-            organization?.walletAddress
-          )
-        } catch (e) {
-          tokenAmounts[0].amount = '0'
-        }
-
-        cumulativeAmountDollar += tokenAmounts[0].amountDollars =
-          ethereumPrice * parseFloat(fromDecimals(tokenAmounts[0].amount, 18))
-        const allAddresses = tokens
-          .filter((token) => token !== true && token !== false)
-          .map((token) => web3Utils.toChecksumAddress(token.address))
-        const addresses = toSubArrays(allAddresses)
-
-        for (const address of addresses) {
-          const logs = await getLogs(
-            { web3, web3ForLogs, context, networkId },
-            {
-              address,
-              topics: [
-                web3.utils.sha3('Transfer(address,address,uint256)'),
-                [],
-                web3.eth.abi.encodeParameter(
-                  'address',
-                  organization?.walletAddress
-                ),
-              ],
-              fromBlock: organization?.startBlock,
-              toBlock: 'latest',
-            }
-          )
-
-          const onlyUnique = (value, index, self) => {
-            return self.indexOf(value) === index
-          }
-          const involvedAddresses = logs
-            .map((it) => web3Utils.toChecksumAddress(it.address))
-            .filter(onlyUnique)
-
-          for (const involvedAddress of involvedAddresses) {
-            const tokenIndex = tokens.findIndex(
-              (token) =>
-                token !== true &&
-                token !== false &&
-                web3Utils.toChecksumAddress(token.address) === involvedAddress
-            )
-            // TODO this is a react state's reference and is mutated throughout the code
-            // fix it
-            const token = tokens[tokenIndex]
-            const tokenAmount = tokenAmounts[tokenIndex] || {}
-            try {
-              tokenAmount.amount =
-                token.address === VOID_ETHEREUM_ADDRESS
-                  ? await web3.eth.getBalance(organization?.walletAddress)
-                  : await blockchainCall(
-                      { web3, context },
-                      token.token.methods.balanceOf,
-                      organization?.walletAddress
-                    )
-
-              tokenAmount.amountDollars =
-                token.address === VOID_ETHEREUM_ADDRESS
-                  ? '1'
-                  : fromDecimals(
-                      (
-                        await blockchainCall(
-                          { web3, context },
-                          uniswapV2Router.methods.getAmountsOut,
-                          toDecimals('1', token.decimals),
-                          [token.address, wethAddress]
-                        )
-                      )[1],
-                      18,
-                      true
-                    )
-
-              tokenAmount.amountDollars =
-                parseFloat(
-                  fromDecimals(tokenAmount.amount, token.decimals, true)
-                ) *
-                parseFloat(tokenAmount.amountDollars) *
-                ethereumPrice
-            } catch (e) {}
-
-            cumulativeAmountDollar += tokenAmount.amountDollars
-            if (unmounted.current) {
-              break
-            }
-            setAmounts({ cumulativeAmountDollar, tokenAmounts })
-          }
-        }
-
-        setAmounts({ cumulativeAmountDollar, tokenAmounts, loaded: true })
-      } catch (e) {
-        console.log('Error fetching amounts', e)
-      }
-    }
-
-    if (tokens.length && organization?.walletAddress) {
-      fetchAmounts()
-    }
-  }, [
-    context,
-    tokens,
-    organization?.walletAddress,
-    organization?.startBlock,
+  const {
     web3,
-    web3ForLogs,
     networkId,
+    web3ForLogs,
     wethAddress,
-  ])
-
-  useEffect(() => {
-    return () => {
-      unmounted.current = true
-    }
-  }, [])
+    walletAddress,
+    ethosEvents,
+    ipfsHttpClient,
+  } = useWeb3()
+  const context = useEthosContext()
+  const { isEditMode, showProposalModal } = useOrganizationContext()
+  const tokens = useFetchWallets({ web3, context, networkId })
+  const amounts = useFetchAmounts(
+    {
+      context,
+      web3,
+      web3ForLogs,
+      networkId,
+      wethAddress,
+    },
+    organization,
+    tokens
+  )
 
   if (!organization) return <CircularProgress />
+
+  const onSwapSubmit = async (values, token) => {
+    if (!organization) {
+      return
+    }
+
+    try {
+      const ctx = await swap(
+        {
+          web3,
+          context,
+          networkId,
+          ipfsHttpClient,
+          walletAddress,
+          ethosEvents,
+        },
+        organization,
+        values.amount,
+        token.address,
+        values.token
+      )
+
+      showProposalModal({
+        initialContext: ctx,
+        title: ctx.title,
+        onProposalSuccess: () => null,
+      })
+    } catch (e) {
+      console.log('error swapping tokens', e)
+    }
+  }
 
   return (
     <Card
@@ -235,7 +109,7 @@ export const BalanceList = ({ organization }) => {
       }>
       {tokens.map((token, i) => (
         <Balance
-          organization={organization}
+          onSwapSubmit={(values) => onSwapSubmit(values, token)}
           key={i}
           token={token}
           tokenPrice={
