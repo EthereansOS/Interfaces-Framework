@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import { webs3States } from '@dfohub/core'
+import { webs3States } from '@ethereansos/interfaces-core'
 
 import logoImg from '../../__data/ghostload.gif'
 

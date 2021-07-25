@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography, Token, Button } from '@dfohub/design-system'
 import T from 'prop-types'
-import { useWeb3, VOID_ETHEREUM_ADDRESS } from '@dfohub/core'
+import { useWeb3, VOID_ETHEREUM_ADDRESS } from '@ethereansos/interfaces-core'
 import { Formik, Form } from 'formik'
 
 import TokenPicker from '../TokenPicker'

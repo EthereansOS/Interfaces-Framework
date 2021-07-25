@@ -2,7 +2,7 @@ import React from 'react'
 import T from 'prop-types'
 import classNames from 'classnames'
 import { Button, Typography } from '@dfohub/design-system'
-import { webs3States } from '@dfohub/core'
+import { webs3States } from '@ethereansos/interfaces-core'
 
 import style from './connect-widget.module.scss'
 
