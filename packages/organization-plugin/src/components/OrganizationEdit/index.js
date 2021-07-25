@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, Typography, Modal } from '@dfohub/design-system'
+import React from 'react'
+import { Button, Typography } from '@dfohub/design-system'
 import T from 'prop-types'
 import { useEthosContext, useWeb3 } from '@dfohub/core'
 import { Formik, Form } from '@dfohub/components'
@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom'
 
 import { OrganizationPropType } from '../../propTypes'
 import proposeNewMetadataLink from '../../lib/proposeNewMetadataLink'
-import ProposalConfirm from '../ProposalConfirm'
+import { useOrganizationContext } from '../../OrganizationContext'
 
 import style from './organization-edit.module.scss'
 import OrgEditFields from './OrgEditFields'
@@ -26,20 +26,14 @@ export const orgEditInitialValues = {
 }
 
 function OrganizationEdit({ onClose, organization }) {
-  const { web3, networkId, ipfsHttpClient, walletAddress, ethosEvents } =
-    useWeb3()
+  const { web3, ipfsHttpClient } = useWeb3()
   const context = useEthosContext()
-  const [modalOpen, setModalOpen] = useState(false)
-  const [proposalContext, setProposalContext] = useState({})
-  let history = useHistory()
-  let params = useParams()
+  const { showProposalModal, closeProposalModal } = useOrganizationContext()
+  const history = useHistory()
+  const params = useParams()
 
-  const handleModalClose = () => {
-    setProposalContext({})
-    setModalOpen(false)
-  }
-
-  const handleProposalSuccess = () => {
+  const onProposalSuccess = () => {
+    closeProposalModal()
     history.push(`/organizations/${params.address}/governance/proposals`)
   }
 
@@ -57,16 +51,16 @@ function OrganizationEdit({ onClose, organization }) {
               {
                 web3,
                 context,
-                networkId,
                 ipfsHttpClient,
-                walletAddress,
-                ethosEvents,
               },
               organization,
               values
             )
-            setProposalContext(ctx)
-            setModalOpen(true)
+            showProposalModal({
+              initialContext: ctx,
+              title: ctx.title,
+              onProposalSuccess,
+            })
           } catch (e) {
             console.log('error proposing metadata link', e)
           } finally {
@@ -87,17 +81,6 @@ function OrganizationEdit({ onClose, organization }) {
           </Form>
         )}
       </Formik>
-
-      {modalOpen && (
-        <Modal visible>
-          <ProposalConfirm
-            initialContext={proposalContext}
-            title={proposalContext.title}
-            onClose={handleModalClose}
-            onProposalSuccess={handleProposalSuccess}
-          />
-        </Modal>
-      )}
     </section>
   )
 }

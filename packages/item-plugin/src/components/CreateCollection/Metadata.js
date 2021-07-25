@@ -138,7 +138,7 @@ const Metadata = ({ onNext, onBack, values }) => {
             <Typography variant="h3">Metadata</Typography>
             <Select
               id="metadataType"
-              options={metadataTypeOptions} // TODO we gotta fetch the tokens for the select
+              options={metadataTypeOptions}
               onSelect={(id, value) => {
                 setType(value)
                 setFieldValue(id, value)

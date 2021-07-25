@@ -6,9 +6,11 @@ import React, {
   useMemo,
 } from 'react'
 import T from 'prop-types'
+import { Modal } from '@dfohub/design-system'
 
 import OrganizationHeader from './components/OrganizationHeader'
 import useOrganizations from './hooks/useOrganizations'
+import ProposalConfirm from './components/ProposalConfirm'
 
 const OrganizationContext = React.createContext('dfo-organization')
 
@@ -24,9 +26,16 @@ export const OrganizationContextProvider = ({ children }) => {
   const [organizationHeader, setOrganizationHeader] = useState(null)
   const [organizationAddress, setOrganizationAddress] = useState(null)
   const [organizationNotFound, setNotFound] = useState(false)
+  const [proposalData, setProposalData] = useState()
 
-  const setEditMode = useCallback(() => setIsEditMode(true), [setIsEditMode])
-  const setViewMode = useCallback(() => setIsEditMode(false), [setIsEditMode])
+  const setEditMode = useCallback(() => setIsEditMode(true), [])
+  const setViewMode = useCallback(() => setIsEditMode(false), [])
+  const showProposalModal = useCallback((data) => {
+    setProposalData(data)
+  }, [])
+  const closeProposalModal = useCallback(() => {
+    setProposalData()
+  }, [])
 
   const organization = useMemo(() => {
     const org = Object.values(organizations || {}).find(
@@ -89,11 +98,16 @@ export const OrganizationContextProvider = ({ children }) => {
     organizationNotFound,
     loadOrganizationDetail,
     loadOrganizationListDetails,
+    showProposalModal,
+    closeProposalModal,
   }
 
   return (
     <OrganizationContext.Provider value={contextValue}>
       {children}
+      <Modal visible={!!proposalData}>
+        <ProposalConfirm onClose={closeProposalModal} {...proposalData} />
+      </Modal>
     </OrganizationContext.Provider>
   )
 }

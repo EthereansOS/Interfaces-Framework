@@ -1,10 +1,9 @@
-import { blockchainCall } from '@dfohub/core'
+import { blockchainCall, sendGeneratedProposal } from '@dfohub/core'
 
-import sendGeneratedProposal from './sendGeneratedProposal'
 import validateDFOMetadata from './validateDFOMetadata'
 
 async function proposeNewMetadataLink(
-  { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
+  { web3, context, ipfsHttpClient },
   element,
   metadata,
   noValidation
@@ -46,7 +45,6 @@ async function proposeNewMetadataLink(
           .join('\\"' + metadataLink + '\\"')
       )
   return sendGeneratedProposal(
-    { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
     element,
     {
       title: updates[0],

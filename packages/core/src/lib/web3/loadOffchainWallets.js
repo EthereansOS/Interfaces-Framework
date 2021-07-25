@@ -41,7 +41,7 @@ async function loadOffChainWallets({ web3, context, networkId }) {
       web3Utils.toChecksumAddress(it.address)
     ) === -1
 
-  // window.tokensList has been removed. It was it was assigned only
+  // window.tokensList has been removed. It was assigned only
   // in this function, for caching, after having fetched the list
   // it's also referenced inside the "onEthereumUpdate" method, but can be ignored and removed
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Typography, Chip } from '@dfohub/design-system'
 import T from 'prop-types'
-import { Formik, Form } from 'formik'
+import { Formik, Form } from '@dfohub/components'
 import { useEthosContext, useWeb3 } from '@dfohub/core'
 
 import style from './proposal-confirm.module.scss'
@@ -91,7 +91,13 @@ function ProposalConfirm({
               />
               <Button
                 type="submit"
-                text={currentStep === 0 ? 'Propose' : 'Next'}
+                text={
+                  currentStep === 0
+                    ? 'Propose'
+                    : currentStep === steps.length - 1
+                    ? 'Publish'
+                    : 'Next'
+                }
                 disabled={isSubmitting}
               />
               {currentStep === 0 && (
