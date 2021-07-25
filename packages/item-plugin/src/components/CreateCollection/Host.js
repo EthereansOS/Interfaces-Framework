@@ -41,7 +41,7 @@ const Host = ({ onNext, onBack, values }) => {
             </Typography>
             <Select
               id="host"
-              options={hostOptions} // TODO we gotta fetch the tokens for the select
+              options={hostOptions}
               onSelect={(id, value) => {
                 setFieldValue(id, value)
               }}
