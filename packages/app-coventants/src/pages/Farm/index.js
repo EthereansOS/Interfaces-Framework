@@ -5,7 +5,7 @@ import DappAction from '../../components/DappAction'
 
 import style from './farm.module.css'
 
-const FarmPage = () => {
+const Farm = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/farm1.png`
 
   return (
@@ -32,4 +32,4 @@ const FarmPage = () => {
   )
 }
 
-export default FarmPage
+export default Farm

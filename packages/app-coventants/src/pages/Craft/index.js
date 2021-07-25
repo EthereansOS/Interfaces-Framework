@@ -5,7 +5,7 @@ import DappAction from '../../components/DappAction'
 
 import style from './craft.module.css'
 
-const CraftPage = () => {
+const Craft = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/craft1.png`
 
   return (
@@ -33,4 +33,4 @@ const CraftPage = () => {
   )
 }
 
-export default CraftPage
+export default Craft

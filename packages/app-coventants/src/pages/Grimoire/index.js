@@ -5,7 +5,7 @@ import DappAction from '../../components/DappAction'
 
 import style from './grimoire.module.css'
 
-const GrimoirePage = () => {
+const Grimoire = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/grimoire1.png`
 
   return (
@@ -28,4 +28,4 @@ const GrimoirePage = () => {
   )
 }
 
-export default GrimoirePage
+export default Grimoire

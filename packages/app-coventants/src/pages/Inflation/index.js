@@ -5,7 +5,7 @@ import DappAction from '../../components/DappAction'
 
 import style from './inflation.module.css'
 
-const InflationPage = () => {
+const Inflation = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/inflation1.png`
 
   return (
@@ -30,4 +30,4 @@ const InflationPage = () => {
   )
 }
 
-export default InflationPage
+export default Inflation

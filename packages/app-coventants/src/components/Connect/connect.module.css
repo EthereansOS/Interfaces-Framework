@@ -1,0 +1,5 @@
+.root {
+  height: 100vh;
+  background-color: var(--color-background-light);
+  padding: calc(var(--unit) * 4);
+}

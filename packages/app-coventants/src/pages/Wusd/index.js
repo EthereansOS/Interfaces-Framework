@@ -5,7 +5,7 @@ import DappAction from '../../components/DappAction'
 
 import style from './wusd.module.css'
 
-const WusdPage = () => {
+const Wusd = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/wusd1.png`
 
   return (
@@ -30,4 +30,4 @@ const WusdPage = () => {
   )
 }
 
-export default WusdPage
+export default Wusd
