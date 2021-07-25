@@ -28,7 +28,8 @@ import style from './balance-list.module.scss'
 export const BalanceList = ({ organization }) => {
   const { web3, networkId, web3ForLogs, wethAddress } = useWeb3()
   const context = useEthosContext()
-  const { isEditMode, showProposalModal } = useOrganizationContext()
+  const { isEditMode, showProposalModal, closeProposalModal } =
+    useOrganizationContext()
   const tokens = useFetchWallets({ web3, context, networkId })
   const amounts = useFetchAmounts(
     {
@@ -47,6 +48,7 @@ export const BalanceList = ({ organization }) => {
   if (!organization) return <CircularProgress />
 
   const onProposalSuccess = () => {
+    closeProposalModal()
     history.push(`/organizations/${params.address}/governance/proposals`)
   }
 

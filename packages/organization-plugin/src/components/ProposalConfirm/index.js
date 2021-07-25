@@ -91,7 +91,13 @@ function ProposalConfirm({
               />
               <Button
                 type="submit"
-                text={currentStep === 0 ? 'Propose' : 'Next'}
+                text={
+                  currentStep === 0
+                    ? 'Propose'
+                    : currentStep === steps.length - 1
+                    ? 'Publish'
+                    : 'Next'
+                }
                 disabled={isSubmitting}
               />
               {currentStep === 0 && (

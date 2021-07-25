@@ -28,11 +28,12 @@ export const orgEditInitialValues = {
 function OrganizationEdit({ onClose, organization }) {
   const { web3, ipfsHttpClient } = useWeb3()
   const context = useEthosContext()
-  const { showProposalModal } = useOrganizationContext()
+  const { showProposalModal, closeProposalModal } = useOrganizationContext()
   const history = useHistory()
   const params = useParams()
 
   const onProposalSuccess = () => {
+    closeProposalModal()
     history.push(`/organizations/${params.address}/governance/proposals`)
   }
 
