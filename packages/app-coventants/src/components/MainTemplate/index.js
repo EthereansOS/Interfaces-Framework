@@ -5,7 +5,7 @@ import Navigation from '../../components/Navigation'
 import { Container } from '@dfohub/design-system'
 import style from './main-template.module.css'
 
-function MainTemplate({ Component, ...props }) {
+const MainTemplate = ({ Component, ...props }) => {
   const [, setState] = useState({})
   const backgroundUrl = `${process.env.PUBLIC_URL}/assets/images/city.png`
 
@@ -13,9 +13,9 @@ function MainTemplate({ Component, ...props }) {
     <main
       style={{ backgroundImage: `url(${backgroundUrl})` }}
       className={style.root}>
-      <Header />
+      <Header {...props} />
       <Container className={classnames(style.container)}>
-        <Navigation menuName={props.menuName} />
+        <Navigation menuName={props.menuName} isDapp={props.isDapp} />
         <Component setTemplateState={setState} {...props} />
       </Container>
     </main>

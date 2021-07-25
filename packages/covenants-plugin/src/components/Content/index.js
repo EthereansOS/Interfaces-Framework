@@ -4,8 +4,6 @@ import { Container } from '@dfohub/design-system'
 
 import style from './content.module.css'
 
-// TODO: double content to remove, import from covanants-plugins
-
 const Content = ({ children, styles }) => {
   const backgroundUrl = `${process.env.PUBLIC_URL}/assets/images/index.jpg`
 

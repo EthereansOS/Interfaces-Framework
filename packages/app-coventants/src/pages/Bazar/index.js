@@ -5,7 +5,7 @@ import DappAction from '../../components/DappAction'
 
 import style from './bazar.module.css'
 
-const BazarPage = () => {
+const Bazar = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/bazar1.png`
 
   return (
@@ -29,4 +29,4 @@ const BazarPage = () => {
   )
 }
 
-export default BazarPage
+export default Bazar

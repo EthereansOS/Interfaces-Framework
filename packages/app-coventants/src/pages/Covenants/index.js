@@ -4,7 +4,7 @@ import Content from '../../components/Content'
 
 import style from './covenants.module.css'
 
-const CovenantsPage = () => {
+const Covenants = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/covenants1.png`
 
   return (
@@ -96,4 +96,4 @@ const CovenantsPage = () => {
   )
 }
 
-export default CovenantsPage
+export default Covenants
