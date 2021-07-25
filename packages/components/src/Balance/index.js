@@ -13,7 +13,6 @@ const Balance = ({
   token,
   tokenAmount,
   tokenPrice,
-  onSwap,
   onTransfer,
 }) => {
   const [isSwap, setIsSwap] = useState(false)
@@ -58,7 +57,7 @@ const Balance = ({
           />
         </div>
       )}
-      {isSwap && <Swap onSwap={onSwap} token={token} />}
+      {isSwap && <Swap token={token} />}
       {isTransfer && <Transfer onTransfer={onTransfer} token={token} />}
     </Card>
   )
