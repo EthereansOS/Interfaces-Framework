@@ -10,7 +10,7 @@ import {
   newContract,
   web3Utils,
   useIsUnmounted,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 export default function useFetchAmounts(
   { context, web3, web3ForLogs, networkId, wethAddress },

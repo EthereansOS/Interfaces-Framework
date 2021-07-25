@@ -2,7 +2,7 @@ import {
   loadContent,
   searchForCodeErrors,
   extractHTMLDescription,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 async function loadSurveyCode(
   { context, web3, web3ForLogs, networkId, walletAddress },

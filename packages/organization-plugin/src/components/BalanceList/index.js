@@ -7,7 +7,7 @@ import {
   formatMoney,
   swap,
   transfer,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 import { Balance } from '@dfohub/components'
 import {
   Card,

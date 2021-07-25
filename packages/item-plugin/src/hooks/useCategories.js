@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useEthosContext } from '@dfohub/core'
+import { useEthosContext } from '@ethereansos/interfaces-core'
 
 import { useItemContext } from '../ItemContext'
 

@@ -6,7 +6,7 @@ import {
   fromDecimals,
   formatLink,
   useEthosContext,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 import { useOrganizationContext } from '../../OrganizationContext'
 import { OrganizationPropType } from '../../propTypes'

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { loadOffchainWallets, VOID_ETHEREUM_ADDRESS } from '@dfohub/core'
+import {
+  loadOffchainWallets,
+  VOID_ETHEREUM_ADDRESS,
+} from '@ethereansos/interfaces-core'
 
 export default function useFetchWallets({ web3, context, networkId }) {
   const [tokens, setTokens] = useState([])

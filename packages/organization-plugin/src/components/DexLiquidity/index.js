@@ -1,6 +1,10 @@
 import React from 'react'
 import { Card, Typography } from '@dfohub/design-system'
-import { useEthosContext, useLoadUniswapPairs, useWeb3 } from '@dfohub/core'
+import {
+  useEthosContext,
+  useLoadUniswapPairs,
+  useWeb3,
+} from '@ethereansos/interfaces-core'
 
 import { OrganizationPropType } from '../../propTypes'
 

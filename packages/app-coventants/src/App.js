@@ -8,7 +8,7 @@ import {
   Web3ContextProvider,
   InitContextProvider,
   GlobalContextsProvider,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 import appPlugin from './plugins'
 import AppRouter from './router'
 import './typography.css'

@@ -1,4 +1,4 @@
-import { uploadToIPFS, URL_REGEXP } from '@dfohub/core'
+import { uploadToIPFS, URL_REGEXP } from '@ethereansos/interfaces-core'
 
 import checkCoverSize from './checkCoverSize'
 

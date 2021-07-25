@@ -1,5 +1,9 @@
 import nameHash from 'eth-ens-namehash'
-import { newContract, getNetworkElement, blockchainCall } from '@dfohub/core'
+import {
+  newContract,
+  getNetworkElement,
+  blockchainCall,
+} from '@ethereansos/interfaces-core'
 
 import loadDFO from './loadDFO'
 

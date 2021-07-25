@@ -1,5 +1,9 @@
 import * as Yup from 'yup'
-import { fromDecimals, toDecimals, tokenPercentage } from '@dfohub/core'
+import {
+  fromDecimals,
+  toDecimals,
+  tokenPercentage,
+} from '@ethereansos/interfaces-core'
 
 const quorum = (organization, context) => ({
   id: 'quorum',

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Typography } from '@dfohub/design-system'
 import T from 'prop-types'
-import { useEthosContext, useWeb3 } from '@dfohub/core'
+import { useEthosContext, useWeb3 } from '@ethereansos/interfaces-core'
 import { Formik, Form } from '@dfohub/components'
 import { useHistory, useParams } from 'react-router-dom'
 

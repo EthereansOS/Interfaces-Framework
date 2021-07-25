@@ -23,13 +23,13 @@ Start the app
 First of all add the `core` module
 
 ```js
-  npm i --save @dfohub/core
+  npm i --save @ethereansos/interfaces-core
 ```
 
 and clean up the App.js file:
 
 ```js
-  <div className="App">Sample test</div>
+<div className="App">Sample test</div>
 ```
 
 You can find more about the `core` module [here](/core).
@@ -80,7 +80,7 @@ This file is not part of the app and should be loaded dynamically at bootstrap t
 To load and share in the app the `context` it's required to add to the app the `InitContextProvider`.
 
 ```js
-import { InitContextProvider } from '@dfohub/core'
+import { InitContextProvider } from '@ethereansos/interfaces-core'
 
 function App() {
   return (
@@ -140,10 +140,10 @@ The `context` is exposed to the app with the hook `useEthosContext`
 Create a ContextViewer component
 
 ```js
-  const ContextViewer = () => {
-    const context = useEthosContext()
-    return <pre>{JSON.stringify(context, null, 2)}</pre>
-  }
+const ContextViewer = () => {
+  const context = useEthosContext()
+  return <pre>{JSON.stringify(context, null, 2)}</pre>
+}
 ```
 
 Add the component to the app
@@ -164,10 +164,10 @@ Add the component to the app
 
 ## 2 - Integrate the plugin system
 
-Before starting to configure our plugins, let's import the `PluginsContextProvider` from the `@dfohub/core` module in `App.js`, and create your `plugins.js` file in the root folder and wrap your app.
+Before starting to configure our plugins, let's import the `PluginsContextProvider` from the `@ethereansos/interfaces-core` module in `App.js`, and create your `plugins.js` file in the root folder and wrap your app.
 
 ```js
-  import { PluginsContextProvider } from '@dfohub/core'
+  import { PluginsContextProvider } from '@ethereansos/interfaces-core'
   import appPlugin from './plugins'
 
   <InitContextProvider ...>
@@ -181,7 +181,7 @@ The basic configuration of our `plugin.js` file, is:
 
 ```js
   const initPlugin = () => {
-    ...  
+    ...
   }
   const pluginDefinition = {
     name: 'your-plugin-name',
@@ -196,34 +196,34 @@ You can find more about the `plugins` module [here](/plugins).
 For the purpose of this tutorial, let's use `addElement()` to add the routes and the app props to for the navigation.
 
 ```js
-  import ExamplePage from './pages/ExamplePage'
+import ExamplePage from './pages/ExamplePage'
 
-  const initPlugin = ({ addElement }) => {
-    addElement('router', {
-      index: 10,
-      path: '/example',
-      Component: ExamplePage,
-      exact: true,
-      requireConnection: false,
-      templateProps: {
-        menuName: 'appMenu',
-      },
-    })
+const initPlugin = ({ addElement }) => {
+  addElement('router', {
+    index: 10,
+    path: '/example',
+    Component: ExamplePage,
+    exact: true,
+    requireConnection: false,
+    templateProps: {
+      menuName: 'appMenu',
+    },
+  })
 
-    addElement('appMenu', {
-      name: 'example',
-      label: 'Example',
-      link: '/example',
-      index: 10,
-    })
-  }
+  addElement('appMenu', {
+    name: 'example',
+    label: 'Example',
+    link: '/example',
+    index: 10,
+  })
+}
 ```
 
 In this way, your app will expose the routes and custom menu props based on your elements added in the plugins.
 
 ## 3 - Add the router
 
-Before starting to configure our router, let's create a `router.js` file in the root filder, and import the `usePlaceholder` from the `@dfohub/core` module.
+Before starting to configure our router, let's create a `router.js` file in the root filder, and import the `usePlaceholder` from the `@ethereansos/interfaces-core` module.
 Be sure that `react-router-dom` is installed also as dependency in the project.
 
 ```js
@@ -231,46 +231,46 @@ Be sure that `react-router-dom` is installed also as dependency in the project.
 ```
 
 ```js
-  import React, { useMemo } from 'react'
-  import { Switch, Route } from 'react-router-dom'
-  import { usePlaceholder } from '@dfohub/core'
-  import Connect from './components/Connect'
-  import MainTemplate from './components/MainTemplate'
+import React, { useMemo } from 'react'
+import { Switch, Route } from 'react-router-dom'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
+import Connect from './components/Connect'
+import MainTemplate from './components/MainTemplate'
 
-  const NoMatch = () => <div>No Match</div>
+const NoMatch = () => <div>No Match</div>
 
-  const AppRouter = () => {
-    const routes = usePlaceholder('router')
+const AppRouter = () => {
+  const routes = usePlaceholder('router')
 
-    const memoedRoutes = useMemo(() => {
-      return routes.map(
-        ({ path, exact, Component, requireConnection, templateProps }) => {
-          return (
-            <Route key={path} path={path} exact={exact}>
-              {requireConnection ? (
-                <Connect>
-                  <MainTemplate {...templateProps} Component={Component} />
-                </Connect>
-              ) : (
+  const memoedRoutes = useMemo(() => {
+    return routes.map(
+      ({ path, exact, Component, requireConnection, templateProps }) => {
+        return (
+          <Route key={path} path={path} exact={exact}>
+            {requireConnection ? (
+              <Connect>
                 <MainTemplate {...templateProps} Component={Component} />
-              )}
-            </Route>
-          )
-        }
-      )
-    }, [routes])
-
-    return (
-      <Switch>
-        {memoedRoutes}
-        <Route>
-          <NoMatch />
-        </Route>
-      </Switch>
+              </Connect>
+            ) : (
+              <MainTemplate {...templateProps} Component={Component} />
+            )}
+          </Route>
+        )
+      }
     )
-  }
+  }, [routes])
 
-  export default AppRouter
+  return (
+    <Switch>
+      {memoedRoutes}
+      <Route>
+        <NoMatch />
+      </Route>
+    </Switch>
+  )
+}
+
+export default AppRouter
 ```
 
 And then import your `<Router />` in your `App.js`.
@@ -306,33 +306,29 @@ There are plenty of components to reuse in your application, but in this case we
 Let's create an `<Navigation />` component and let's use the previous `appMenu` props exposed from the `plugins` system to map the links.
 
 ```js
-  import React from 'react'
-  import { Link, useLocation } from 'react-router-dom'
-  import { usePlaceholder } from '@dfohub/core'
-  import { Typography } from '@dfohub/design-system'
+import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
+import { Typography } from '@dfohub/design-system'
 
-  function Navigation({ menuName }) {
-    const menuItems = usePlaceholder(menuName)
-    const location = useLocation()
+function Navigation({ menuName }) {
+  const menuItems = usePlaceholder(menuName)
+  const location = useLocation()
 
-    const navItem = (item) => {
-      return (
-        <Link key={item.name} to={item.link}>
-          <Typography variant="body2" color="white">
-            {item.label}
-          </Typography>
-        </Link>
-      )
-    }
-
+  const navItem = (item) => {
     return (
-      <nav>{menuItems.map((item) => navItem(item))}</nav>
+      <Link key={item.name} to={item.link}>
+        <Typography variant="body2" color="white">
+          {item.label}
+        </Typography>
+      </Link>
     )
   }
 
-  export default Navigation
+  return <nav>{menuItems.map((item) => navItem(item))}</nav>
+}
+
+export default Navigation
 ```
 
 You will see the navigation links based on your `plugins.js` configuration working smoothly.
-
-

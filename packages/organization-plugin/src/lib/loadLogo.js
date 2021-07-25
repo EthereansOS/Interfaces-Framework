@@ -1,4 +1,8 @@
-import { VOID_ETHEREUM_ADDRESS, web3Utils, formatString } from '@dfohub/core'
+import {
+  VOID_ETHEREUM_ADDRESS,
+  web3Utils,
+  formatString,
+} from '@ethereansos/interfaces-core'
 
 async function loadLogo({ context }, address) {
   address = web3Utils.toChecksumAddress(address)

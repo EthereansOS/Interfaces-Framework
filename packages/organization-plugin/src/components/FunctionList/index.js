@@ -4,7 +4,7 @@ import {
   useEthosContext,
   loadFunctionalityNames,
   loadFunctionality,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 import {
   Card,
   Typography,

@@ -1,4 +1,8 @@
-import { blockchainCall, formatLink, getElementImage } from '@dfohub/core'
+import {
+  blockchainCall,
+  formatLink,
+  getElementImage,
+} from '@ethereansos/interfaces-core'
 
 async function tryRetrieveMetadata({ web3, context }, item) {
   if (item.metadataLink) {

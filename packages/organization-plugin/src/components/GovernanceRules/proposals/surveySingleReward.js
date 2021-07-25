@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { fromDecimals, toDecimals } from '@dfohub/core'
+import { fromDecimals, toDecimals } from '@ethereansos/interfaces-core'
 
 const surveySingleReward = (organization, context) => ({
   id: 'surveySingleReward',

@@ -23,7 +23,7 @@ npm start
 First of all add the `core` module
 
 ```js
-npm i @dfohub/core
+npm i @ethereansos/interfaces-core
 ```
 
 and clean up the App.js file:
@@ -78,7 +78,7 @@ This file is not part of the app and should be loaded dynamically at bootstrap t
 To load and share in the app the `context` it's required to add to the app the `InitContextProvider`.
 
 ```js
-import { InitContextProvider } from '@dfohub/core'
+import { InitContextProvider } from '@ethereansos/interfaces-core'
 
 function App() {
   return (

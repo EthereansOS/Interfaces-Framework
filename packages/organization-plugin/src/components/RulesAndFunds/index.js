@@ -6,7 +6,7 @@ import {
   tokenPercentage,
   useEthosContext,
   useWeb3,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 import { useLocation } from 'react-router-dom'
 
 import Section from '../shared/Section'

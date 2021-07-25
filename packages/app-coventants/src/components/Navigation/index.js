@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 import { Link, useLocation } from 'react-router-dom'
 import { Typography } from '@dfohub/design-system'
 

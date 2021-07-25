@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { fromDecimals, tokenPercentage } from '@dfohub/core'
+import { fromDecimals, tokenPercentage } from '@ethereansos/interfaces-core'
 
 const emergencySurveyStaking = (organization, context) => ({
   id: 'emergencySurveyStaking',

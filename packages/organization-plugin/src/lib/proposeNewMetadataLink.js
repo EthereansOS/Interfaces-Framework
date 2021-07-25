@@ -1,4 +1,7 @@
-import { blockchainCall, sendGeneratedProposal } from '@dfohub/core'
+import {
+  blockchainCall,
+  sendGeneratedProposal,
+} from '@ethereansos/interfaces-core'
 
 import validateDFOMetadata from './validateDFOMetadata'
 

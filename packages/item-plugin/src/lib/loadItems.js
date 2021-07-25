@@ -5,7 +5,7 @@ import {
   loadBlockSearchTranches,
   packCollection,
   getLogs,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 import loadItemListInfo from './loadItemListInfo'
 

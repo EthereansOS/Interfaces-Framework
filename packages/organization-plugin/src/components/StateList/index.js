@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { LinearProgress, Typography, Card, Button } from '@dfohub/design-system'
-import { blockchainCall, useEthosContext, useWeb3 } from '@dfohub/core'
+import {
+  blockchainCall,
+  useEthosContext,
+  useWeb3,
+} from '@ethereansos/interfaces-core'
 import PQueue from 'p-queue'
 import { Formik, Form } from 'formik'
 

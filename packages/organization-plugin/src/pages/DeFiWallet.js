@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 
 import useOrganization from '../hooks/useOrganization'
 

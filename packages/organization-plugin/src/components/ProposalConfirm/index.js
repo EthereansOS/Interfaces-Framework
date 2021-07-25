@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Typography, Chip } from '@dfohub/design-system'
 import T from 'prop-types'
 import { Formik, Form } from '@dfohub/components'
-import { useEthosContext, useWeb3 } from '@dfohub/core'
+import { useEthosContext, useWeb3 } from '@ethereansos/interfaces-core'
 
 import style from './proposal-confirm.module.scss'
 import generateSmartContractProposal from './actions/generateSmartContractProposal'

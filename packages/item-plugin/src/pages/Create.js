@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import T from 'prop-types'
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 import { Button, Card } from '@dfohub/design-system'
 
 import styles from './pages.module.scss'

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import T from 'prop-types'
 import { Table, Typography, Link } from '@dfohub/design-system'
-import { formatLink, useEthosContext } from '@dfohub/core'
+import { formatLink, useEthosContext } from '@ethereansos/interfaces-core'
 
 import ListControls from '../components/ListControls'
 import { useOrganizationContext } from '../OrganizationContext'

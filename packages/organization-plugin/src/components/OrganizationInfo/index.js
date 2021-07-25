@@ -7,7 +7,7 @@ import {
   Button,
   Modal,
 } from '@dfohub/design-system'
-import { formatLink, useEthosContext } from '@dfohub/core'
+import { formatLink, useEthosContext } from '@ethereansos/interfaces-core'
 
 import Section from '../shared/Section'
 import { OrganizationPropType } from '../../propTypes'

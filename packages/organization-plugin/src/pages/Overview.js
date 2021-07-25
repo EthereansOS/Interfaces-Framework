@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 import { useParams } from 'react-router-dom'
 import T from 'prop-types'
 

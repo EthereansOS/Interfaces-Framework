@@ -1,4 +1,4 @@
-import { blockchainCall, getLogs } from '@dfohub/core'
+import { blockchainCall, getLogs } from '@ethereansos/interfaces-core'
 async function loadCollectionENS(
   { web3, web3ForLogs, context, networkId },
   item

@@ -4,7 +4,7 @@ This package represents a the `organization` plugin for the DFOhub application.
 
 ## Package structure
 
-In this sample package, there is just one file `src/index.js` containing the definition of the plugin. The real plugins will probably have a more structured organization of files. 
+In this sample package, there is just one file `src/index.js` containing the definition of the plugin. The real plugins will probably have a more structured organization of files.
 
 Storybook is already included in the package, even if not used in this sample.
 
@@ -29,12 +29,12 @@ export default pluginDefinition
 ```
 
 We are exporting the plugin from our sample package, whose name id `@dfohub/sample-plugin`.
-To install this plugin in your app, just pass it to the `PluginsContextProvider` imported from '@dfohub/core' inside your app, as follows:
+To install this plugin in your app, just pass it to the `PluginsContextProvider` imported from '@ethereansos/interfaces-core' inside your app, as follows:
 
 ```jsx
 // file src/App.js inside the 'app' package
 import React from 'react'
-import { PluginsContextProvider } from '@dfohub/core'
+import { PluginsContextProvider } from '@ethereansos/interfaces-core'
 import samplePlugin from '@dfohub/sample-plugin'
 
 function App() {
@@ -87,4 +87,3 @@ npm run build:dev
 ```
 
 to build and keep watching for changes.
-

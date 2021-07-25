@@ -1,4 +1,7 @@
-import { blockchainCall, VOID_ETHEREUM_ADDRESS } from '@dfohub/core'
+import {
+  blockchainCall,
+  VOID_ETHEREUM_ADDRESS,
+} from '@ethereansos/interfaces-core'
 
 function stringifyParameters(response) {
   const r = []

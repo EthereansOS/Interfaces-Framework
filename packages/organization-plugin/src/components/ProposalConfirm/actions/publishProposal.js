@@ -5,7 +5,7 @@ import {
   blockchainCall,
   getNetworkElement,
   hasEthereumAddress,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 import ActionState from '../ActionState'
 import {

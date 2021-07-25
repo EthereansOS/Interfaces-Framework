@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react'
-import { usePlaceholder, usePrevious, useWeb3 } from '@dfohub/core'
+import {
+  usePlaceholder,
+  usePrevious,
+  useWeb3,
+} from '@ethereansos/interfaces-core'
 import T from 'prop-types'
 import { useParams } from 'react-router-dom'
 
