@@ -1,140 +1,106 @@
-import HomePage from './pages/Home'
-import FarmPage from './pages/Farm'
-import InflationPage from './pages/Inflation'
-import WusdPage from './pages/Wusd'
-import BazarPage from './pages/Bazar'
-import CraftPage from './pages/Craft'
-import GrimoirePage from './pages/Grimoire'
-import ConvenantsPage from './pages/Covenants'
+import Home from './pages/Home'
+import Farm from './pages/Farm'
+import Inflation from './pages/Inflation'
+import Wusd from './pages/Wusd'
+import Bazar from './pages/Bazar'
+import Craft from './pages/Craft'
+import Grimoire from './pages/Grimoire'
+import Convenants from './pages/Covenants'
 
 const initPlugin = ({ addElement }) => {
   addElement('router', {
     index: 10,
     path: '/',
-    Component: HomePage,
+    Component: Home,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
   })
   addElement('router', {
     index: 20,
     path: '/farm',
-    Component: FarmPage,
+    Component: Farm,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
   })
   addElement('router', {
     index: 20,
     path: '/inflation',
-    Component: InflationPage,
+    Component: Inflation,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
   })
   addElement('router', {
     index: 20,
     path: '/wusd',
-    Component: WusdPage,
+    Component: Wusd,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
   })
   addElement('router', {
     index: 20,
     path: '/bazar',
-    Component: BazarPage,
+    Component: Bazar,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
   })
   addElement('router', {
     index: 20,
     path: '/craft',
-    Component: CraftPage,
+    Component: Craft,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
   })
   addElement('router', {
     index: 20,
     path: '/grimoire',
-    Component: GrimoirePage,
+    Component: Grimoire,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
   })
   addElement('router', {
     index: 20,
     path: '/covenants',
-    Component: ConvenantsPage,
+    Component: Convenants,
     exact: true,
     requireConnection: false,
     templateProps: {
       menuName: 'appMenu',
+      isDapp: false,
     },
-  })
-  addElement('appMenu', {
-    name: 'farm',
-    label: 'Farm',
-    link: '/farm',
-    index: 20,
-  })
-  addElement('appMenu', {
-    name: 'inflation',
-    label: 'Inflation',
-    link: '/inflation',
-    index: 30,
-  })
-  addElement('appMenu', {
-    name: 'wusd',
-    label: 'WUSD',
-    link: '/wusd',
-    index: 40,
-  })
-  addElement('appMenu', {
-    name: 'bazar',
-    label: 'Bazar',
-    link: '/bazar',
-    index: 50,
-  })
-  addElement('appMenu', {
-    name: 'craft',
-    label: 'Craft',
-    link: '/craft',
-    index: 60,
-  })
-  addElement('appMenu', {
-    name: 'grimoire',
-    label: 'Grimoire',
-    link: '/grimoire',
-    index: 70,
-  })
-  addElement('appMenu', {
-    name: 'covenants',
-    label: 'Covenants',
-    link: '/covenants',
-    index: 80,
   })
 }
 
-const pluginDefinition = {
-  name: 'dfo-plugin',
+const appPlugin = {
+  name: 'app-plugin',
   init: initPlugin,
 }
 
-export default pluginDefinition
+export default appPlugin

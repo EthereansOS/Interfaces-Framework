@@ -4,7 +4,7 @@ import { Typography } from '@dfohub/design-system'
 
 import style from './home.module.css'
 
-const HomePage = () => {
+const Home = () => {
   const image = `${process.env.PUBLIC_URL}/assets/images/home1.png`
 
   return (
@@ -29,4 +29,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default Home

@@ -10,6 +10,7 @@ import {
   GlobalContextsProvider,
 } from '@ethereansos/interfaces-core'
 import appPlugin from './plugins'
+import covenantsPlugin from '@dfohub/covenants-plugin'
 import AppRouter from './router'
 import './typography.css'
 import './app.css'
@@ -29,7 +30,7 @@ function App() {
       }}
       Loading={() => <div>Loading...</div>}
       Error={({ error }) => <div>Error on application init: {error}</div>}>
-      <PluginsContextProvider plugins={[appPlugin]}>
+      <PluginsContextProvider plugins={[appPlugin, covenantsPlugin]}>
         <Web3ContextProvider>
           <GlobalContextsProvider>
             <HashRouter>
