@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import T from 'prop-types'
-import { Typography } from '@dfohub/design-system'
+import { LinearProgress, Typography } from '@dfohub/design-system'
 import { getNetworkElement, useWeb3 } from '@dfohub/core'
 
 import { OrganizationPropType } from '../../propTypes'
@@ -29,11 +29,15 @@ function GovernanceActiveProposals({
 
   return (
     <>
-      <Typography variant="h1">Active Proposals</Typography>
+      <Typography variant="h1" fontFamily="secondary" color="primary">
+        Active Proposals
+      </Typography>
 
-      {!loaded && list.length === 0 && <div>Loading</div>}
-      {loaded && list.length === 0 && <div>No proposals</div>}
-      {list.length &&
+      {!loaded && list.length === 0 && <LinearProgress />}
+      {loaded && list.length === 0 && (
+        <Typography variant="body2">No proposals</Typography>
+      )}
+      {!!list.length &&
         list.map((proposal) => (
           <Proposal
             key={proposal.key}

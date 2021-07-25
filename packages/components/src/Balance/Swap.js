@@ -10,7 +10,7 @@ import { validationSwapSchema as validationSchema } from './formSchema'
 import style from './balance.module.scss'
 
 const initialValues = {
-  amount: 0.0,
+  amount: 0.001,
   token: null,
 }
 

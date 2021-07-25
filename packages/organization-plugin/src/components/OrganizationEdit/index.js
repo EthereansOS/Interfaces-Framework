@@ -30,8 +30,8 @@ function OrganizationEdit({ onClose, organization }) {
     useWeb3()
   const context = useEthosContext()
   const { showProposalModal } = useOrganizationContext()
-  let history = useHistory()
-  let params = useParams()
+  const history = useHistory()
+  const params = useParams()
 
   const onProposalSuccess = () => {
     history.push(`/organizations/${params.address}/governance/proposals`)

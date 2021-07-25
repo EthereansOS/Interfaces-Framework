@@ -15,6 +15,7 @@ import {
   Link,
   CircularProgress,
 } from '@dfohub/design-system'
+import { useHistory, useParams } from 'react-router-dom'
 
 import { OrganizationPropType } from '../../propTypes'
 import { useOrganizationContext } from '../../OrganizationContext'
@@ -47,8 +48,14 @@ export const BalanceList = ({ organization }) => {
     organization,
     tokens
   )
+  const history = useHistory()
+  const params = useParams()
 
   if (!organization) return <CircularProgress />
+
+  const onProposalSuccess = () => {
+    history.push(`/organizations/${params.address}/governance/proposals`)
+  }
 
   const onSwapSubmit = async (values, token) => {
     if (!organization) {
@@ -74,7 +81,7 @@ export const BalanceList = ({ organization }) => {
       showProposalModal({
         initialContext: ctx,
         title: ctx.title,
-        onProposalSuccess: () => null,
+        onProposalSuccess,
       })
     } catch (e) {
       console.log('error swapping tokens', e)
