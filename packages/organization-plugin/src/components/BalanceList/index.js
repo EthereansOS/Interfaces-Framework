@@ -235,6 +235,7 @@ export const BalanceList = ({ organization }) => {
       }>
       {tokens.map((token, i) => (
         <Balance
+          organization={organization}
           key={i}
           token={token}
           tokenPrice={

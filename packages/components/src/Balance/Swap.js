@@ -1,7 +1,12 @@
 import React from 'react'
 import { Typography, Token, TextField, Button } from '@dfohub/design-system'
 import T from 'prop-types'
-import { useWeb3, VOID_ETHEREUM_ADDRESS } from '@dfohub/core'
+import {
+  useWeb3,
+  VOID_ETHEREUM_ADDRESS,
+  swap as swapFn,
+  useEthosContext,
+} from '@dfohub/core'
 import { Formik, Form, Field } from 'formik'
 
 import TokenPicker from '../TokenPicker'
@@ -14,9 +19,37 @@ const initialValues = {
   token: null,
 }
 
-const Swap = ({ token }) => {
-  const handleSubmit = (values) => {
-    console.log(values)
+const Swap = ({ token, organization }) => {
+  const { web3, walletAddress, ethosEvents, networkId, ipfsHttpClient } =
+    useWeb3()
+
+  const context = useEthosContext()
+
+  const handleSubmit = async (values) => {
+    if (!organization) {
+      return
+    }
+
+    try {
+      const ctx = await swapFn(
+        {
+          web3,
+          context,
+          networkId,
+          ipfsHttpClient,
+          walletAddress,
+          ethosEvents,
+        },
+        organization,
+        values.amount,
+        token.address,
+        values.token
+      )
+
+      // TODO add proposal modal
+    } catch (e) {
+      console.log('error swapping tokens', e)
+    }
   }
 
   const { wethAddress } = useWeb3()
@@ -48,7 +81,6 @@ const Swap = ({ token }) => {
             </div>
             <Typography variant="body1">For:</Typography>
 
-            {console.log(values)}
             <TokenPicker
               id="token"
               name="token"
@@ -79,6 +111,7 @@ const Swap = ({ token }) => {
 Swap.propTypes = {
   onSwap: T.func.isRequired,
   token: T.object.isRequired,
+  organization: T.object,
 }
 
 export default Swap

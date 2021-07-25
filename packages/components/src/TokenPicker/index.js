@@ -2,16 +2,16 @@ import React, { useMemo } from 'react'
 import { Select } from '@dfohub/design-system'
 import T from 'prop-types'
 import { useLoadUniswapPairs, useEthosContext, useWeb3 } from '@dfohub/core'
-import { useField } from 'formik'
+import { useField, useFormikContext } from 'formik'
 
 import style from './token-picker.module.scss'
 
 const TokenPicker = ({ tokenAddress, id, name }) => {
   const { networkId, web3, web3ForLogs } = useWeb3()
   const context = useEthosContext()
-  const [field] = useField({ id, name })
 
-  console.log('FIELD', field)
+  const [{ onChange, ...field }] = useField({ id, name })
+  const { setFieldValue } = useFormikContext()
 
   const uniswapPairs = useLoadUniswapPairs(
     { web3, context, networkId, web3ForLogs },
@@ -22,7 +22,7 @@ const TokenPicker = ({ tokenAddress, id, name }) => {
   const options = useMemo(
     () =>
       uniswapPairs.map((pair) => ({
-        value: pair.address,
+        id: pair.address,
         label: `${pair.name} ${pair.symbol}`,
       })),
     [uniswapPairs]
@@ -30,11 +30,15 @@ const TokenPicker = ({ tokenAddress, id, name }) => {
 
   return (
     <Select
+      id="token"
       name="token"
       options={options}
       valueKey="token"
       containerClassName={style.root}
       {...field}
+      onSelect={(id, value) => {
+        setFieldValue(id, value)
+      }}
     />
   )
 }

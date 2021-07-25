@@ -14,6 +14,7 @@ const Balance = ({
   tokenAmount,
   tokenPrice,
   onTransfer,
+  organization,
 }) => {
   const [isSwap, setIsSwap] = useState(false)
   const [isTransfer, setIsTransfer] = useState(false)
@@ -57,7 +58,7 @@ const Balance = ({
           />
         </div>
       )}
-      {isSwap && <Swap token={token} />}
+      {isSwap && <Swap token={token} organization={organization} />}
       {isTransfer && <Transfer onTransfer={onTransfer} token={token} />}
     </Card>
   )
@@ -74,6 +75,7 @@ Balance.propTypes = {
   tokenAmount: T.string,
   onSwap: T.func,
   onTransfer: T.func,
+  organization: T.object,
 }
 
 export default Balance

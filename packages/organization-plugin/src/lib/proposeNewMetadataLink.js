@@ -1,6 +1,5 @@
-import { blockchainCall } from '@dfohub/core'
+import { blockchainCall, sendGeneratedProposal } from '@dfohub/core'
 
-import sendGeneratedProposal from './sendGeneratedProposal'
 import validateDFOMetadata from './validateDFOMetadata'
 
 async function proposeNewMetadataLink(
