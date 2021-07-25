@@ -29,12 +29,12 @@ export default pluginDefinition
 ```
 
 We are exporting the plugin from our sample package, whose name id `@dfohub/sample-plugin`.
-To install this plugin in your app, just pass it to the `PluginsContextProvider` imported from '@dfohub/core' inside your app, as follows:
+To install this plugin in your app, just pass it to the `PluginsContextProvider` imported from '@ethereansos/interfaces-core' inside your app, as follows:
 
 ```jsx
 // file src/App.js inside the 'app' package
 import React from 'react'
-import { PluginsContextProvider } from '@dfohub/core'
+import { PluginsContextProvider } from '@ethereansos/interfaces-core'
 import samplePlugin from '@dfohub/sample-plugin'
 
 function App() {
