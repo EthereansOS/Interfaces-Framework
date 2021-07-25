@@ -13,7 +13,7 @@ const Balance = ({
   token,
   tokenAmount,
   tokenPrice,
-  onTransfer,
+  onTransferSubmit,
   onSwapSubmit,
 }) => {
   const [isSwap, setIsSwap] = useState(false)
@@ -59,7 +59,9 @@ const Balance = ({
         </div>
       )}
       {isSwap && <Swap token={token} onSwapSubmit={onSwapSubmit} />}
-      {isTransfer && <Transfer onTransfer={onTransfer} token={token} />}
+      {isTransfer && (
+        <Transfer onTransferSubmit={onTransferSubmit} token={token} />
+      )}
     </Card>
   )
 }
@@ -74,7 +76,7 @@ Balance.propTypes = {
   tokenPrice: T.oneOfType([T.string, T.number]),
   tokenAmount: T.string,
   onSwapSubmit: T.func,
-  onTransfer: T.func,
+  onTransferSubmit: T.func,
 }
 
 export default Balance

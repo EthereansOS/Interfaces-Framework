@@ -9,7 +9,7 @@ export const validationSwapSchema = Yup.object().shape({
 
 export const validationTransferSchema = Yup.object().shape({
   amount: Yup.number()
-    .min(1, 'The amount has to be more than 0')
+    .min(0, 'The amount has to be more than 0')
     .required('The amount is required'),
   address: Yup.string().required('The address is required'),
 })

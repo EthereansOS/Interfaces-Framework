@@ -6,6 +6,7 @@ import {
   useWeb3,
   formatMoney,
   swap,
+  transfer,
 } from '@dfohub/core'
 import { Balance } from '@dfohub/components'
 import {
@@ -25,15 +26,7 @@ import useFetchAmounts from '../../hooks/useFetchAmounts'
 import style from './balance-list.module.scss'
 
 export const BalanceList = ({ organization }) => {
-  const {
-    web3,
-    networkId,
-    web3ForLogs,
-    wethAddress,
-    walletAddress,
-    ethosEvents,
-    ipfsHttpClient,
-  } = useWeb3()
+  const { web3, networkId, web3ForLogs, wethAddress } = useWeb3()
   const context = useEthosContext()
   const { isEditMode, showProposalModal } = useOrganizationContext()
   const tokens = useFetchWallets({ web3, context, networkId })
@@ -63,19 +56,44 @@ export const BalanceList = ({ organization }) => {
     }
 
     try {
-      const ctx = await swap(
+      const ctx = await transfer(
         {
           web3,
           context,
-          networkId,
-          ipfsHttpClient,
-          walletAddress,
-          ethosEvents,
+          wethAddress,
         },
         organization,
         values.amount,
         token.address,
         values.token
+      )
+
+      showProposalModal({
+        initialContext: ctx,
+        title: ctx.title,
+        onProposalSuccess,
+      })
+    } catch (e) {
+      console.log('error swapping tokens', e)
+    }
+  }
+
+  const onTransferSubmit = async (values, token) => {
+    if (!organization) {
+      return
+    }
+
+    try {
+      const ctx = await transfer(
+        {
+          web3,
+          context,
+          wethAddress,
+        },
+        organization,
+        token.address,
+        values.amount,
+        values.address
       )
 
       showProposalModal({
@@ -116,6 +134,7 @@ export const BalanceList = ({ organization }) => {
       }>
       {tokens.map((token, i) => (
         <Balance
+          onTransferSubmit={(values) => onTransferSubmit(values, token)}
           onSwapSubmit={(values) => onSwapSubmit(values, token)}
           key={i}
           token={token}

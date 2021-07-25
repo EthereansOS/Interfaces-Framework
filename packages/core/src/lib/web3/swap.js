@@ -8,15 +8,10 @@ import blockchainCall from './blockchainCall'
 import toDecimals from './toDecimals'
 import { newContract } from './contracts'
 
-async function swap(
-  { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
-  element,
-  amount,
-  from,
-  to
-) {
+async function swap({ web3, context }, organization, amount, from, to) {
   from && (from = web3Utils.toChecksumAddress(from))
   to && (to = web3Utils.toChecksumAddress(to))
+  // TODO
   // if (!to) {
   //   return view.emit('message', 'You must specifiy a token', 'error')
   // }
@@ -61,15 +56,16 @@ async function swap(
     parseInt(amount) >
     parseInt(
       await (!from
-        ? web3.eth.getBalance(element.walletAddress)
+        ? web3.eth.getBalance(organization.walletAddress)
         : blockchainCall(
             { web3, context },
             newContract({ web3 }, context.votingTokenAbi, from).methods
               .balanceOf,
-            element.walletAddress
+            organization.walletAddress
           ))
     )
   ) {
+    // TODO
     // return view.emit('message', 'Insufficient amount to swap', 'error')
   }
   var postFixedLines = stringToLines(`
@@ -147,8 +143,7 @@ if(${amount} > result[0]) {
     }`,
   ]
   const proposal = sendGeneratedProposal(
-    { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
-    element,
+    organization,
     {
       title: descriptions[0],
       functionalityName: '',

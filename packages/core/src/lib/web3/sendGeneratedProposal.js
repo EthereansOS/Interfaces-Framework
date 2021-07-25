@@ -1,7 +1,6 @@
 import generateAndCompileContract from './generateAndCompileContract'
 
 function sendGeneratedProposal(
-  { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
   element,
   ctx,
   template,
@@ -47,12 +46,7 @@ function sendGeneratedProposal(
   const newCtx = ctx || {}
   // TODO is this neccessary?
   Object.keys(newCtx).map((key) => (initialContext[key] = newCtx[key]))
-  // showProposalLoader(
-  //   { web3, context, networkId, ipfsHttpClient, walletAddress, ethosEvents },
-  //   initialContext
-  // )
 
-  // TODO verify how this return values is used
   return initialContext
 }
 

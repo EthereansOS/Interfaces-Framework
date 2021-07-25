@@ -26,8 +26,7 @@ export const orgEditInitialValues = {
 }
 
 function OrganizationEdit({ onClose, organization }) {
-  const { web3, networkId, ipfsHttpClient, walletAddress, ethosEvents } =
-    useWeb3()
+  const { web3, ipfsHttpClient } = useWeb3()
   const context = useEthosContext()
   const { showProposalModal } = useOrganizationContext()
   const history = useHistory()
@@ -51,10 +50,7 @@ function OrganizationEdit({ onClose, organization }) {
               {
                 web3,
                 context,
-                networkId,
                 ipfsHttpClient,
-                walletAddress,
-                ethosEvents,
               },
               organization,
               values

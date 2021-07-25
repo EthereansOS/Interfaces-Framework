@@ -1,16 +1,17 @@
 import React from 'react'
-import { Typography, Token, TextField, Button } from '@dfohub/design-system'
+import { Typography, Token, Button } from '@dfohub/design-system'
 import T from 'prop-types'
 import { useWeb3, VOID_ETHEREUM_ADDRESS } from '@dfohub/core'
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form } from 'formik'
 
 import TokenPicker from '../TokenPicker'
+import EditField from '../EditField'
 
 import { validationSwapSchema as validationSchema } from './formSchema'
 import style from './balance.module.scss'
 
 const initialValues = {
-  amount: 0.001,
+  amount: 0,
   token: null,
 }
 
@@ -26,22 +27,15 @@ const Swap = ({ token, onSwapSubmit }) => {
         {({ isValid, errors }) => (
           <Form>
             <Typography variant="body1">Propose to swap:</Typography>
-            <div className={style.amount}>
-              <Field name="amount">
-                {({ field }) => (
-                  <TextField
-                    type="number"
-                    min="0"
-                    step={0.000000001} // TODO: recommended steps here? Considering we talk about cryptos
-                    isRounded
-                    {...field}
-                    className={style.amountInput}
-                  />
-                )}
-              </Field>
+            <EditField
+              id="amount"
+              name="amount"
+              type="number"
+              min="0"
+              step={0.000000001}
+              RightInputComponent={<Token symbol={token.symbol} />}
+            />
 
-              <Token symbol={token.symbol} />
-            </div>
             <Typography variant="body1">For:</Typography>
 
             <TokenPicker
