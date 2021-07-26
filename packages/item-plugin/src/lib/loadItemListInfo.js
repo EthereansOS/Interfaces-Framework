@@ -1,4 +1,4 @@
-import { blockchainCall, newContract } from '@dfohub/core'
+import { blockchainCall, newContract } from '@ethereansos/interfaces-core'
 
 import tryRetrieveMetadata from './tryRetrieveMetadata'
 import loadCollectionENS from './loadCollectionENS'

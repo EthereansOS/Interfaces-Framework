@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { Card, Typography } from '@dfohub/design-system'
-import { useEthosContext } from '@dfohub/core'
+import { useEthosContext } from '@ethereansos/interfaces-core'
 import T from 'prop-types'
 
 import Section from '../shared/Section'

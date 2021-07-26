@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import pupa from 'pupa'
 import classNames from 'classnames'
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 import { ShinyText } from '@dfohub/design-system'
 import { Link, useParams } from 'react-router-dom'
 

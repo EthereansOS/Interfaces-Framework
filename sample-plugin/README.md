@@ -6,7 +6,7 @@ It shows how to create a menu with a couple of pages and the corresponding route
 
 ## Package structure
 
-In this sample package, there is just one file `src/index.js` containing the definition of the plugin. The real plugins will probably have a more structured organization of files. 
+In this sample package, there is just one file `src/index.js` containing the definition of the plugin. The real plugins will probably have a more structured organization of files.
 
 Storybook is already included in the package, even if not used in this sample.
 
@@ -31,12 +31,12 @@ export default pluginDefinition
 ```
 
 We are exporting the plugin from our sample package, whose name id `@dfohub/sample-plugin`.
-To install this plugin in your app, just pass it to the `PluginsContextProvider` imported from '@dfohub/core' inside your app, as follows:
+To install this plugin in your app, just pass it to the `PluginsContextProvider` imported from '@ethereansos/interfaces-core' inside your app, as follows:
 
 ```jsx
 // file src/App.js inside the 'app' package
 import React from 'react'
-import { PluginsContextProvider } from '@dfohub/core'
+import { PluginsContextProvider } from '@ethereansos/interfaces-core'
 import samplePlugin from '@dfohub/sample-plugin'
 
 function App() {
@@ -86,6 +86,7 @@ export default pluginDefinition
 ```
 
 This way, we have created two menu items. The `addElement` requires two parameters:
+
 - the name of a group of elements (`menu` in our code)
 - an object of any kind that is useful for our purpose
 
@@ -96,20 +97,18 @@ To retrieve the menu items and display the whole menu, in our application, we ca
 ```jsx
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 
 function Menu(props) {
   const menu = usePlaceholder('menu')
 
   return (
     <div>
-          {menu.map(({ label, link, name }) => (
-            <Link
-              key={`${link}-${label}`}
-              to={link}>
-              {label}
-            </Link>
-          ))}
+      {menu.map(({ label, link, name }) => (
+        <Link key={`${link}-${label}`} to={link}>
+          {label}
+        </Link>
+      ))}
     </div>
   )
 }
@@ -119,10 +118,10 @@ export default Menu
 
 As you can see, to get the menu items you can simply call the `usePlaceholder` hook from the `core` package.
 
-__Important__: the component which calls the `usePlaceholder` hook must be hierarcally inside the `PluginsContextProvider` component. 
+**Important**: the component which calls the `usePlaceholder` hook must be hierarcally inside the `PluginsContextProvider` component.
 
 The above code is extracted by the `Menu` component in the `app` package.
-Have a look at its source code for the complete version. 
+Have a look at its source code for the complete version.
 
 ### Creating routes
 
@@ -153,7 +152,6 @@ addElement('router', {
     showMenu: true,
   },
 })
-
 ```
 
 The name of the group of routes is `router`.
@@ -164,8 +162,8 @@ The object has all the information for its use inside the application (see `src/
 - `path`, `Component` and `exact` are used by the `Route` component
 - `requireConnection` is used to say that the route requires a connection to Ethereum, otherwise the `Connect` component will be shown
 - `templateProps` contains the props to pass to the `MainTemplate` component:
-    - `selected` contains the menu item name which should be selected as current page
-    - `showMenu` defines if the menu should be shown for this Component
+  - `selected` contains the menu item name which should be selected as current page
+  - `showMenu` defines if the menu should be shown for this Component
 
 ## Storybook
 
@@ -202,4 +200,3 @@ npm run build:dev
 ```
 
 to build and keep watching for changes.
-

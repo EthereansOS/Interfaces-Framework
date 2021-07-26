@@ -7,7 +7,7 @@ import {
   useEthosContext,
   useWeb3,
   formatString,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 import { OrganizationPropType } from '../../propTypes'
 import loadLogo from '../../lib/loadLogo'

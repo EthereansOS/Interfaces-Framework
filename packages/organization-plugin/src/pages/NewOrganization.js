@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import T from 'prop-types'
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 import { Formik, Form } from '@dfohub/components'
 import { Button, SnackBar } from '@dfohub/design-system'
 

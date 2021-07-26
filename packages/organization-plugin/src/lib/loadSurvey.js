@@ -4,7 +4,7 @@ import {
   extractHTMLDescription,
   blockchainCall,
   getLogs,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 async function loadSurvey(
   { context, web3, web3ForLogs, networkId, walletAddress },

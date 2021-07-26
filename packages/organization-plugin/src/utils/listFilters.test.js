@@ -1,4 +1,4 @@
-import { sortByMarketCap, sortFromFirst, sortFromLast } from './List'
+import { sortByMarketCap, sortFromFirst, sortFromLast } from './listFilters'
 
 describe('sort methods', () => {
   it('should return the array sorted by the "unlockedMarketCapDollar" field', async () => {

@@ -6,7 +6,7 @@ import {
   getEthereumPrice,
   toDecimals,
   formatLink,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 async function loadOrganizationListInfo(environment, organization) {
   const {

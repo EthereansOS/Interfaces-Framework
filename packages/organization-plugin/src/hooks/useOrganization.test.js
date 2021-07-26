@@ -26,7 +26,7 @@ describe.skip('useOrganization', () => {
     mockUseWeb3 = jest.fn(() => false)
 
     jest.mock('../components/OrganizationHeader', () => mockOrganizationHeader)
-    jest.mock('@dfohub/core', () => ({
+    jest.mock('@ethereansos/interfaces-core', () => ({
       useWeb3: mockUseWeb3,
     }))
 

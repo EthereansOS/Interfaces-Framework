@@ -7,6 +7,7 @@
       "hoist": [
         "@babel*",
         "react*",
+        "@ethereansos/interfaces-core",
         "prettier*",
         "@commitlint/cli",
         "@commitlint/config-conventional",

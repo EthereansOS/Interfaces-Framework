@@ -4,7 +4,7 @@ import {
   formatLink,
   blockchainCall,
   refreshBalances,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 async function getInfo(
   {

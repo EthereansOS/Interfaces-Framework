@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import { usePlaceholder } from '@dfohub/core'
+import { usePlaceholder } from '@ethereansos/interfaces-core'
 import Connect from './components/Connect'
 import MainTemplate from './components/MainTemplate'
 

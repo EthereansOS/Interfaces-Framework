@@ -4,7 +4,7 @@ import {
   blockchainCall,
   getLogs,
   VOID_ETHEREUM_ADDRESS,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 import PQueue from 'p-queue'
 
 import loadSurvey from '../lib/loadSurvey'

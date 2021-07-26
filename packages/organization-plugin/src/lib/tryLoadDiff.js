@@ -1,4 +1,4 @@
-import { blockchainCall, loadContent } from '@dfohub/core'
+import { blockchainCall, loadContent } from '@ethereansos/interfaces-core'
 
 async function tryLoadDiff(
   { context, web3, networkId },

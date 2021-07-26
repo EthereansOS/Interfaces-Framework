@@ -1,7 +1,11 @@
 import React, { useMemo } from 'react'
 import { Select } from '@dfohub/design-system'
 import T from 'prop-types'
-import { useLoadUniswapPairs, useEthosContext, useWeb3 } from '@dfohub/core'
+import {
+  useLoadUniswapPairs,
+  useEthosContext,
+  useWeb3,
+} from '@ethereansos/interfaces-core'
 import { useField, useFormikContext } from 'formik'
 
 import style from './token-picker.module.scss'

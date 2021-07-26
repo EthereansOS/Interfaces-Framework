@@ -1,4 +1,4 @@
-import { loadMetadatas } from '@dfohub/core'
+import { loadMetadatas } from '@ethereansos/interfaces-core'
 
 import Create from './pages/Create'
 import CreateCollection from './pages/CreateCollection'

@@ -1,4 +1,8 @@
-import { useWeb3, loadContent, useEthosContext } from '@dfohub/core'
+import {
+  useWeb3,
+  loadContent,
+  useEthosContext,
+} from '@ethereansos/interfaces-core'
 import { useEffect, useState } from 'react'
 
 const errMessage = 'An error occured while fetching the code'

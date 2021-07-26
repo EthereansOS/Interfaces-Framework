@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
-import { useEthosContext, useWeb3 } from '@dfohub/core'
-import { WEB3_CONNECTED } from '@dfohub/core'
+import { useEthosContext, useWeb3 } from '@ethereansos/interfaces-core'
+import { WEB3_CONNECTED } from '@ethereansos/interfaces-core'
 
 import loadItems from '../lib/loadItems'
 import { useItemContext } from '../ItemContext'

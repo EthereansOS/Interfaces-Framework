@@ -4,7 +4,7 @@ import {
   blockchainCall,
   getLogs,
   VOID_ETHEREUM_ADDRESS,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 async function loadDFO(
   { web3, web3ForLogs, context, networkId, proxyChangedTopic },

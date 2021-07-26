@@ -6,7 +6,7 @@ import {
   generateFunctionalityMetadataLink,
   getSolidityUtilities,
   loadContent,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 import ActionState from '../ActionState'
 import {

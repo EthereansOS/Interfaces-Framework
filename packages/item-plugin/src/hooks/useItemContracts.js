@@ -6,7 +6,7 @@ import {
   newContract,
   getNetworkElement,
   blockchainCall,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 const CONTRACT_STATUS_NEW = 'CONTRACT_STATUS_NEW'
 const CONTRACT_STATUS_ON_INIT = 'CONTRACT_STATUS_ON_INIT'

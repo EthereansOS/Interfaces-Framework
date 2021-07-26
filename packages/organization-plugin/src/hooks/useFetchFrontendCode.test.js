@@ -12,7 +12,7 @@ let mockedContext
 const mockedDecCode = 'decCode'
 const mockedDistrCode = 'distrCode'
 
-jest.mock('@dfohub/core', () => {
+jest.mock('@ethereansos/interfaces-core', () => {
   mockedLoadContent = jest.fn()
   mockedContext = {
     foo: 'bar',

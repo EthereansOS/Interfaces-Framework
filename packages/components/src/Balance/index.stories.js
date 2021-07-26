@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from 'react'
-import { VOID_ETHEREUM_ADDRESS } from '@dfohub/core/src/lib/constants'
+import { VOID_ETHEREUM_ADDRESS } from '@ethereansos/interfaces-core'
 
 import Balance from '.'
 

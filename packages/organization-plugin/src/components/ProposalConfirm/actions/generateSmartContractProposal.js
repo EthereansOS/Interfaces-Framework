@@ -1,7 +1,7 @@
 import React from 'react'
 import T from 'prop-types'
 import { Typography } from '@dfohub/design-system'
-import { generateAndCompileContract } from '@dfohub/core'
+import { generateAndCompileContract } from '@ethereansos/interfaces-core'
 
 import ActionState from '../ActionState'
 import {

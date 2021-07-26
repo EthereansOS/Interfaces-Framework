@@ -1,7 +1,11 @@
 import React from 'react'
 import T from 'prop-types'
 import { TextField, Typography } from '@dfohub/design-system'
-import { mint, split, VOID_ETHEREUM_ADDRESS } from '@dfohub/core'
+import {
+  mint,
+  split,
+  VOID_ETHEREUM_ADDRESS,
+} from '@ethereansos/interfaces-core'
 
 import ActionState from '../ActionState'
 import {

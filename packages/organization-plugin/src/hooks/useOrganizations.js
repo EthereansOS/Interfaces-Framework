@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
-import { WEB3_CONNECTED, useEthosContext, useWeb3 } from '@dfohub/core'
+import {
+  WEB3_CONNECTED,
+  useEthosContext,
+  useWeb3,
+} from '@ethereansos/interfaces-core'
 import PQueue from 'p-queue'
 
 import loadDFOList from '../lib/loadDFOList'

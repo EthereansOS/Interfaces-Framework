@@ -13,7 +13,7 @@ import {
   mint,
   split,
   numberToString,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 const ocelotMintedEvent = web3Utils.sha3('Minted(uint256,uint256,uint256)')
 const ocelotFinalizedEvent = web3Utils.sha3('Finalized(uint256,uint256)')

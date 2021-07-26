@@ -3,7 +3,7 @@ import {
   BLOCK_SEARCH_SIZE,
   DFO_DEPLOYED_EVENT,
   NEW_DFO_DEPLOYED_EVENT,
-} from '@dfohub/core'
+} from '@ethereansos/interfaces-core'
 
 // Chiama getEventLogs due volte fino a che
 // toBlock === window.getNetworkElement('deploySearchStart')
