@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField } from '@dfohub/design-system'
+import { TextField } from '@ethereansos/interfaces-ui'
 import { Field } from 'formik'
 import T from 'prop-types'
 

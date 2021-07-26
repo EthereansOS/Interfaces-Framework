@@ -5,17 +5,16 @@ import {
   useEthosContext,
   useWeb3,
   formatMoney,
-  swap,
   transfer,
 } from '@ethereansos/interfaces-core'
-import { Balance } from '@dfohub/components'
+import { Balance } from '@ethereansos/interfaces-ui'
 import {
   Card,
   Typography,
   Chip,
   Link,
   CircularProgress,
-} from '@dfohub/design-system'
+} from '@ethereansos/interfaces-ui'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { OrganizationPropType } from '../../propTypes'

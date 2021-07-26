@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, ShinyText } from '@dfohub/design-system'
+import { Typography, ShinyText } from '@ethereansos/interfaces-ui'
 
 import style from './home.module.css'
 

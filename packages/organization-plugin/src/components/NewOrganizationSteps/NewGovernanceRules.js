@@ -1,6 +1,6 @@
 import React from 'react'
-import { EditField } from '@dfohub/components'
-import { Typography } from '@dfohub/design-system'
+import { EditField } from '@ethereansos/interfaces-ui'
+import { Typography } from '@ethereansos/interfaces-ui'
 import classNames from 'classnames'
 import T from 'prop-types'
 

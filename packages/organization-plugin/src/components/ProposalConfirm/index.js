@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Typography, Chip } from '@dfohub/design-system'
+import { Button, Typography, Chip } from '@ethereansos/interfaces-ui'
 import T from 'prop-types'
-import { Formik, Form } from '@dfohub/components'
+import { Formik, Form } from '@ethereansos/interfaces-ui'
 import { useEthosContext, useWeb3 } from '@ethereansos/interfaces-core'
 
 import style from './proposal-confirm.module.scss'

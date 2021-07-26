@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import T from 'prop-types'
 import { usePlaceholder } from '@ethereansos/interfaces-core'
-import { Formik, Form } from '@dfohub/components'
-import { Button, SnackBar } from '@dfohub/design-system'
+import { Formik, Form } from '@ethereansos/interfaces-ui'
+import { Button, SnackBar } from '@ethereansos/interfaces-ui'
 
 import StepTemplate from '../components/NewOrganizationSteps/StepTemplate'
 import { orgEditInitialValues } from '../components/OrganizationEdit'

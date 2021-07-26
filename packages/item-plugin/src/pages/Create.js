@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import T from 'prop-types'
 import { usePlaceholder } from '@ethereansos/interfaces-core'
-import { Button, Card } from '@dfohub/design-system'
+import { Button, Card } from '@ethereansos/interfaces-ui'
 
 import styles from './pages.module.scss'
 const Create = ({ setTemplateState }) => {

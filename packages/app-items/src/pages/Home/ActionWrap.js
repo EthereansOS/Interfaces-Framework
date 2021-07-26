@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Typography, ShinyText, Link } from '@dfohub/design-system'
+import { Button, Typography, ShinyText, Link } from '@ethereansos/interfaces-ui'
 
 import style from './home.module.css'
 const ActionCreate = () => {

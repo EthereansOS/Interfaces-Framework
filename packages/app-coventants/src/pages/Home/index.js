@@ -1,6 +1,6 @@
 import React from 'react'
 import Content from '../../components/Content'
-import { Typography } from '@dfohub/design-system'
+import { Typography } from '@ethereansos/interfaces-ui'
 
 import style from './home.module.css'
 

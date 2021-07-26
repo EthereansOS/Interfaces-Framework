@@ -1,7 +1,7 @@
 import React from 'react'
 import T from 'prop-types'
 import classNames from 'classnames'
-import { ShinyText } from '@dfohub/design-system'
+import { ShinyText } from '@ethereansos/interfaces-ui'
 
 import style from './categoryBar.module.scss'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Typography } from '@dfohub/design-system'
+import { Card, Typography } from '@ethereansos/interfaces-ui'
 
 const FarmingContracts = () => {
   return (

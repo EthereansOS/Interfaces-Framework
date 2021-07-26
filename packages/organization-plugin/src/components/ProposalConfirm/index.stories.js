@@ -1,6 +1,6 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import { Modal } from '@dfohub/design-system'
+import { Modal } from '@ethereansos/interfaces-ui'
 
 import ProposalConfirm from '.'
 

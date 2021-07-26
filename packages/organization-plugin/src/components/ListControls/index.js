@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl } from '@dfohub/design-system'
+import { FormControl } from '@ethereansos/interfaces-ui'
 import T from 'prop-types'
 
 import style from './list-controls.module.scss'

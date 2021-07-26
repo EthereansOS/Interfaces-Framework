@@ -1,5 +1,5 @@
 import React from 'react'
-import { CircularProgress } from '@dfohub/design-system'
+import { CircularProgress } from '@ethereansos/interfaces-ui'
 
 import { ACTION_STATE_DONE, ACTION_STATE_LOADING } from './constants'
 

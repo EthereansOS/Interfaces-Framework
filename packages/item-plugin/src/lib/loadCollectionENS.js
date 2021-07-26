@@ -1,6 +1,6 @@
 import { blockchainCall, getLogs } from '@ethereansos/interfaces-core'
 async function loadCollectionENS(
-  { web3, web3ForLogs, context, networkId },
+  { web3, web3ForLogs, context, networkId, contracts },
   item
 ) {
   if (item.ens !== undefined && item.ens !== null) {
@@ -11,13 +11,14 @@ async function loadCollectionENS(
   try {
     const address = await blockchainCall(
       { web3, context },
-      window.ethItemOrchestrator.methods.ENSController
+      contracts.ethItemOrchestrator.methods.ENSController
     )
     const ensEvent = 'ENSAttached(address,string,string)'
     const topics = [
       web3.utils.sha3(ensEvent),
       web3.eth.abi.encodeParameter('address', item.address),
     ]
+
     const logs = await getLogs(
       { web3, web3ForLogs, context, networkId },
       {

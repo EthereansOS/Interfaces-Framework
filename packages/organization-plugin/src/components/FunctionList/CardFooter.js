@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Editor from '@monaco-editor/react'
-import { Typography, Button } from '@dfohub/design-system'
+import { Typography, Button } from '@ethereansos/interfaces-ui'
 import T from 'prop-types'
 import { useEthosContext, useWeb3 } from '@ethereansos/interfaces-core'
 import { Formik, Form } from 'formik'

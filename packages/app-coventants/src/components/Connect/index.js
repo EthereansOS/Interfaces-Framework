@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useWeb3, webs3States, usePrevious } from '@ethereansos/interfaces-core'
-import { ConnectWidget } from '@dfohub/components'
-import { Container } from '@dfohub/design-system'
+import { ConnectWidget, Container } from '@ethereansos/interfaces-ui'
 import style from './connect.module.css'
 
 const Connect = ({ children }) => {

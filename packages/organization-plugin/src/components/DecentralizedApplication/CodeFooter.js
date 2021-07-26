@@ -1,6 +1,6 @@
 import React from 'react'
 import Editor from '@monaco-editor/react'
-import { Typography } from '@dfohub/design-system'
+import { Typography } from '@ethereansos/interfaces-ui'
 import T from 'prop-types'
 
 import useFetchFrontendCode from '../../hooks/useFetchFrontendCode'

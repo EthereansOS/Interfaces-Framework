@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography } from '@dfohub/design-system'
+import { Typography } from '@ethereansos/interfaces-ui'
 import classNames from 'classnames'
 
 import OrgEditFields from '../OrganizationEdit/OrgEditFields'

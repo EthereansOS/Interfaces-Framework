@@ -1,6 +1,6 @@
 import React from 'react'
-import { TextField, Typography, Tooltip } from '@dfohub/design-system'
-import { EditField, Field } from '@dfohub/components'
+import { TextField, Typography, Tooltip } from '@ethereansos/interfaces-ui'
+import { EditField, Field } from '@ethereansos/interfaces-ui'
 
 import style from './organization-edit.module.scss'
 

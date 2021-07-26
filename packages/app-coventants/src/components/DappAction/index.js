@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Typography, Button } from '@dfohub/design-system'
+import { Typography, Button } from '@ethereansos/interfaces-ui'
 
 import style from './dapp-action.module.css'
 

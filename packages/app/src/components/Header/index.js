@@ -5,7 +5,7 @@ import {
   Container,
   Chip,
   Link,
-} from '@dfohub/design-system'
+} from '@ethereansos/interfaces-ui'
 import style from './header.module.css'
 import T from 'prop-types'
 

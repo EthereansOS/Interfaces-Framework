@@ -8,6 +8,7 @@
         "@babel*",
         "react*",
         "@ethereansos/interfaces-core",
+        "@ethereansos/interfaces-ui",
         "prettier*",
         "@commitlint/cli",
         "@commitlint/config-conventional",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Chip, Link, Typography } from '@dfohub/design-system'
+import { Card, Chip, Link, Typography } from '@ethereansos/interfaces-ui'
 import {
   formatLink,
   fromDecimals,

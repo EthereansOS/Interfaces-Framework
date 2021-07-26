@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Card, Typography } from '@dfohub/design-system'
+import { Card, Typography } from '@ethereansos/interfaces-ui'
 import { useEthosContext } from '@ethereansos/interfaces-core'
 import T from 'prop-types'
 
