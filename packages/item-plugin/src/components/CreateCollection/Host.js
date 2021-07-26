@@ -1,6 +1,12 @@
 import React from 'react'
-import { Formik, Form, EditField } from '@dfohub/components'
-import { Button, Select, Typography } from '@dfohub/design-system'
+import {
+  Formik,
+  Form,
+  EditField,
+  Button,
+  Select,
+  Typography,
+} from '@ethereansos/interfaces-ui'
 import * as Yup from 'yup'
 import T from 'prop-types'
 

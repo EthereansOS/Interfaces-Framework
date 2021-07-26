@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Container } from '@dfohub/design-system'
+import { Container } from '@ethereansos/interfaces-ui'
 import Header from '../Header'
 import style from './main-template.module.css'
 import Menu from '../Menu'

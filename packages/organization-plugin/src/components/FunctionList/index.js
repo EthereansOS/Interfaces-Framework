@@ -12,7 +12,7 @@ import {
   Chip,
   Link,
   LinearProgress,
-} from '@dfohub/design-system'
+} from '@ethereansos/interfaces-ui'
 import PQueue from 'p-queue'
 import { useParams } from 'react-router-dom'
 

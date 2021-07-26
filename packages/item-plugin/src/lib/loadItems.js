@@ -100,7 +100,15 @@ async function loadItems({
       // if (subCollection.key === '0x98995FAfcbdafA6a2C983efd3F2B67690AE0CdF1') {
       queue.add(() =>
         loadItemListInfo(
-          { web3, context, networkId, walletAddress, updateItem },
+          {
+            web3,
+            web3ForLogs,
+            context,
+            networkId,
+            walletAddress,
+            updateItem,
+            contracts,
+          },
           subCollection
         )
       )

@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { Typography, Button, TextField, Modal } from '@dfohub/design-system'
+import {
+  Typography,
+  Button,
+  TextField,
+  Modal,
+} from '@ethereansos/interfaces-ui'
 import T from 'prop-types'
 import { numberToString } from '@ethereansos/interfaces-core'
 import { sprintf } from 'sprintf-js'

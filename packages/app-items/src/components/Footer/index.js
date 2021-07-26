@@ -1,5 +1,10 @@
 import React from 'react'
-import { Typography, Container, Link, ShinyText } from '@dfohub/design-system'
+import {
+  Typography,
+  Container,
+  Link,
+  ShinyText,
+} from '@ethereansos/interfaces-ui'
 import style from './footer.module.css'
 
 function Footer() {

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { LinearProgress, Typography, Card, Button } from '@dfohub/design-system'
+import {
+  LinearProgress,
+  Typography,
+  Card,
+  Button,
+} from '@ethereansos/interfaces-ui'
 import {
   blockchainCall,
   useEthosContext,

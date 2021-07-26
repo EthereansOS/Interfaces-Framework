@@ -32,7 +32,7 @@ const useItems = () => {
   const updateItem = useCallback(
     (itemToUpdate, info) => {
       setItems((s) => {
-        return s.map((item) =>
+        return (s || []).map((item) =>
           item.key === itemToUpdate.key ? { ...item, ...info } : item
         )
       })

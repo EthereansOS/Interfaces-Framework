@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import T from 'prop-types'
-import { Card, Typography } from '@dfohub/design-system'
+import { Card, Typography } from '@ethereansos/interfaces-ui'
 
 import useItems from '../hooks/useItems'
 import useCategories from '../hooks/useCategories'

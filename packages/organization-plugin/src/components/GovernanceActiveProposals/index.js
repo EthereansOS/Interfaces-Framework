@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import T from 'prop-types'
-import { LinearProgress, Typography } from '@dfohub/design-system'
+import { LinearProgress, Typography } from '@ethereansos/interfaces-ui'
 import { getNetworkElement, useWeb3 } from '@ethereansos/interfaces-core'
 
 import { OrganizationPropType } from '../../propTypes'

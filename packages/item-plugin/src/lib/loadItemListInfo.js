@@ -126,7 +126,7 @@ async function loadItemListInfo(
   info.openSeaName = newMetadata.name?.toLowerCase().split(' ').join('-')
   delete item.hasBalance
   const collectionEns = await loadCollectionENS(
-    { web3, web3ForLogs, context, networkId },
+    { web3, web3ForLogs, context, networkId, contracts },
     item
   )
 

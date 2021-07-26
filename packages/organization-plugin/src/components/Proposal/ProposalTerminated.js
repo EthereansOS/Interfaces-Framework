@@ -1,4 +1,4 @@
-import { Button, Link, Typography } from '@dfohub/design-system'
+import { Button, Link, Typography } from '@ethereansos/interfaces-ui'
 import React from 'react'
 import T from 'prop-types'
 

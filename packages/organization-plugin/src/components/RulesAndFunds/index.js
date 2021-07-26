@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Typography, Chip, Link } from '@dfohub/design-system'
+import { Card, Typography, Chip, Link } from '@ethereansos/interfaces-ui'
 import {
   blockchainCall,
   fromDecimals,

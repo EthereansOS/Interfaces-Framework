@@ -4,7 +4,7 @@ import {
   Button,
   FormControl,
   TextField,
-} from '@dfohub/design-system'
+} from '@ethereansos/interfaces-ui'
 import Editor from '@monaco-editor/react'
 
 import useFetchFrontendCode from '../../hooks/useFetchFrontendCode'

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card } from '@dfohub/design-system'
+import { Card } from '@ethereansos/interfaces-ui'
 
 import styles from './create-collection.module.scss'
 import Start from './Start'

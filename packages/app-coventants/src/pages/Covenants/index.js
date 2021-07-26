@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Card } from '@dfohub/design-system'
+import { Typography, Card } from '@ethereansos/interfaces-ui'
 import Content from '../../components/Content'
 
 import style from './covenants.module.css'

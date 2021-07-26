@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Typography, Container } from '@dfohub/design-system'
+import { Button, Typography, Container } from '@ethereansos/interfaces-ui'
 import { Link } from 'react-router-dom'
 import {
   useWeb3,

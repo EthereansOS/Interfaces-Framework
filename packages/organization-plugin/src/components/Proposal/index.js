@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import T from 'prop-types'
-import { Card, Typography } from '@dfohub/design-system'
-import { Link } from '@dfohub/design-system'
+import { Card, Typography } from '@ethereansos/interfaces-ui'
+import { Link } from '@ethereansos/interfaces-ui'
 
 import { OrganizationPropType } from '../../propTypes'
 import Section from '../shared/Section'

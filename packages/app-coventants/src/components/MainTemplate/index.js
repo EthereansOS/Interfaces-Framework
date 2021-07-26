@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import classnames from 'classnames'
 import Header from '../Header'
 import Navigation from '../../components/Navigation'
-import { Container } from '@dfohub/design-system'
+import { Container } from '@ethereansos/interfaces-ui'
 import style from './main-template.module.css'
 
 const MainTemplate = ({ Component, ...props }) => {

@@ -1,7 +1,12 @@
 import React from 'react'
 import T from 'prop-types'
-import { Formik, Form } from '@dfohub/components'
-import { Button, FormControl, Typography } from '@dfohub/design-system'
+import {
+  Formik,
+  Form,
+  Button,
+  FormControl,
+  Typography,
+} from '@ethereansos/interfaces-ui'
 
 const Granularity = ({ onNext, onBack, values }) => {
   const handleSubmit = (props) => {

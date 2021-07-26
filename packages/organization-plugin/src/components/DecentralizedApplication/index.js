@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
-import { Card, Typography, Chip, Link, Button } from '@dfohub/design-system'
+import {
+  Card,
+  Typography,
+  Chip,
+  Link,
+  Button,
+} from '@ethereansos/interfaces-ui'
 import { useLocation } from 'react-router-dom'
 
 import Section from '../shared/Section'

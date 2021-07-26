@@ -1,6 +1,6 @@
 import React from 'react'
 import T from 'prop-types'
-import { Typography } from '@dfohub/design-system'
+import { Typography } from '@ethereansos/interfaces-ui'
 
 import style from './step-template.module.scss'
 

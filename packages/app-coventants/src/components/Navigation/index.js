@@ -1,7 +1,7 @@
 import React from 'react'
 import { usePlaceholder } from '@ethereansos/interfaces-core'
 import { Link, useLocation } from 'react-router-dom'
-import { Typography } from '@dfohub/design-system'
+import { Typography } from '@ethereansos/interfaces-ui'
 
 import style from './navigation.module.css'
 

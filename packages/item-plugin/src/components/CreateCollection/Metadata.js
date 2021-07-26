@@ -6,8 +6,10 @@ import {
   FileField,
   ColorField,
   Yup,
-} from '@dfohub/components'
-import { Button, Select, Typography } from '@dfohub/design-system'
+  Button,
+  Select,
+  Typography,
+} from '@ethereansos/interfaces-ui'
 import T from 'prop-types'
 
 const MetadataSchemaBasic = Yup.object().shape({

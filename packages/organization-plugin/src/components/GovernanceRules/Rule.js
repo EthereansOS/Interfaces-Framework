@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Typography, Button } from '@dfohub/design-system'
+import { Card, Typography, Button } from '@ethereansos/interfaces-ui'
 import T from 'prop-types'
 
 import { useOrganizationContext } from '../../OrganizationContext'

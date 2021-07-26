@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Card } from '@dfohub/design-system'
+import { Card } from '@ethereansos/interfaces-ui'
 
 const HomePage = ({ setTemplateState }) => {
   useEffect(() => {

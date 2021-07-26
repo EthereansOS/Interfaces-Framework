@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
-import { Container } from '@dfohub/design-system'
+import { Container } from '@ethereansos/interfaces-ui'
 import Header from '../Header'
 import Footer from '../Footer'
 import style from './main-template.module.css'

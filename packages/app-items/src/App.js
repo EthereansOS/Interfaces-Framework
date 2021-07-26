@@ -1,7 +1,6 @@
 import { HashRouter } from 'react-router-dom'
 import React from 'react'
-import '@dfohub/design-system/dist/index.cjs.css'
-import '@dfohub/components/dist/index.cjs.css'
+import '@ethereansos/interfaces-ui/dist/index.cjs.css'
 import '@dfohub/item-plugin/dist/index.cjs.css'
 
 import {

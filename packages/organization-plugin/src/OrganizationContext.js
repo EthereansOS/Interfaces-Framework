@@ -6,7 +6,7 @@ import React, {
   useMemo,
 } from 'react'
 import T from 'prop-types'
-import { Modal } from '@dfohub/design-system'
+import { Modal } from '@ethereansos/interfaces-ui'
 
 import OrganizationHeader from './components/OrganizationHeader'
 import useOrganizations from './hooks/useOrganizations'

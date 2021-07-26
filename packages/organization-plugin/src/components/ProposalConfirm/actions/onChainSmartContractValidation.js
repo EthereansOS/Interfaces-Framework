@@ -1,6 +1,6 @@
 import React from 'react'
 import T from 'prop-types'
-import { TextField, Typography } from '@dfohub/design-system'
+import { TextField, Typography } from '@ethereansos/interfaces-ui'
 import {
   mint,
   split,

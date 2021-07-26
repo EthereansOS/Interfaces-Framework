@@ -6,7 +6,7 @@ import {
   Link,
   Button,
   Modal,
-} from '@dfohub/design-system'
+} from '@ethereansos/interfaces-ui'
 import { formatLink, useEthosContext } from '@ethereansos/interfaces-core'
 
 import Section from '../shared/Section'

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import pupa from 'pupa'
 import classNames from 'classnames'
 import { usePlaceholder } from '@ethereansos/interfaces-core'
-import { ShinyText } from '@dfohub/design-system'
+import { ShinyText } from '@ethereansos/interfaces-ui'
 import { Link, useParams } from 'react-router-dom'
 
 import style from './menu.module.css'
@@ -26,9 +26,8 @@ function Menu(props) {
   return (
     <ul className={style.root}>
       {menuItems.map(({ label, link, name }) => (
-        <Link to={resolveParams(link, params)}>
+        <Link to={resolveParams(link, params)} key={`${link}-${label}`}>
           <li
-            key={`${link}-${label}`}
             className={classNames(style.link, {
               [style.selected]: props.selected === name,
             })}>
