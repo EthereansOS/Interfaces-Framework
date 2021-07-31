@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import T from 'prop-types'
-import { Table, Typography, Link } from '@ethereansos/interfaces-ui'
+import { Table, Typography } from '@ethereansos/interfaces-ui'
 import { formatLink, useEthosContext } from '@ethereansos/interfaces-core'
 
 import ListControls from '../components/ListControls'
@@ -13,6 +13,7 @@ import {
   sortFromFirst,
   sortFromLast,
 } from '../utils/listFilters'
+import Link from '../components/shared/Link'
 
 const List = ({ setTemplateState }) => {
   const [organizationsLength, setOrganizationLength] = useState(0)

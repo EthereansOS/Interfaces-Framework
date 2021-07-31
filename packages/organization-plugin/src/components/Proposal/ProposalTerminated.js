@@ -1,8 +1,9 @@
-import { Button, Link, Typography } from '@ethereansos/interfaces-ui'
+import { Button, Typography } from '@ethereansos/interfaces-ui'
 import React from 'react'
 import T from 'prop-types'
 
 import { OrganizationPropType } from '../../propTypes'
+import Link from '../shared/Link'
 
 import { ProposalPropTypes } from './propTypes'
 import Finalize from './Finalize'

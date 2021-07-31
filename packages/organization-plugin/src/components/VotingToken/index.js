@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Chip, Link, Typography } from '@ethereansos/interfaces-ui'
+import { Card, Chip, Typography } from '@ethereansos/interfaces-ui'
 import {
   formatLink,
   fromDecimals,
@@ -11,6 +11,7 @@ import {
 
 import { OrganizationPropType } from '../../propTypes'
 import loadLogo from '../../lib/loadLogo'
+import Link from '../shared/Link'
 
 import style from './voting-token.module.scss'
 

@@ -3,7 +3,6 @@ import {
   Card,
   Typography,
   Chip,
-  Link,
   Button,
   Modal,
 } from '@ethereansos/interfaces-ui'
@@ -13,6 +12,7 @@ import Section from '../shared/Section'
 import { OrganizationPropType } from '../../propTypes'
 import { useOrganizationContext } from '../../OrganizationContext'
 import OrganizationEdit from '../OrganizationEdit'
+import Link from '../shared/Link'
 
 import style from './organization-info.module.scss'
 

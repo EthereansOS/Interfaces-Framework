@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Typography, ShinyText, Link } from '@ethereansos/interfaces-ui'
+import { Link as RLink } from 'react-router-dom'
 
 import style from './home.module.css'
 const ActionCreate = () => {
@@ -12,7 +13,7 @@ const ActionCreate = () => {
         Farm and set up farming contracts for your{' '}
         <ShinyText text="ITEMs" strong />, with full DeFi integration.
       </Typography>
-      <Link to="/farm">
+      <Link RLink={RLink} to="/farm">
         <Button primary text="Farm" />
       </Link>
     </div>
