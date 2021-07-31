@@ -12,7 +12,6 @@ import {
   Card,
   Typography,
   Chip,
-  Link,
   CircularProgress,
 } from '@ethereansos/interfaces-ui'
 import { useHistory, useParams } from 'react-router-dom'
@@ -21,6 +20,7 @@ import { OrganizationPropType } from '../../propTypes'
 import { useOrganizationContext } from '../../OrganizationContext'
 import useFetchWallets from '../../hooks/useFetchWallets'
 import useFetchAmounts from '../../hooks/useFetchAmounts'
+import Link from '../shared/Link'
 
 import style from './balance-list.module.scss'
 

@@ -8,6 +8,8 @@ import {
 } from '@ethereansos/interfaces-ui'
 import style from './header.module.css'
 import T from 'prop-types'
+import { Link as RLink } from 'react-router-dom'
+
 import Menu from '../Menu'
 function Header(props) {
   return (
@@ -15,12 +17,12 @@ function Header(props) {
       <Container className={style.content}>
         <div className={style.leftContainer}>
           <div className={style.titleBlock}>
-            <Link to="/">
+            <Link RLink={RLink} to="/">
               <span className={style.logo}>
                 <img src="assets/css/special/logoS.png" alt="items-logo" />
               </span>
             </Link>{' '}
-            <Link to="/">
+            <Link RLink={RLink} to="/">
               <ShinyText className={style.title} text="ETHITEM" />
             </Link>
           </div>

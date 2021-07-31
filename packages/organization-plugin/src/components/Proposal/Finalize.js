@@ -1,8 +1,9 @@
 import React from 'react'
 import T from 'prop-types'
-import { Button, Link, Typography } from '@ethereansos/interfaces-ui'
+import { Button, Typography } from '@ethereansos/interfaces-ui'
 
 import { OrganizationPropType } from '../../propTypes'
+import Link from '../shared/Link'
 
 import { ProposalPropTypes } from './propTypes'
 

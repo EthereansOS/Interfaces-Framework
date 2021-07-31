@@ -1,16 +1,11 @@
 import React, { useState } from 'react'
-import {
-  Card,
-  Typography,
-  Chip,
-  Link,
-  Button,
-} from '@ethereansos/interfaces-ui'
+import { Card, Typography, Chip, Button } from '@ethereansos/interfaces-ui'
 import { useLocation } from 'react-router-dom'
 
 import Section from '../shared/Section'
 import { OrganizationPropType } from '../../propTypes'
 import { useOrganizationContext } from '../../OrganizationContext'
+import Link from '../shared/Link'
 
 import style from './decentralized-app.module.scss'
 import ChangeCodeFooter from './ChangeCodeFooter'

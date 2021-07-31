@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Typography, ShinyText, Link } from '@ethereansos/interfaces-ui'
+import { Link as RLink } from 'react-router-dom'
 
 import style from './home.module.css'
 const ActionCreate = () => {
@@ -14,7 +15,7 @@ const ActionCreate = () => {
         all. Save gas batch-swapping ERC20s. Farm ERC1155s in DeFi dApps. Swap
         ERC721s on DExes. A world of possibilities awaits you.
       </Typography>
-      <Link to="/wrap">
+      <Link RLink={RLink} to="/wrap">
         <Button primary text="Wrap" />
       </Link>
     </div>

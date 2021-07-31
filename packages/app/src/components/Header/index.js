@@ -4,10 +4,10 @@ import {
   TextField,
   Container,
   Chip,
-  Link,
 } from '@ethereansos/interfaces-ui'
 import style from './header.module.css'
 import T from 'prop-types'
+import { Link } from 'react-router-dom'
 
 function Header() {
   return (

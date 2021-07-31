@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Typography, Chip, Link } from '@ethereansos/interfaces-ui'
+import { Card, Typography, Chip } from '@ethereansos/interfaces-ui'
 import {
   blockchainCall,
   fromDecimals,
@@ -12,6 +12,7 @@ import { useLocation } from 'react-router-dom'
 import Section from '../shared/Section'
 import { OrganizationPropType } from '../../propTypes'
 import useOrganizations from '../../hooks/useOrganizations'
+import Link from '../shared/Link'
 
 import style from './rules-and-funds.module.scss'
 

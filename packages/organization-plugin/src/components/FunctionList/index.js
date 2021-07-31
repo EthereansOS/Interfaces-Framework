@@ -10,7 +10,6 @@ import {
   Typography,
   Button,
   Chip,
-  Link,
   LinearProgress,
 } from '@ethereansos/interfaces-ui'
 import PQueue from 'p-queue'
@@ -18,6 +17,7 @@ import { useParams } from 'react-router-dom'
 
 import { OrganizationPropType } from '../../propTypes'
 import { useOrganizationContext } from '../../OrganizationContext'
+import Link from '../shared/Link'
 
 import CardFooter from './CardFooter'
 import style from './function-list.module.scss'

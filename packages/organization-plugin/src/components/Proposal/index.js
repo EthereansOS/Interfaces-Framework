@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import T from 'prop-types'
 import { Card, Typography } from '@ethereansos/interfaces-ui'
-import { Link } from '@ethereansos/interfaces-ui'
 
 import { OrganizationPropType } from '../../propTypes'
 import Section from '../shared/Section'
+import Link from '../shared/Link'
 
 import { ProposalPropTypes } from './propTypes'
 import style from './proposal.module.scss'

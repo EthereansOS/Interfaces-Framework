@@ -5,6 +5,8 @@ import {
   Link,
   ShinyText,
 } from '@ethereansos/interfaces-ui'
+import { Link as RLink } from 'react-router-dom'
+
 import style from './footer.module.css'
 
 function Footer() {
@@ -39,16 +41,16 @@ function Footer() {
           <a target="_blank" rel="noreferrer" href="https://ethos.eth.link/">
             EthOS
           </a>
-          <Link to="explore" data-section="explore">
+          <Link RLink={RLink} to="explore" data-section="explore">
             Explore Items
           </Link>
-          <Link to="wrap" data-section="wrap">
+          <Link RLink={RLink} to="wrap" data-section="wrap">
             Wrap to Items
           </Link>
-          <Link to="create" data-section="create">
+          <Link RLink={RLink} to="create" data-section="create">
             Create Items
           </Link>
-          <Link to="farm" data-section="farm">
+          <Link RLink={RLink} to="farm" data-section="farm">
             Farm Items
           </Link>
           <a

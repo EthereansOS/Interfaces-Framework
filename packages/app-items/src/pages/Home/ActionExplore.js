@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Typography, ShinyText, Link } from '@ethereansos/interfaces-ui'
+import { Link as RLink } from 'react-router-dom'
 
 import style from './home.module.css'
 const ActionCreate = () => {
@@ -12,7 +13,7 @@ const ActionCreate = () => {
         Explore, swap, arbitrage, bid for and track prices of all existing
         ITEMS.
       </Typography>
-      <Link to="/explore">
+      <Link RLink={RLink} to="/explore">
         <Button primary text="Explore" />
       </Link>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Typography, ShinyText, Link } from '@ethereansos/interfaces-ui'
+import { Link as RLink } from 'react-router-dom'
 
 import style from './home.module.css'
 const ActionCreate = () => {
@@ -14,7 +15,7 @@ const ActionCreate = () => {
         for each. Program extensions for every individual{' '}
         <ShinyText text="ITEM" strong />, unleashing their portable potential.
       </Typography>
-      <Link to="/create">
+      <Link RLink={RLink} to="/create">
         <Button primary text="Create" />
       </Link>
     </div>
