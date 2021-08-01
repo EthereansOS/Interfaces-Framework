@@ -6,10 +6,11 @@ import { getNetworkElement, useWeb3 } from '@ethereansos/interfaces-core'
 import { OrganizationPropType } from '../../propTypes'
 import Proposal from '../Proposal'
 
-function GovernanceActiveProposals({
+function GovernanceHistoryProposals({
   organization,
+  loadDiff,
+  finalizeProposal,
   proposals,
-  loadProposalCode,
   loaded,
 }) {
   const web3Context = useWeb3()
@@ -43,7 +44,8 @@ function GovernanceActiveProposals({
             key={proposal.key}
             organization={organization}
             survey={proposal}
-            loadProposalCode={loadProposalCode}
+            loadDiff={loadDiff}
+            finalizeProposal={finalizeProposal}
             etherscanURL={etherscanURL}
           />
         ))}
@@ -51,11 +53,12 @@ function GovernanceActiveProposals({
   )
 }
 
-export default GovernanceActiveProposals
+export default GovernanceHistoryProposals
 
-GovernanceActiveProposals.propTypes = {
+GovernanceHistoryProposals.propTypes = {
   organization: OrganizationPropType,
-  loadProposalCode: T.func.isRequired,
+  loadDiff: T.func.isRequired,
+  finalizeProposal: T.func.isRequired,
   proposals: T.array.isRequired,
   loaded: T.bool,
 }

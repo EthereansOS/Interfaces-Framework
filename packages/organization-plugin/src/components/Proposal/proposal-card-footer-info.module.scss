@@ -1,0 +1,25 @@
+.content {
+  font-size: calc(var(--unit) * 3.5);
+  margin-top: calc(var(--unit) * 4);
+  margin-left: calc(var(--unit) * 2);
+  display: grid;
+  grid-template-columns: [first] calc(var(--unit) * 8) [line2] auto [end];
+  row-gap: calc(var(--unit) * 1);
+  flex: 1;
+}
+.progressbarAccepted,
+.progressbarRefused {
+  text-align: center;
+}
+
+.progressbarAccepted {
+  background-color: var(--snackbar-success-color);
+}
+
+.progressbarRefused {
+  background-color: var(--snackbar-error-color);
+}
+
+.progressbarText {
+  text-align: center;
+}

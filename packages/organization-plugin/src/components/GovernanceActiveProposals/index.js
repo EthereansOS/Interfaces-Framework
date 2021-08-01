@@ -8,7 +8,8 @@ import Proposal from '../Proposal'
 
 function GovernanceActiveProposals({
   organization,
-  loadProposalCode,
+  loadDiff,
+  finalizeProposal,
   proposals,
   loaded,
 }) {
@@ -43,7 +44,8 @@ function GovernanceActiveProposals({
             key={proposal.key}
             organization={organization}
             survey={proposal}
-            loadProposalCode={loadProposalCode}
+            loadDiff={loadDiff}
+            finalizeProposal={finalizeProposal}
             etherscanURL={etherscanURL}
           />
         ))}
@@ -55,7 +57,8 @@ export default GovernanceActiveProposals
 
 GovernanceActiveProposals.propTypes = {
   organization: OrganizationPropType,
-  loadProposalCode: T.func.isRequired,
+  loadDiff: T.func.isRequired,
+  finalizeProposal: T.func.isRequired,
   proposals: T.array.isRequired,
   loaded: T.bool,
 }
