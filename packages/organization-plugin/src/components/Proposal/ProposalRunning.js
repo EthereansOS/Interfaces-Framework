@@ -6,25 +6,27 @@ import { OrganizationPropType } from '../../propTypes'
 import Link from '../shared/Link'
 
 import { ProposalPropTypes } from './propTypes'
+import style from './proposal.module.scss'
 import Finalize from './Finalize'
+import Code from './Code'
+import ProposalRightLinks from './ProposalRightLinks'
 
 function ProposalRunning({
   organization,
   survey,
-  percAccepted,
-  percRefused,
   etherscanURL,
-  symbol,
+  unit,
   handleCode,
-  finalizeProposal,
+  showCode,
+  handleFinalize,
 }) {
   const handleVote = (e) => {
     return
   }
 
   return (
-    <div>
-      <Typography variant="body1">
+    <div className={style.rightContent}>
+      <Typography variant="body1" className={style.leading}>
         Leading:{' '}
         {survey.leading && (
           <span role="img" aria-label="leading">
@@ -37,48 +39,36 @@ function ProposalRunning({
           </span>
         )}
       </Typography>
-      <Typography variant="body1">
+      <Typography variant="body1" className={style.block}>
         End Block:{' '}
-        <Link href={etherscanURL + 'block/' + survey.endBlock} external>
+        <Link
+          className={style.blockLink}
+          href={etherscanURL + 'block/' + survey.endBlock}
+          external>
           {survey.endBlock}
         </Link>
       </Typography>
-      {!survey.surveyEnd && (
-        <div>
-          <Button
-            size="small"
-            text="Vote"
-            value={survey.key}
-            onClick={handleVote}
-            color={'tertiary'}
-          />
-        </div>
-      )}
-      {(survey.code || survey.replacesCode) && (
-        <div>
-          <Button
-            size="small"
-            text="Code"
-            value={survey.key}
-            onClick={handleCode}
-            color={'tertiary'}
-          />
-        </div>
-      )}
-      <br />
-      <br />
-      <Link href={etherscanURL + 'address/' + survey.address} external>
-        Proposal
-      </Link>{' '}
-      <Link href={etherscanURL + 'address/' + survey.location} external>
-        Contract
-      </Link>
+      <div className={style.buttonsContainer}>
+        {!survey.surveyEnd && (
+          <div>
+            <Button
+              size="small"
+              text="Vote"
+              value={survey.key}
+              onClick={handleVote}
+              color={'tertiary'}
+              className={style.leftButton}
+            />
+          </div>
+        )}
+        {(survey.code || survey.replacesCode) && (
+          <Code survey={survey} handleCode={handleCode} showCode={showCode} />
+        )}
+      </div>
+      <div className={style.spaceContainer} />
+      <ProposalRightLinks survey={survey} etherscanURL={etherscanURL} />
       {survey.surveyEnd && !survey.terminated && (
-        <Finalize
-          key={survey.key}
-          survey={survey}
-          finalizeProposal={finalizeProposal}
-        />
+        <Finalize survey={survey} handleFinalize={handleFinalize} />
       )}
     </div>
   )
@@ -89,10 +79,9 @@ export default ProposalRunning
 ProposalRunning.propTypes = {
   organization: OrganizationPropType,
   survey: ProposalPropTypes,
-  finalizeProposal: T.func.isRequired,
-  percAccepted: T.string,
-  percRefused: T.string,
+  handleFinalize: T.func.isRequired,
   etherscanURL: T.string,
-  symbol: T.string,
+  unit: T.string,
   handleCode: T.func,
+  showCode: T.bool,
 }

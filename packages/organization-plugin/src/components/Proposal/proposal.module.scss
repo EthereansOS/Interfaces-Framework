@@ -1,6 +1,6 @@
 .cardContent {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: [first] 70% [line2] 30% [end];
   row-gap: calc(var(--unit) * 5);
   flex: 1;
 }
@@ -9,27 +9,87 @@
 .content {
   margin-bottom: calc(var(--unit) * 3.5);
 }
+
 .bioSection h5 * {
   color: var(--color-primary);
 }
+
 .content {
   line-height: 1.3;
 }
+
 .content a {
   color: #fff;
 }
+
 .contentDescription {
   margin-top: calc(var(--unit) * 3.5);
 }
+
 .contentDescription b {
   text-decoration: underline;
 }
+
 .contentDescription a {
   width: 100%;
   margin-top: 10px;
   display: inline-block;
   text-align: left;
 }
+
 .moreLink {
   color: var(--color-tertiary);
+}
+
+.rightContent {
+  line-height: 1.3;
+}
+
+.leading,
+.block,
+.totalContainer {
+  line-height: 1.5;
+}
+
+.block {
+  margin-bottom: var(--unit);
+}
+
+.leading {
+  [role='img'] {
+    font-size: calc(var(--unit) * 2.5);
+  }
+}
+
+.blockLink {
+  text-decoration: underline;
+}
+
+.spaceContainer {
+  margin-bottom: calc(var(--unit) * 6);
+}
+
+.linksContainer {
+  margin: calc(var(--unit) * 3) 0;
+}
+
+.link {
+  font-size: calc(var(--unit) * 3);
+  text-decoration: underline;
+}
+
+.buttonsContainer {
+  display: flex;
+}
+
+.finalizeButton {
+  margin: calc(var(--unit) * 2.5) 0;
+}
+
+.leftButton {
+  margin-right: var(--unit);
+}
+
+.loadingCode {
+  text-align: center;
 }

@@ -32,7 +32,8 @@ const GovernanceProposals = ({ setTemplateState }) => {
     listLoading,
     listLoaded,
     myBalance,
-    loadProposalCode,
+    loadDiff,
+    finalizeProposal,
   } = useOrganizationProposals(organization)
   const previousOrganization = usePrevious(organization)
 
@@ -63,7 +64,8 @@ const GovernanceProposals = ({ setTemplateState }) => {
       loading={listLoading}
       loaded={listLoaded}
       myBalance={myBalance}
-      loadProposalCode={loadProposalCode}
+      loadDiff={loadDiff}
+      finalizeProposal={finalizeProposal}
       web3Context={web3Context}
     />
   ))
