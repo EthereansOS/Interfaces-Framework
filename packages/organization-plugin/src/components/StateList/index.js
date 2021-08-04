@@ -113,7 +113,7 @@ const StateList = ({ organization }) => {
               }}
               onSubmit={() => null}
               onReset={() => null}>
-              {({ isSubmitting, values }) => (
+              {({ isSubmitting }) => (
                 <Form>
                   <FnParamInputField
                     name={generateFieldName(state.name)}

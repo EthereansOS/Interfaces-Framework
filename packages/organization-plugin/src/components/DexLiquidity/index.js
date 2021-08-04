@@ -14,7 +14,6 @@ const DexLiquidity = ({ organization }) => {
   const context = useEthosContext()
   const { networkId, web3, web3ForLogs } = useWeb3()
   const uniswapPairs = useLoadUniswapPairs(
-    { web3, context, networkId, web3ForLogs },
     organization?.token?.options?.address
   )
 

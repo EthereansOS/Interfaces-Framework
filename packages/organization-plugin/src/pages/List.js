@@ -1,12 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import T from 'prop-types'
 import { Table, Typography } from '@ethereansos/interfaces-ui'
-import { formatLink, useEthosContext } from '@ethereansos/interfaces-core'
+import {
+  formatLink,
+  useEthosContext,
+  usePrevious,
+  useLocalStorage,
+} from '@ethereansos/interfaces-core'
 
 import ListControls from '../components/ListControls'
 import { useOrganizationContext } from '../OrganizationContext'
-import useLocalStorage from '../hooks/useLocalStorage'
-import usePrevious from '../hooks/usePrevious'
 import {
   sortByMarketCap,
   sortByMetadata,

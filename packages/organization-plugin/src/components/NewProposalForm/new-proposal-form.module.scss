@@ -1,0 +1,46 @@
+.form {
+  width: 100%;
+}
+
+.root {
+  display: flex;
+  align-items: stretch;
+}
+
+.leftColumn {
+  flex: 1;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.select {
+  width: 100%;
+  max-width: 200px;
+  min-width: 80px;
+}
+
+.sidebar {
+  flex: 0.3;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-left: calc(var(--unit) * 8);
+
+  .advanced {
+    text-align: center;
+    margin: calc(var(--unit) * 4);
+  }
+
+  button {
+    margin: calc(var(--unit) * 2) 0;
+  }
+
+  .sidebarSelect {
+    margin: calc(var(--unit) * 2) 0;
+  }
+}
