@@ -17,8 +17,8 @@ const NewSubdomain = () => {
       </div>
       <div className={style.form}>
         <EditField
-          id="subdomain"
-          name="subdomain"
+          id="ensDomain"
+          name="ensDomain"
           label="Subdomain"
           RightInputComponent={
             <Typography variant="body1">.dfohub.eth</Typography>

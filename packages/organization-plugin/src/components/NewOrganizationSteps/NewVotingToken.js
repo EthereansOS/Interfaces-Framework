@@ -17,9 +17,14 @@ const NewVotingToken = () => {
         </Typography>
       </div>
       <div className={style.form}>
-        <EditField id="name" name="name" label="Name" />
-        <EditField id="symbol" name="symbol" label="Symbol" />
-        <EditField id="supply" name="supply" label="Supply" type="number" />
+        <EditField id="tokenName" name="tokenName" label="Name" />
+        <EditField id="tokenSymbol" name="tokenSymbol" label="Symbol" />
+        <EditField
+          id="tokenTotalSupply"
+          name="tokenTotalSupply"
+          label="Supply"
+          type="number"
+        />
         {/* TODO */}
         <Typography variant="body1" weight="bold" className={style.label}>
           Generation Fee: 1.5% (0)

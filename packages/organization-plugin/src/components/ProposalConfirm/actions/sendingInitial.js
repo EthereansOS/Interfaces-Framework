@@ -13,14 +13,13 @@ import {
   ACTION_STATE_LOADING,
   ACTION_STATE_NONE,
 } from '../constants'
-import { OrganizationPropType } from '../../../propTypes'
 
 const ID = 'sendingInitial'
 
 const sendingInitial = {
   id: ID,
   initialActionState: ACTION_STATE_NONE,
-  Component: ({ actionsState, organization }) => (
+  Component: ({ actionsState, proposalContext: { organization } }) => (
     <Typography weight="bold" variant="body1">
       Sending Initial{' '}
       {fromDecimals(organization.minimumStaking, organization.decimals)}{' '}
@@ -54,7 +53,7 @@ const sendingInitial = {
 
 sendingInitial.Component.propTypes = {
   actionsState: T.string.isRequired,
-  organization: OrganizationPropType,
+  proposalContext: T.any,
 }
 
 export default sendingInitial

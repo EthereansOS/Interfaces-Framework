@@ -4,6 +4,8 @@ import T from 'prop-types'
 import { Formik, Form } from '@ethereansos/interfaces-ui'
 import { useEthosContext, useWeb3 } from '@ethereansos/interfaces-core'
 
+import useOrganizations from '../../hooks/useOrganizations'
+
 import style from './proposal-confirm.module.scss'
 import generateSmartContractProposal from './actions/generateSmartContractProposal'
 import onChainSmartContractValidation from './actions/onChainSmartContractValidation'
@@ -31,6 +33,8 @@ function ProposalConfirm({
   const [isRecovery, setIsRecovery] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [proposalContext, setProposalContext] = useState(initialContext)
+  const [submitLabel, setSubmitLabel] = useState()
+  const { dfoHub } = useOrganizations()
 
   const [actionsState, setActionsState] = useState(
     steps.reduce((acc, next) => {
@@ -50,34 +54,43 @@ function ProposalConfirm({
       <Formik
         initialValues={initialValues}
         onSubmit={async (values, { setSubmitting }) => {
-          const handler = steps[currentStep].handler
-          await handler({
-            values,
-            isRecovery,
-            setSubmitting,
-            setActionsState,
-            proposalContext,
-            setProposalContext,
-            web3Context: { ...web3Context, context: ethosContext },
-          })
-          setSubmitting(false)
-          if (currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1)
-          } else {
-            onProposalSuccess()
+          try {
+            const handler = steps[currentStep].handler
+            await handler({
+              values,
+              isRecovery,
+              setSubmitting,
+              setActionsState,
+              proposalContext,
+              setProposalContext,
+              setSubmitLabel,
+              web3Context: { ...web3Context, context: ethosContext },
+              dfoHub,
+            })
+            if (currentStep < steps.length - 1) {
+              setCurrentStep(currentStep + 1)
+              setSubmitLabel()
+            } else {
+              onProposalSuccess()
+            }
+          } catch (e) {
+            // TODO use snackbar to display errors maybe?
+            console.log('proposal step errored out', e)
           }
+          setSubmitting(false)
         }}>
         {({ isSubmitting, setFieldValue, values }) => (
           <Form>
             {steps.map(({ Component, id }) => (
               <>
                 <Component
+                  setSubmitLabel={setSubmitLabel}
                   key={id}
                   actionsState={actionsState[id]}
                   isRecovery={isRecovery}
                   setFieldValue={setFieldValue}
                   values={values}
-                  organization={proposalContext.element}
+                  proposalContext={proposalContext}
                 />
                 <div className={style.sectionSeparator} />
               </>
@@ -93,13 +106,15 @@ function ProposalConfirm({
               <Button
                 type="submit"
                 text={
-                  currentStep === 0
+                  submitLabel
+                    ? submitLabel
+                    : currentStep === 0
                     ? 'Propose'
                     : currentStep === steps.length - 1
                     ? 'Publish'
                     : 'Next'
                 }
-                disabled={isSubmitting}
+                disabled={isSubmitting || !dfoHub}
               />
               {currentStep === 0 && (
                 <Button

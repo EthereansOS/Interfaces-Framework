@@ -1,9 +1,8 @@
 import {
   blockchainCall,
   sendGeneratedProposal,
+  validateDFOMetadata,
 } from '@ethereansos/interfaces-core'
-
-import validateDFOMetadata from './validateDFOMetadata'
 
 async function proposeNewMetadataLink(
   { web3, context, ipfsHttpClient },
