@@ -1,10 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import {
-  useWeb3,
-  useEthosContext,
-  loadFunctionalityNames,
-  loadFunctionality,
-} from '@ethereansos/interfaces-core'
+import React, { useState } from 'react'
 import {
   Card,
   Typography,
@@ -12,61 +6,50 @@ import {
   Chip,
   LinearProgress,
 } from '@ethereansos/interfaces-ui'
-import PQueue from 'p-queue'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { VOID_ETHEREUM_ADDRESS } from '@ethereansos/interfaces-core'
 
 import { OrganizationPropType } from '../../propTypes'
 import { useOrganizationContext } from '../../OrganizationContext'
 import Link from '../shared/Link'
+import useFetchFunctions from '../../hooks/useFetchFunctions'
+import publishProposal from '../ProposalConfirm/actions/publishProposal'
+import sendingInitial from '../ProposalConfirm/actions/sendingInitial'
 
 import CardFooter from './CardFooter'
 import style from './function-list.module.scss'
 
-const queue = new PQueue({ concurrency: 20 })
-
 function FunctionList({ organization }) {
-  const { web3, networkId } = useWeb3()
-  const context = useEthosContext()
-  const { isEditMode } = useOrganizationContext()
+  const { isEditMode, showProposalModal, closeProposalModal } =
+    useOrganizationContext()
   const params = useParams()
+  const history = useHistory()
+  const { funcNames, isFetching, funcsByName } = useFetchFunctions(organization)
 
-  const [funcNames, setFuncNames] = useState([])
-  const [funcsByName, setFuncsByName] = useState({})
   const [selectedFnName, setSelectedFnName] = useState('')
   const [footerType, setFooterType] = useState('')
-  const [isFetching, setIsFetching] = useState(false)
 
-  useEffect(() => {
-    const fetchFunctions = async () => {
-      try {
-        setIsFetching(true)
-        const names = await loadFunctionalityNames(
-          { web3, context },
-          organization
-        )
-        setFuncNames(names)
+  const onProposalSuccess = () => {
+    closeProposalModal()
+    history.push(`/organizations/${params.address}/governance/proposals`)
+  }
 
-        names.forEach((funcName) =>
-          queue.add(async () => {
-            const func = await loadFunctionality(
-              { web3, context, networkId },
-              funcName,
-              organization
-            )
-            setFuncsByName((fns) => ({ ...fns, [funcName]: func }))
-          })
-        )
-      } catch (e) {
-        console.log('Error fetching functionalities', e)
-      } finally {
-        setIsFetching(false)
-      }
-    }
-
-    if (organization?.functionalitiesManager) {
-      fetchFunctions()
-    }
-  }, [organization, context, networkId, web3])
+  const onDelete = (fnName) => {
+    showProposalModal({
+      steps:
+        !isNaN(parseInt(organization.minimumStaking)) &&
+        parseInt(organization.minimumStaking) > 0
+          ? [publishProposal, sendingInitial]
+          : [publishProposal],
+      initialContext: {
+        element: organization,
+        firstAddress: VOID_ETHEREUM_ADDRESS,
+        functionalityReplace: fnName,
+      },
+      title: `Propose to delete functionality "${fnName}"`,
+      onProposalSuccess,
+    })
+  }
 
   return (
     <>
@@ -124,11 +107,25 @@ function FunctionList({ organization }) {
               color="tertiary"
             />
             {isEditMode && (
-              <Link
-                to={`/organizations/${params.address}/governance/new-proposal`}>
-                <Chip size="small" color="secondary" label="Change" />
-              </Link>
+              <>
+                <Link
+                  to={`/organizations/${params.address}/governance/new-proposal`}>
+                  <Chip size="small" color="secondary" label="Change" />
+                </Link>
+                {name !== 'getMinimumBlockNumberForSurvey' &&
+                  name !== 'getMinimumBlockNumberForEmergencySurvey' &&
+                  name !== 'getEmergencySurveyStaking' &&
+                  name !== 'checkSurveyResult' && (
+                    <Button
+                      text="Delete"
+                      onClick={() => onDelete(name)}
+                      size="small"
+                      color="secondary"
+                    />
+                  )}
+              </>
             )}
+
             <Link
               style={{ fontSize: 12 }}
               target="_blank"

@@ -77,6 +77,7 @@ function ProposalConfirm({
                   isRecovery={isRecovery}
                   setFieldValue={setFieldValue}
                   values={values}
+                  organization={proposalContext.element}
                 />
                 <div className={style.sectionSeparator} />
               </>

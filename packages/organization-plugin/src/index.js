@@ -25,6 +25,7 @@ import NewGovernanceRules from './components/NewOrganizationSteps/NewGovernanceR
 import NewMetadata from './components/NewOrganizationSteps/NewMetadata'
 import GovernanceActiveProposals from './components/GovernanceActiveProposals'
 import GovernanceHistoryProposals from './components/GovernanceHistoryProposals'
+import NewProposalForm from './components/NewProposalForm'
 
 const initPlugin = ({ addElement }) => {
   addElement('globalContexts', {
@@ -229,7 +230,7 @@ const initPlugin = ({ addElement }) => {
   addElement('organizationSubMenuGovernance', {
     name: 'newProposals',
     label: 'New Proposal',
-    link: '/organizations/{{address}}/governance/new-proposals',
+    link: '/organizations/{{address}}/governance/new-proposal',
     index: 30,
   })
 
@@ -263,7 +264,7 @@ const initPlugin = ({ addElement }) => {
 
   addElement('router', {
     index: 30,
-    path: '/organizations/:address/governance/new-proposals',
+    path: '/organizations/:address/governance/new-proposal',
     Component: GovernanceNewProposal,
     exact: true,
     requireConnection: true,
@@ -339,6 +340,12 @@ const initPlugin = ({ addElement }) => {
     key: 'balanceList',
     index: 20,
     Component: BalanceList,
+  })
+
+  addElement('organizationGovernanceNewProposal', {
+    key: 'newProposal',
+    index: 10,
+    Component: NewProposalForm,
   })
 
   addElement('router', {

@@ -5,6 +5,7 @@ import {
   blockchainCall,
   getNetworkElement,
   hasEthereumAddress,
+  VOID_ETHEREUM_ADDRESS,
 } from '@ethereansos/interfaces-core'
 
 import ActionState from '../ActionState'
@@ -38,13 +39,14 @@ const publishProposal = {
         proposalContext.element.dFO.methods.newProposal,
         proposalContext.functionalityName || '',
         proposalContext.emergency || false,
-        getNetworkElement(web3Context, 'defaultOcelotTokenAddress'),
+        proposalContext.firstAddress ||
+          getNetworkElement(web3Context, 'defaultOcelotTokenAddress'),
         isNaN(proposalContext.functionalitySourceId)
           ? 0
           : proposalContext.functionalitySourceId,
         hasEthereumAddress(proposalContext.functionalityAddress)
           ? proposalContext.functionalityAddress
-          : window.voidEthereumAddress,
+          : VOID_ETHEREUM_ADDRESS,
         proposalContext.functionalitySubmitable ||
           proposalContext.functionalityMethodSignature ===
             'callOneTime(address)',
