@@ -6,6 +6,7 @@ import {
   useWeb3,
   formatMoney,
   transfer,
+  swap,
 } from '@ethereansos/interfaces-core'
 import { Balance } from '@ethereansos/interfaces-ui'
 import {
@@ -57,7 +58,7 @@ export const BalanceList = ({ organization }) => {
     }
 
     try {
-      const ctx = await transfer(
+      const ctx = await swap(
         {
           web3,
           context,

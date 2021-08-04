@@ -29,8 +29,8 @@ const NewGovernanceRules = ({ values }) => {
           type="number"
         />
         <EditField
-          id="minStaking"
-          name="minStaking"
+          id="surveyMinStake"
+          name="surveyMinStake"
           label="Min Staking"
           description="The minimum of Token Staked needed to create a new Proposal."
           RightInputComponent={
@@ -40,8 +40,8 @@ const NewGovernanceRules = ({ values }) => {
           }
         />
         <EditField
-          id="lockedSupply"
-          name="lockedSupply"
+          id="surveyCommunityStake"
+          name="surveyCommunityStake"
           label="DFO Locked Supply"
           description="The amount of Voting Tokens locked in the DFO wallet (For Fixed Inflation, Liquidity Mining, Rewards and other Community Features)."
           RightInputComponent={
@@ -62,8 +62,8 @@ const NewGovernanceRules = ({ values }) => {
           }
         />
         <EditField
-          id="maxCap"
-          name="maxCap"
+          id="surveyMaxCap"
+          name="surveyMaxCap"
           label="Max Cap"
           description="123Reaching the Max Cap, the proposal passes independently from the Survey Lenght."
           RightInputComponent={
@@ -71,8 +71,8 @@ const NewGovernanceRules = ({ values }) => {
           }
         />
         <EditField
-          id="activityReward"
-          name="activityReward"
+          id="surveySingleReward"
+          name="surveySingleReward"
           label="Activity Reward"
           description="The amount of Voting Tokens set as a reward to the issuer for every Accepted Proposal paid automatically by the DFO Wallet."
           RightInputComponent={
@@ -85,18 +85,18 @@ const NewGovernanceRules = ({ values }) => {
           Emergency Governance Rules
         </Typography>
         <EditField
-          id="emergencyLength"
-          name="emergencyLength"
+          id="emergencySurveyLength"
+          name="emergencySurveyLength"
           label="Emergency Length"
           description="Emergency Proposals are designed as a Faster Proposal System for bug fixing. To ensure that users have economic disincentives to use it to fraud the community, we advise setting a High Penalty Fee, because if the Proposal Fails, the Proposer will lose it."
           RightInputComponent={<Typography variant="body2">Blocks</Typography>}
           type="number"
         />
         <EditField
-          id="penaltyFee"
-          name="penaltyFee"
+          id="emergencySurveyStaking"
+          name="emergencySurveyStaking"
           label="Penalty Fee"
-          description="symThe Fee that Emergency Proposal Issuer must stake to propose it and lost if the Proposal fails."
+          description="The Fee that Emergency Proposal Issuer must stake to propose it and lost if the Proposal fails."
           RightInputComponent={
             <Typography variant="body2">{values.symbol}</Typography>
           }
