@@ -13,7 +13,7 @@ import deployVotingToken from '../components/ProposalConfirm/actions/deployVotin
 import deployProposalsManager from '../components/ProposalConfirm/actions/deployProposalsManager'
 import deployGovernanceRules from '../components/ProposalConfirm/actions/deployGovernanceRules'
 import deployMetadata from '../components/ProposalConfirm/actions/deployMetadata'
-import DeployNewDFO from '../components/ProposalConfirm/actions/DeployNewDFO'
+import DeployNewDFO from '../components/ProposalConfirm/actions/deployNewDFO'
 
 export const stepsIndexes = [10, 20, 30, 40]
 
