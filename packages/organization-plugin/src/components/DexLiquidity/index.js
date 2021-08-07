@@ -1,18 +1,12 @@
 import React from 'react'
 import { Card, Typography } from '@ethereansos/interfaces-ui'
-import {
-  useEthosContext,
-  useLoadUniswapPairs,
-  useWeb3,
-} from '@ethereansos/interfaces-core'
+import { useLoadUniswapPairs } from '@ethereansos/interfaces-core'
 
 import { OrganizationPropType } from '../../propTypes'
 
 import style from './dex-liquidity.module.scss'
 
 const DexLiquidity = ({ organization }) => {
-  const context = useEthosContext()
-  const { networkId, web3, web3ForLogs } = useWeb3()
   const uniswapPairs = useLoadUniswapPairs(
     organization?.token?.options?.address
   )

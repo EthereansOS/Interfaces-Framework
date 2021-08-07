@@ -17,6 +17,7 @@
       {
         "newlines-between": "always"
       }
-    ]
+    ],
+    "import/no-unresolved": ["error"]
   }
 }

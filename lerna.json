@@ -19,7 +19,11 @@
         "lint-staged",
         "web3",
         "web3-utils",
-        "ipfs-http-client"
+        "ipfs-http-client",
+        "node-watch",
+        "recursive-copy",
+        "throttle-debounce",
+        "docsify-cli"
       ]
     }
   }

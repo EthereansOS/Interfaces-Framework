@@ -106,7 +106,9 @@ export const OrganizationContextProvider = ({ children }) => {
     <OrganizationContext.Provider value={contextValue}>
       {children}
       <Modal visible={!!proposalData}>
-        <ProposalConfirm onClose={closeProposalModal} {...proposalData} />
+        {!!proposalData && (
+          <ProposalConfirm onClose={closeProposalModal} {...proposalData} />
+        )}
       </Modal>
     </OrganizationContext.Provider>
   )
