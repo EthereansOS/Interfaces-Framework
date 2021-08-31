@@ -16,15 +16,13 @@ const Connect = ({ children }) => {
     }
   }, [connectionStatus, previousConnectionStatus])
 
-  const handleConnectFromHomePage = () => connect(0)
-
   return connectionStatus === webs3States.CONNECTED ? (
     children
   ) : (
     <Container className={style.root}>
       <ConnectWidget
         title="Welcome Etherean"
-        onClickConnect={handleConnectFromHomePage}
+        connect={connect}
         connectionStatus={connectionStatus}
       />
     </Container>

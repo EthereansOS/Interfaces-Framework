@@ -19,10 +19,6 @@ function Connect({ children }) {
     [connectionStatus, previousConnectionStatus]
   )
 
-  const handleConnectFromHomePage = () => {
-    connect(0)
-  }
-
   return connectionStatus === webs3States.CONNECTED ? (
     children
   ) : (
@@ -31,7 +27,7 @@ function Connect({ children }) {
         logo={`${process.env.PUBLIC_URL}/assets/img/loadMonolith.png`}
         title="Welcome Etherean"
         rotateLogo
-        onClickConnect={handleConnectFromHomePage}
+        connect={connect}
         connectionStatus={connectionStatus}
       />
     </Container>

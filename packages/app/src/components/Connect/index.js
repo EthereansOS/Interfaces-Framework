@@ -19,10 +19,6 @@ function Connect({ children }) {
     [connectionStatus, previousConnectionStatus]
   )
 
-  const handleConnectFromHomePage = () => {
-    connect(0)
-  }
-
   return connectionStatus === webs3States.CONNECTED ? (
     children
   ) : (
@@ -30,7 +26,7 @@ function Connect({ children }) {
       <ConnectWidget
         logo={`${process.env.PUBLIC_URL}/assets/img/ghostload.gif`}
         title="DFOhub"
-        onClickConnect={handleConnectFromHomePage}
+        connect={connect}
         connectionStatus={connectionStatus}
       />
     </Container>
