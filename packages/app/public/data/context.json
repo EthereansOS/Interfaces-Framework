@@ -15,7 +15,7 @@
     },
     {
       "id": "walletconnect",
-      "buttonText": "Wallet Connect",
+      "buttonText": "WalletConnect",
       "enabledChains": ["Mainnet", "Ropsten"],
       "MainnetConnector": {
         "walletconnect": {
@@ -30,7 +30,7 @@
     },
     {
       "id": "walletlink",
-      "buttonText": "Wallet Link",
+      "buttonText": "Coinbase Wallet",
       "enabledChains": ["Mainnet"],
       "MainnetConnector": {
         "walletlink": {
