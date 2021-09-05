@@ -1,10 +1,16 @@
 import { useEffect } from 'react'
-import { useWeb3, webs3States, usePrevious } from '@ethereansos/interfaces-core'
+import {
+  useWeb3,
+  webs3States,
+  usePrevious,
+  useEthosContext,
+} from '@ethereansos/interfaces-core'
 import { ConnectWidget, Container } from '@ethereansos/interfaces-ui'
 import style from './connect.module.css'
 
 const Connect = ({ children }) => {
   const { connect, connectionStatus } = useWeb3()
+  const context = useEthosContext()
   const previousConnectionStatus = usePrevious(connectionStatus)
 
   useEffect(() => {
@@ -24,6 +30,7 @@ const Connect = ({ children }) => {
         title="Welcome Etherean"
         connect={connect}
         connectionStatus={connectionStatus}
+        connectors={context.connectors}
       />
     </Container>
   )
