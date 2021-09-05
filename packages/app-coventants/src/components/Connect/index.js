@@ -9,7 +9,7 @@ import { ConnectWidget, Container } from '@ethereansos/interfaces-ui'
 import style from './connect.module.css'
 
 const Connect = ({ children }) => {
-  const { connect, connectionStatus } = useWeb3()
+  const { wallet, connectionStatus } = useWeb3()
   const context = useEthosContext()
   const previousConnectionStatus = usePrevious(connectionStatus)
 
@@ -28,7 +28,7 @@ const Connect = ({ children }) => {
     <Container className={style.root}>
       <ConnectWidget
         title="Welcome Etherean"
-        connect={connect}
+        wallet={wallet}
         connectionStatus={connectionStatus}
         connectors={context.connectors}
       />

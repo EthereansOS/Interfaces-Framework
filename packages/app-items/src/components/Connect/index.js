@@ -8,7 +8,7 @@ import {
 import { ConnectWidget, Container } from '@ethereansos/interfaces-ui'
 
 function Connect({ children }) {
-  const { connect, connectionStatus } = useWeb3()
+  const { wallet, connectionStatus } = useWeb3()
   const context = useEthosContext()
   const previousConnectionStatus = usePrevious(connectionStatus)
 
@@ -32,7 +32,7 @@ function Connect({ children }) {
         logo={`${process.env.PUBLIC_URL}/assets/img/loadMonolith.png`}
         title="Welcome Etherean"
         rotateLogo
-        connect={connect}
+        wallet={wallet}
         connectionStatus={connectionStatus}
         connectors={context.connectors}
       />

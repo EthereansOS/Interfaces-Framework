@@ -8,7 +8,7 @@ import {
 import { ConnectWidget, Container } from '@ethereansos/interfaces-ui'
 
 function Connect({ children }) {
-  const { connect, connectionStatus } = useWeb3()
+  const { connectionStatus, wallet } = useWeb3()
   const context = useEthosContext()
   const previousConnectionStatus = usePrevious(connectionStatus)
 
@@ -31,9 +31,9 @@ function Connect({ children }) {
       <ConnectWidget
         logo={`${process.env.PUBLIC_URL}/assets/img/ghostload.gif`}
         title="DFOhub"
-        connect={connect}
         connectionStatus={connectionStatus}
         connectors={context.connectors}
+        wallet={wallet}
       />
     </Container>
   )
