@@ -4,25 +4,25 @@
     "3": "Ropsten"
   },
   "chainNameToChainId": {
-    "mainnet": "1",
-    "ropsten": "3"
+    "Mainnet": "1",
+    "Ropsten": "3"
   },
   "connectors": [
     {
       "id": "injected",
       "buttonText": "Metamask",
-      "chainIdsEnabled": ["mainnet", "ropsten"]
+      "enabledChains": ["Mainnet", "Ropsten"]
     },
     {
       "id": "walletconnect",
       "buttonText": "Wallet Connect",
-      "chainIdsEnabled": ["mainnet", "ropsten"],
-      "mainnetConnector": {
+      "enabledChains": ["Mainnet", "Ropsten"],
+      "MainnetConnector": {
         "walletconnect": {
           "rpcUrl": "https://mainnet.infura.io/v3/2eddecc384554c7b8fce50f068a1232d"
         }
       },
-      "ropstenConnector": {
+      "RopstenConnector": {
         "walletconnect": {
           "rpcUrl": "https://ropsten.infura.io/v3/2eddecc384554c7b8fce50f068a1232d"
         }
@@ -31,8 +31,8 @@
     {
       "id": "walletlink",
       "buttonText": "Wallet Link",
-      "chainIdsEnabled": ["mainnet", "ropsten"],
-      "mainnetConnector": {
+      "enabledChains": ["Mainnet"],
+      "MainnetConnector": {
         "walletlink": {
           "url": "https://mainnet.infura.io/v3/2eddecc384554c7b8fce50f068a1232d"
         }
