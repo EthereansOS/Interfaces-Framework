@@ -1,10 +1,15 @@
 import { useEffect } from 'react'
-import { useWeb3, webs3States, usePrevious } from '@ethereansos/interfaces-core'
+import {
+  useWeb3,
+  webs3States,
+  usePrevious,
+  useEthosContext,
+} from '@ethereansos/interfaces-core'
 import { ConnectWidget, Container } from '@ethereansos/interfaces-ui'
 
 function Connect({ children }) {
-  const { connect, connectionStatus } = useWeb3()
-
+  const { connectionStatus, wallet } = useWeb3()
+  const context = useEthosContext()
   const previousConnectionStatus = usePrevious(connectionStatus)
 
   useEffect(
@@ -19,10 +24,6 @@ function Connect({ children }) {
     [connectionStatus, previousConnectionStatus]
   )
 
-  const handleConnectFromHomePage = () => {
-    connect(0)
-  }
-
   return connectionStatus === webs3States.CONNECTED ? (
     children
   ) : (
@@ -30,8 +31,9 @@ function Connect({ children }) {
       <ConnectWidget
         logo={`${process.env.PUBLIC_URL}/assets/img/ghostload.gif`}
         title="DFOhub"
-        onClickConnect={handleConnectFromHomePage}
         connectionStatus={connectionStatus}
+        connectors={context.connectors}
+        wallet={wallet}
       />
     </Container>
   )

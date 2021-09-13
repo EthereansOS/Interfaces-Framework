@@ -1,10 +1,15 @@
 import { useEffect } from 'react'
-import { useWeb3, webs3States, usePrevious } from '@ethereansos/interfaces-core'
+import {
+  useWeb3,
+  webs3States,
+  usePrevious,
+  useEthosContext,
+} from '@ethereansos/interfaces-core'
 import { ConnectWidget, Container } from '@ethereansos/interfaces-ui'
 
 function Connect({ children }) {
-  const { connect, connectionStatus } = useWeb3()
-
+  const { wallet, connectionStatus } = useWeb3()
+  const context = useEthosContext()
   const previousConnectionStatus = usePrevious(connectionStatus)
 
   useEffect(
@@ -19,10 +24,6 @@ function Connect({ children }) {
     [connectionStatus, previousConnectionStatus]
   )
 
-  const handleConnectFromHomePage = () => {
-    connect(0)
-  }
-
   return connectionStatus === webs3States.CONNECTED ? (
     children
   ) : (
@@ -31,8 +32,9 @@ function Connect({ children }) {
         logo={`${process.env.PUBLIC_URL}/assets/img/loadMonolith.png`}
         title="Welcome Etherean"
         rotateLogo
-        onClickConnect={handleConnectFromHomePage}
+        wallet={wallet}
         connectionStatus={connectionStatus}
+        connectors={context.connectors}
       />
     </Container>
   )

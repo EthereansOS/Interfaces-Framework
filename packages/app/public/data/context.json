@@ -3,6 +3,42 @@
     "1": "",
     "3": "Ropsten"
   },
+  "chainNameToChainId": {
+    "Mainnet": "1",
+    "Ropsten": "3"
+  },
+  "connectors": [
+    {
+      "id": "injected",
+      "buttonText": "Metamask",
+      "enabledChains": ["Mainnet", "Ropsten"]
+    },
+    {
+      "id": "walletconnect",
+      "buttonText": "WalletConnect",
+      "enabledChains": ["Mainnet", "Ropsten"],
+      "MainnetConnector": {
+        "walletconnect": {
+          "rpcUrl": "https://mainnet.infura.io/v3/2eddecc384554c7b8fce50f068a1232d"
+        }
+      },
+      "RopstenConnector": {
+        "walletconnect": {
+          "rpcUrl": "https://ropsten.infura.io/v3/2eddecc384554c7b8fce50f068a1232d"
+        }
+      }
+    },
+    {
+      "id": "walletlink",
+      "buttonText": "Coinbase Wallet",
+      "enabledChains": ["Mainnet"],
+      "MainnetConnector": {
+        "walletlink": {
+          "url": "https://mainnet.infura.io/v3/2eddecc384554c7b8fce50f068a1232d"
+        }
+      }
+    }
+  ],
   "dappVersion": "BETA 0.3",
   "etherscanURL": "https://etherscan.io/",
   "etherscanURLRopsten": "https://ropsten.etherscan.io/",
