@@ -1,12 +1,12 @@
-# DFOhub
+# Interfaces-Framework
 
-This project is a scaffold of a React app that leverages the Ethereum blockchain.
+This project is a scaffold of various react apps and plugins that leverage the Ethereum blockchain.
 
 ## How to install this project?
 
 1. Clone it from the repository
 2. `cd` into the project folder
-3. `npm install`
+3. `npm i`
 
 ## What is the project structure?
 
@@ -23,30 +23,29 @@ They are:
 
 ## How to build the application?
 
-From the root project folder, execute:
+Build all the packages executing from the root:
 
-```shell script
-npx lerna run build
 ```
-
-to build all the packages.
+npm run build
+```
 
 ## How to run the application?
 
+**If you're starting the app for the first time, you need first to build it with `npm run build` before starting any package in the monorepo, otherwise you'll get errors.**
+
 As a prerequisite, you need to install the [MetaMask Plugin](https://metamask.io/download.html) for your preferred browser.
+Then go to the `packages/app`, for the DFOhub app for example, and execute:
 
-Then go to the `packages/app` folder and execute:
-
-```shell script
-npm run start
+```
+npm start
 ```
 
 ## How to reinstall the project from scratch?
 
 If you're experiencing unexpected behaviour in the installed packages, you can reinstall everything from scratch with the following commands from the root project folder:
 
-```shell script
-npx lerna clean
+```
+npm run clean
 rm -rf node_modules
 rm package-lock.json
 npm i
@@ -54,15 +53,15 @@ npm i
 
 ## Deploy
 
-Deployment is done automatically with github actions when something is pushed on `main` (configured [here](https://github.com/b-u-i-d-l/js-framework/blob/main/.github/workflows/build-and-deploy.yml#L6)).
-The build is done autmoatically by the CI and the content of the `build` folder is pushed to the `gh-pages` branch ([here](https://github.com/b-u-i-d-l/js-framework/blob/main/.github/workflows/build-and-deploy.yml#L26))
+Deployment is done automatically with Github actions when something is pushed on `main` (configured [here](https://github.com/b-u-i-d-l/js-framework/blob/main/.github/workflows/build-and-deploy.yml#L6)).
+The build is done automatically by the CI, and the content of the `build` folder is pushed to the `gh-pages` branch ([here](https://github.com/b-u-i-d-l/js-framework/blob/main/.github/workflows/build-and-deploy.yml#L26))
 
-**NOTE**: if the github page is a under relative path (e.g. a project page), `homepage` must be set on `package.json` of `app`, otherwise the static content will be loaded using the wrong path. see: https://create-react-app.dev/docs/deployment/#building-for-relative-paths
+**NOTE**: if the Github page is under relative path (e.g. a project page), `homepage` must be set on `package.json` of `app`, otherwise the static content will be loaded using the wrong path. see: https://create-react-app.dev/docs/deployment/#building-for-relative-paths
 
 ## Development
 
-`development` is the development branch. Everything merged in `main` will be deployed automatically (this can be changed and a specific branch that trigger the deployment can be ued instead, see above). So every PR will be done against `development` and, after been reviewed, merged in `main` and deployed automatically
+`development` is the development branch. Everything merged in `main` will be deployed automatically (this can be changed and a specific branch that triggers the deployment can be used instead, see above). So every PR will be done against `development` and, after been reviewed, merged in `main` and deployed automatically
 
 ### Commits
 
-Commits are linted automatically using [Commitlint](https://commitlint.js.org/) which check if your commit messages meet the [conventional commit format)[https://www.conventionalcommits.org/en/v1.0.0/]
+Commits are linted automatically using [Commitlint](https://commitlint.js.org/) that checks if your commit messages meet the [conventional commit format)[https://www.conventionalcommits.org/en/v1.0.0/]
