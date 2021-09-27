@@ -1,4 +1,4 @@
-# Interfaces-framework
+# Interfaces-Framework
 
 This project is a scaffold of various react apps and plugins that leverage the Ethereum blockchain.
 
@@ -6,7 +6,7 @@ This project is a scaffold of various react apps and plugins that leverage the E
 
 1. Clone it from the repository
 2. `cd` into the project folder
-3. `npm install`
+3. `npm i`
 
 ## What is the project structure?
 
