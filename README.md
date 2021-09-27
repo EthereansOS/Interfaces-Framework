@@ -7,7 +7,6 @@ This project is a scaffold of various react apps and plugins that leverage the E
 1. Clone it from the repository
 2. `cd` into the project folder
 3. `npm install`
-4. `npm run build`
 
 ## What is the project structure?
 
@@ -32,15 +31,14 @@ npm run build
 
 ## How to run the application?
 
-As a prerequisite, you need to install the [MetaMask Plugin](https://metamask.io/download.html) for your preferred browser.
+**If you're starting the app for the first time, you need first to build it with `npm run build` before starting any package in the monorepo, otherwise you'll get errors.**
 
+As a prerequisite, you need to install the [MetaMask Plugin](https://metamask.io/download.html) for your preferred browser.
 Then go to the `packages/app`, for the DFOhub app for example, and execute:
 
 ```
 npm start
 ```
-
-**If you're starting the app for the first time, you need first to build it with `npm run build` before starting any package in the monorepo, otherwise you'll get errors.**
 
 ## How to reinstall the project from scratch?
 
